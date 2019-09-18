@@ -34,7 +34,7 @@ AlwaysShowComponentsList   = no
 FlatComponentsList         = yes
 
 SetupIconFile         = "setup-icon.ico"
-LicenseFile           = "setup-license.txt"
+LicenseFile           = "varlet-license.txt"
 WizardImageFile       = "setup-img-side.bmp"
 WizardSmallImageFile  = "setup-img-top.bmp"
 DefaultDirName        = {sd}\Varlet\core
@@ -57,7 +57,7 @@ Name: task_install_vcredis; Description: "Install Visual C++ Redistributable";
 
 [Files]
 ; Main project files ----------------------------------------------------------------------------------
-Source: setup-license.txt; DestDir: {app}\license.txt; Flags: ignoreversion
+Source: varlet-license.txt; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}stubs\switch-php.bat; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}stubs\php7.ini; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}stubs\php5.ini; DestDir: {app}; Flags: ignoreversion
