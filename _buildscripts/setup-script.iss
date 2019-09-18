@@ -131,14 +131,14 @@ end;
 
 procedure CreatePathEnvironment();
 begin
-  EnvAddPath(ExpandConstant('{app}\php72'));
+  EnvAddPath(ExpandConstant('{app}\php73'));
   EnvAddPath(ExpandConstant('{app}\composer'));
   EnvAddPath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
 end;
 
 procedure RemovePathEnvironment;
 begin
-  EnvRemovePath(ExpandConstant('{app}\php72'));
+  EnvRemovePath(ExpandConstant('{app}\php73'));
   EnvRemovePath(ExpandConstant('{app}\composer'));
   EnvRemovePath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
 end;
