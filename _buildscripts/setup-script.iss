@@ -7,6 +7,8 @@
 #define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "https://arisio.us"
 
+#define SetupFileName  "varlet-core-1.0"
+
 [Setup]
 AppName                    = {#AppName}
 AppVersion                 = {#AppVersion}
@@ -15,7 +17,7 @@ AppPublisherURL            = {#AppWebsite}
 AppSupportURL              = {#AppWebsite}
 AppUpdatesURL              = {#AppWebsite}
 DefaultGroupName           = {#AppName}
-OutputBaseFilename         = varlet-core-{#AppVersion}
+OutputBaseFilename         = {#SetupFileName}
 AppCopyright               = Copyright (c) {#AppPublisher}
 ArchitecturesAllowed            = x64
 ArchitecturesInstallIn64BitMode = x64
@@ -49,9 +51,13 @@ Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; Flags: uninsdeletekey
 Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}";
 Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "AppVersion"; ValueData: "{#AppVersion}";
 
+[Tasks]
+Name: task_add_path_envars; Description: "Add PATH envirionment variables";
+Name: task_install_vcredis; Description: "Install Visual C++ Redistributable";
+
 [Files]
 ; Main project files ----------------------------------------------------------------------------------
-Source: {#BasePath}license.txt; DestDir: {app}; Flags: ignoreversion
+Source: setup-license.txt; DestDir: {app}\license.txt; Flags: ignoreversion
 Source: {#BasePath}stubs\switch-php.bat; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}stubs\php7.ini; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}stubs\php5.ini; DestDir: {app}; Flags: ignoreversion
@@ -73,5 +79,5 @@ Type: filesandordirs; Name: {app}
 
 [Run]
 ; Install external packages --------------------------------------------------------------------------
-Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /quiet /norestart"; Flags: waituntilterminated;
-Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /norestart"; Flags: waituntilterminated;
+Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
+Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
