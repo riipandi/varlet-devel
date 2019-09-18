@@ -31,11 +31,14 @@ set "URL_REDISPHP72=https://windows.php.net/downloads/pecl/releases/redis/%vPHPR
 :: Main components
 :: -----------------------------------------------------------------------------------------------
 
+if not exist "%ODIR%" mkdir "%ODIR%" 2> NUL
+
 :: VCRedist 2012 + 2015-2019
-if not exist "%TMP%\vcredis2012.exe" (
+if not exist "%ODIR%\vcredis\" (
     echo. && echo Downloading Visual C++ Redistributable ...
-    %CURL% -L# %VCREDIST_2012% -o "%TMP%\vcredis2012.exe"
-    %CURL% -L# %VCREDIST_1519% -o "%TMP%\vcredis1519.exe"
+    if not exist "%ODIR%\vcredis" mkdir "%ODIR%\vcredis" 2> NUL
+    %CURL% -L# %VCREDIST_2012% -o "%ODIR%\vcredis\vcredis2012x64.exe"
+    %CURL% -L# %VCREDIST_1519% -o "%ODIR%\vcredis\vcredis1519x64.exe"
 )
 
 :: PHP v7.3
@@ -95,6 +98,12 @@ if exist "%TMP%\php-%vPHP56%.zip" (
     del /F "%ODIR%\php56\php_imagick.dll"
 )
 
+:: Composer
+if not exist "%ODIR%\composer\" (
+    echo. && echo Downloading Composer v%vCOMPOSER% ...
+    if not exist "%ODIR%\composer" mkdir "%ODIR%\composer" 2> NUL
+    %CURL% -L# %URL_COMPOSER% -o "%ODIR%\composer\composer.phar"
+)
 
 :: Extra components
 :: -----------------------------------------------------------------------------------------------
@@ -113,6 +122,9 @@ if not exist "%TMP%\ioncube-vc11.zip" (
 )
 if exist "%TMP%\ioncube-vc11.zip" ( %UNZIP% x "%TMP%\ioncube-vc11.zip" -o"%ODIR%" -y > nul )
 
+:: Cleanup unused files
+echo. && echo Cleanup unused files ...
+forfiles /p "%ODIR%" /s /m *.pdb /d -1 /c "cmd /c del /F @file"
 
 :: Done!
 :: -----------------------------------------------------------------------------------------------
