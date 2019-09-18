@@ -6,8 +6,8 @@
 #define AppName       "Varlet Core"
 #define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "https://arisio.us"
-
-#define SetupFileName  "varlet-core-1.0"
+#define AppGithubUrl  "https://github.com/riipandi/varlet-core"
+#define SetupFileName "varlet-core-1.0"
 
 [Setup]
 AppName                    = {#AppName}
@@ -81,3 +81,16 @@ Type: filesandordirs; Name: {app}
 ; Install external packages --------------------------------------------------------------------------
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
+
+; ----------------------------------------------------------------------------------------------------
+; Programmatic section -------------------------------------------------------------------------------
+; ----------------------------------------------------------------------------------------------------
+#include 'setup-helpers.iss'
+
+[Code]
+procedure InitializeWizard;
+begin
+  CustomLicensePage;
+  //CreateFooterText(#169 + ' 2019 - {#AppPublisher}');
+  CreateFooterText('{#AppGithubUrl}');
+end;

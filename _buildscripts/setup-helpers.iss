@@ -369,6 +369,14 @@ begin
   end;
 end;
 
+function GetRegistryValue(AppName: string; Key: string): string;
+var val: string;
+begin
+  if RegQueryStringValue(HKLM, 'Software\{#AppPublisher}\' + AppName, Key, val) then begin
+    Result := val;
+  end;
+end;
+
 function VCRedistNotInstalled: Boolean;
 begin
   Result := not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0');
@@ -485,4 +493,27 @@ begin
   finally
     Stream.Free;
   end;
+end;
+
+procedure CreateFooterText(StrLabel : string);
+var
+  FooterText : TNewStaticText;
+begin
+  FooterText         := TNewStaticText.Create(WizardForm);
+  FooterText.Top     := WizardForm.ClientHeight - ScaleY(30);
+  FooterText.Left    := ScaleX(15);
+  FooterText.Parent  := WizardForm;
+  FooterText.Caption := StrLabel;
+  FooterText.Font.Color := clGray;
+  FooterText.Font.Style := [fsItalic];
+end;
+
+procedure CustomLicensePage;
+begin
+  WizardForm.LicenseAcceptedRadio.Checked := True;
+  WizardForm.LicenseAcceptedRadio.Visible := False;
+  WizardForm.LicenseNotAcceptedRadio.Visible := False;
+  WizardForm.LicenseMemo.Height :=
+    WizardForm.LicenseNotAcceptedRadio.Top + WizardForm.LicenseNotAcceptedRadio.Height -
+    WizardForm.LicenseMemo.Top - ScaleY(5);
 end;
