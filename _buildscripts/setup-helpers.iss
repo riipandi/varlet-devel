@@ -505,7 +505,7 @@ begin
   FooterText.Parent  := WizardForm;
   FooterText.Caption := StrLabel;
   FooterText.Font.Color := clGray;
-  FooterText.Font.Style := [fsItalic];
+  //FooterText.Font.Style := [fsBold];
 end;
 
 procedure CustomLicensePage;
