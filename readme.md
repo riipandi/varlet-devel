@@ -15,7 +15,18 @@ Download [latest release](https://github.com/riipandi/varlet-core/releases) then
 
 ## Things to know
 
-- <https://laravel.com/docs/6.0/valet>
+### Additional Packages
+
+- <https://github.com/riipandi/varlet-mariadb>
+<!-- - <https://github.com/riipandi/varlet-mysql8>
+- <https://github.com/riipandi/varlet-mysql5>
+- <https://github.com/riipandi/varlet-postgresql>
+- <https://github.com/riipandi/varlet-mongodb>
+- <https://github.com/riipandi/varlet-redis> -->
+
+### Useful Documentation
+
+- <https://laravel.com/docs/valet>
 - <https://github.com/cretueusebiu/valet-windows>
 
 ## License
