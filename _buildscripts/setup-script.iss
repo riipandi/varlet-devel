@@ -7,7 +7,7 @@
 #define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "https://arisio.us"
 #define AppGithubUrl  "https://github.com/riipandi/varlet-core"
-#define SetupFileName "varlet-core-1.0"
+#define SetupFileName "varlet-core-1.0-x64"
 
 [Setup]
 AppName                    = {#AppName}
