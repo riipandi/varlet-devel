@@ -19,7 +19,7 @@ Download [latest release](https://github.com/riipandi/varlet-core/releases) then
 
 - <https://github.com/riipandi/varlet-mariadb>
 - <https://github.com/riipandi/varlet-mysql>
-<!-- - <https://github.com/riipandi/varlet-postgresql> -->
+- <https://github.com/riipandi/varlet-postgresql>
 <!-- - <https://github.com/riipandi/varlet-mongodb> -->
 <!-- - <https://github.com/riipandi/varlet-redis> -->
 
