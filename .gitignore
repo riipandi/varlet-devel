@@ -4,3 +4,15 @@ packages/*
 !packages/php5.ini
 VarletCore-*.exe
 output/
+
+# windows files
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.stackdump
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.db
+*.lnk
