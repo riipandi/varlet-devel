@@ -8,6 +8,7 @@
 - PHP 7.2 + ImageMagick + ionCube Loader + PHP Redis extension
 - PHP 5.6 + ImageMagick + ionCube Loader
 - Latest version of Composer
+- Nginx Mainline
 
 ## Quick Start
 

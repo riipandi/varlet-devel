@@ -2,12 +2,12 @@
 
 #define BasePath      "..\"
 
-#define AppVersion    "1.0"
+#define AppVersion    "1.1"
 #define AppName       "Varlet Core"
 #define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "https://arisio.us"
 #define AppGithubUrl  "https://github.com/riipandi/varlet-core"
-#define SetupFileName "varlet-core-1.0-x64"
+#define SetupFileName "varlet-core-1.1-x64"
 
 [Setup]
 AppName                    = {#AppName}
@@ -58,18 +58,24 @@ Name: task_install_vcredis; Description: "Install Visual C++ Redistributable";
 [Files]
 ; Main project files ----------------------------------------------------------------------------------
 Source: varlet-license.txt; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}stubs\set-php-56.bat; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}stubs\set-php-72.bat; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}stubs\set-php-73.bat; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}stubs\php.ini; DestDir: {app}\php56; Flags: ignoreversion
-Source: {#BasePath}stubs\php.ini; DestDir: {app}\php72; Flags: ignoreversion
-Source: {#BasePath}stubs\php.ini; DestDir: {app}\php73; Flags: ignoreversion
+; Source: {#BasePath}stubs\php\set-php-56.bat; DestDir: {app}; Flags: ignoreversion
+; Source: {#BasePath}stubs\php\set-php-72.bat; DestDir: {app}; Flags: ignoreversion
+; Source: {#BasePath}stubs\php\set-php-73.bat; DestDir: {app}; Flags: ignoreversion
+Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php56; Flags: ignoreversion
+Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php72; Flags: ignoreversion
+Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php73; Flags: ignoreversion
+Source: {#BasePath}stubs\php\phpfpmservice.xml; DestDir: {app}; Flags: ignoreversion
+Source: {#BasePath}stubs\nginx\nginxservice.xml; DestDir: {app}; Flags: ignoreversion
+Source: {#BasePath}packages\phpfpmservice.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#BasePath}packages\nginxservice.exe; DestDir: {app}; Flags: ignoreversion
 ; Essential files and directories ---------------------------------------------------------------------
 Source: {#BasePath}packages\php56\*; DestDir: {app}\php56; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}packages\php72\*; DestDir: {app}\php72; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}packages\php73\*; DestDir: {app}\php73; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}packages\ioncube\*; DestDir: {app}\ioncube; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}packages\composer\*; DestDir: {app}\composer; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}packages\nginx\*; DestDir: {app}\nginx; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}stubs\nginx\html\*; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
 ; Dependencies and libraries -------------------------------------------------------------------------
 Source: {#BasePath}packages\vcredis\vcredis2012x64.exe; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
 Source: {#BasePath}packages\vcredis\vcredis1519x64.exe; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
@@ -87,6 +93,7 @@ Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /no
 
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
+Name: {app}\nginx\temp; Flags: uninsalwaysuninstall
 
 ; ----------------------------------------------------------------------------------------------------
 ; Programmatic section -------------------------------------------------------------------------------
@@ -127,6 +134,13 @@ begin
   // Create composer.bat
   Str := '@echo off' + #13#10#13#10 + '"'+BaseDir+'\php73\php.exe" "'+ExpandConstant('{app}\composer\composer.phar')+'" %*';
   SaveStringToFile(BaseDir + '\composer\composer.bat', Str, False);
+
+  // Nginx
+  FileReplaceString(BaseDir + '\nginx\conf\vhost\default.conf', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
+
+  // PHP & Nginx Services
+  FileReplaceString(BaseDir + '\phpfpmservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
+  FileReplaceString(BaseDir + '\nginxservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
 end;
 
 procedure CreatePathEnvironment();
@@ -143,15 +157,38 @@ begin
   EnvRemovePath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
 end;
 
+procedure CurPageChanged(CurPageID: Integer);
+begin
+  if CurPageID = wpLicense then begin
+    WizardForm.NextButton.Caption := '&I agree';
+  end;
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
   BaseDir := ExpandConstant('{app}');
   if CurStep = ssPostInstall then begin
+
     WizardForm.StatusLabel.Caption := 'Setting up application configuration ...';
     ConfigureApplication;
+
     if WizardIsTaskSelected('task_add_path_envars') then begin
       WizardForm.StatusLabel.Caption := 'Adding PATH environment variables ...';
       CreatePathEnvironment;
+    end;
+
+    WizardForm.StatusLabel.Caption := 'Installing PHP-FPM services ...';
+    if Exec(ExpandConstant('{app}\phpfpmservice.exe'), 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then begin
+      Exec(ExpandConstant('net.exe'), 'start VarletPHP', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
+    end else begin
+      MsgBox('Failed to install PHP-FPM service', mbInformation, MB_OK);
+    end;
+
+    WizardForm.StatusLabel.Caption := 'Installing Nginx services ...';
+    if Exec(ExpandConstant('{app}\nginxservice.exe'), 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then begin
+      Exec(ExpandConstant('net.exe'), 'start VarletNginx', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
+    end else begin
+      MsgBox('Failed to install PHP-FPM service', mbInformation, MB_OK);
     end;
   end;
 end;
@@ -162,6 +199,8 @@ begin
     usUninstall:
       begin
         RemovePathEnvironment;
+        KillService('VarletNginx');
+        KillService('VarletPHP');
       end;
     usPostUninstall:
       begin

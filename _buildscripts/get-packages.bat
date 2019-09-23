@@ -3,8 +3,10 @@
 set UNZIP=%~dp0..\_buildtools\7za.exe
 set CURL=%~dp0..\_buildtools\curl.exe
 set ODIR=%~dp0..\packages
+set STUB=%~dp0..\stubs
 
 :: Packages version
+set "vNGINX=1.17.3"
 set "vPHP73=7.3.9"
 set "vPHP72=7.2.22"
 set "vPHP56=5.6.40"
@@ -16,6 +18,7 @@ set "vPHPREDIS=5.0.2"
 set "VCREDIST_1519=https://aka.ms/vs/16/release/VC_redist.x64.exe"
 set "VCREDIST_2012=http://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe"
 
+set "URL_NGINX=http://nginx.org/download/nginx-%vNGINX%.zip"
 set "URL_PHP73=https://windows.php.net/downloads/releases/php-%vPHP73%-nts-Win32-VC15-x64.zip"
 set "URL_PHP72=https://windows.php.net/downloads/releases/php-%vPHP72%-nts-Win32-VC15-x64.zip"
 set "URL_PHP56=https://windows.php.net/downloads/releases/archives/php-%vPHP56%-nts-Win32-VC11-x64.zip"
@@ -39,6 +42,32 @@ if not exist "%ODIR%\vcredis\" (
     if not exist "%ODIR%\vcredis" mkdir "%ODIR%\vcredis" 2> NUL
     %CURL% -L# %VCREDIST_2012% -o "%ODIR%\vcredis\vcredis2012x64.exe"
     %CURL% -L# %VCREDIST_1519% -o "%ODIR%\vcredis\vcredis1519x64.exe"
+)
+
+:: Winsw PHP
+if exist "%ODIR%\phpfpmservice.exe" ( del /F "%ODIR%\phpfpmservice.exe" )
+if not exist "%ODIR%\phpfpmservice.exe" ( copy /Y "%STUB%\winsw.exe" "%ODIR%\phpfpmservice.exe" > nul )
+
+:: Winsw PHP
+if exist "%ODIR%\nginxservice.exe" ( del /F "%ODIR%\nginxservice.exe" )
+if not exist "%ODIR%\nginxservice.exe" ( copy /Y "%STUB%\winsw.exe" "%ODIR%\nginxservice.exe" > nul )
+
+:: Nginx
+if not exist "%TMP%\nginx-%vNGINX%.zip" (
+    echo. && echo Downloading Nginx v%vNGINX% ...
+    %CURL% -L# %URL_NGINX% -o "%TMP%\nginx-%vNGINX%.zip"
+)
+if exist "%TMP%\nginx-%vNGINX%.zip" (
+    echo. && echo Extracting NGINX v%vNGINX% ...
+    if exist "%ODIR%\nginx" RD /S /Q "%ODIR%\nginx"
+    %UNZIP% x "%TMP%\nginx-%vNGINX%.zip" -o"%ODIR%" -y > nul
+    ren "%ODIR%\nginx-%vNGINX%" nginx
+    RD /S /Q "%ODIR%\nginx\conf"
+    RD /S /Q "%ODIR%\nginx\contrib"
+    RD /S /Q "%ODIR%\nginx\html"
+    RD /S /Q "%ODIR%\nginx\logs"
+    xcopy %STUB%\nginx\conf %ODIR%\nginx\conf /E /I /Y > nul
+    xcopy %STUB%\nginx\html %ODIR%\nginx\html /E /I /Y > nul
 )
 
 :: PHP v7.3
@@ -129,5 +158,5 @@ forfiles /p "%ODIR%" /s /m *.pdb /d -1 /c "cmd /c del /F @file"
 :: Done!
 :: -----------------------------------------------------------------------------------------------
 
-echo. && echo All files already downloaded!
-pause
+echo All files already downloaded!
+::pause
