@@ -54,6 +54,7 @@ Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; Va
 [Tasks]
 Name: task_add_path_envars; Description: "Add PATH environment variables";
 Name: task_install_vcredis; Description: "Install Visual C++ Redistributable";
+Name: task_autorun_service; Description: "Run services when Windows starts"; Flags: unchecked;
 
 [Files]
 ; Main project files ----------------------------------------------------------------------------------
@@ -94,6 +95,7 @@ Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /no
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
 Name: {app}\nginx\temp; Flags: uninsalwaysuninstall
+Name: {app}\nginx\logs; Flags: uninsalwaysuninstall
 
 ; ----------------------------------------------------------------------------------------------------
 ; Programmatic section -------------------------------------------------------------------------------
