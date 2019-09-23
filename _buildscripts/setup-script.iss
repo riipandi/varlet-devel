@@ -146,8 +146,8 @@ begin
 
   // Autorun services
   if WizardIsTaskSelected('task_autorun_service') then begin
-    FileReplaceString(BaseDir + '\phpfpmservice.xml', 'Manual', 'Auto');
-    FileReplaceString(BaseDir + '\nginxservice.xml', 'Manual', 'Auto');
+    FileReplaceString(BaseDir + '\phpfpmservice.xml', 'Manual', 'Automatic');
+    FileReplaceString(BaseDir + '\nginxservice.xml', 'Manual', 'Automatic');
   end;
 end;
 
