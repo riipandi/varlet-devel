@@ -143,6 +143,12 @@ begin
   // PHP & Nginx Services
   FileReplaceString(BaseDir + '\phpfpmservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
   FileReplaceString(BaseDir + '\nginxservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
+
+  // Autorun services
+  if WizardIsTaskSelected('task_autorun_service') then begin
+    FileReplaceString(BaseDir + '\phpfpmservice.xml', 'Manual', 'Auto');
+    FileReplaceString(BaseDir + '\nginxservice.xml', 'Manual', 'Auto');
+  end;
 end;
 
 procedure CreatePathEnvironment();
