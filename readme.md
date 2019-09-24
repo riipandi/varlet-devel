@@ -1,6 +1,8 @@
 # Varlet Core
 
-> Core packages for Varlet in Windows environment.
+Inspired from Laravel Valet. Valet is a Laravel development environment for minimalists. This is core packages
+for Varlet in Windows environment. Can be another alternative for Laragon, XAMPP, etc. Varlet is made for you,
+the developers who like to work in the terminal, like me!
 
 ## What's in the box?
 
@@ -13,6 +15,22 @@
 ## Quick Start
 
 Download [latest release](https://github.com/riipandi/varlet-core/releases) then run the installation file.
+
+<!-- ## Varlet Commands
+
+| Command                | Description
+| :--------------------- | :----------
+| varlet link            | Create virtualhost and serving the site.
+| varlet link-secure     | Create virtualhost and serving the site with https.
+| varlet unlink          | Remove virtualhost.
+| varlet unlink-secure   | Remove https virtualhost.
+| varlet forget          | Remove both of virtualhost http and https.
+| varlet start           | Start Nginx + PHP-FPM services.
+| varlet stop            | Stop Nginx + PHP-FPM services.
+| varlet restart         | Restart Nginx + PHP-FPM services.
+| varlet status          | View site link status.
+| varlet service-status  | View Nginx and PHP-FPM services status.
+| varlet log             | View a list of logs which are written by Varlet's services. -->
 
 ## Things to know
 
@@ -27,7 +45,6 @@ Download [latest release](https://github.com/riipandi/varlet-core/releases) then
 ### Useful Documentation
 
 - <https://laravel.com/docs/valet>
-- <https://github.com/cretueusebiu/valet-windows>
 
 ## License
 
