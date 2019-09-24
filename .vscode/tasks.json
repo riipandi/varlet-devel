@@ -3,6 +3,7 @@
     "tasks": [
         {
             "label": "Build Project",
+            // "dependsOn": "Clean Build",
             "command": "dotnet",
             "type": "process",
             "args": [
@@ -26,6 +27,7 @@
         },
         {
             "label": "Publish Project",
+            // "dependsOn": "Clean Build",
             "command": "dotnet",
             "type": "process",
             "args": [
@@ -49,6 +51,7 @@
         },
         {
             "label": "Build Setup",
+            "dependsOn": "Publish Project",
             "command": "C:\\Program Files (x86)\\Inno Setup 6\\ISCC.exe",
             "type": "process",
             "args": [
@@ -59,6 +62,20 @@
                 "clear": true,
                 "focus": true
             }
-        }
+        },
+        // {
+        //     "label": "Clean Build",
+        //     "type": "shell",
+        //     "windows": {
+        //         "command": "cmd /C RD /S /Q \"output/cli\""
+        //     },
+        //     "command": "rm -fr ${workspaceFolder}/output/cli",
+        //     "problemMatcher": [],
+        //     "presentation": {
+        //         "reveal": "always",
+        //         "clear": true,
+        //         "focus": true
+        //     }
+        // }
     ]
 }
