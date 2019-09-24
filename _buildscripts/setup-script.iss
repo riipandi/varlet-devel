@@ -69,6 +69,7 @@ Source: {#BasePath}stubs\php\phpfpmservice.xml; DestDir: {app}; Flags: ignorever
 Source: {#BasePath}stubs\nginx\nginxservice.xml; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}output\phpfpmservice.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}output\nginxservice.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#BasePath}stubs\openssl.cnf; DestDir: {app}openssl; Flags: ignoreversion
 ; CLI apps for varlet ---------------------------------------------------------------------------------
 ; Source: {#BasePath}output\cli\varlet.runtimeconfig.json; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
 ; Source: {#BasePath}output\cli\*.dll; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
@@ -79,6 +80,7 @@ Source: {#BasePath}output\php72\*; DestDir: {app}\php72; Flags: ignoreversion re
 Source: {#BasePath}output\php73\*; DestDir: {app}\php73; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}output\ioncube\*; DestDir: {app}\ioncube; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}output\composer\*; DestDir: {app}\composer; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\openssl\*; DestDir: {app}\openssl; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}output\nginx\*; DestDir: {app}\nginx; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}stubs\nginx\html\*; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
 ; Dependencies and libraries -------------------------------------------------------------------------
@@ -95,6 +97,7 @@ Type: filesandordirs; Name: {app}
 ; Install external packages --------------------------------------------------------------------------
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
+; Filename: "{app}\varlet.exe"; BeforeInstall: CreatePathEnvironment
 
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
@@ -161,6 +164,9 @@ begin
   EnvAddPath(ExpandConstant('{app}\php73'));
   EnvAddPath(ExpandConstant('{app}\composer'));
   EnvAddPath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
+  EnvAddPath(ExpandConstant('{app}\openssl\bin'));
+  // OpenSSL configuration file
+  CreateEnvironmentVariable('OPENSSL_CONF', ExpandConstant('{app}\openssl\openssl.cnf'));
 end;
 
 procedure RemovePathEnvironment;
@@ -169,6 +175,7 @@ begin
   EnvRemovePath(ExpandConstant('{app}\php73'));
   EnvRemovePath(ExpandConstant('{app}\composer'));
   EnvRemovePath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
+  RemoveEnvironmentVariable('OPENSSL_CONF');
 end;
 
 procedure CurPageChanged(CurPageID: Integer);

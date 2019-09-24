@@ -13,6 +13,7 @@ set "vPHP56=5.6.40"
 set "vCOMPOSER=1.9.0"
 set "vIMAGICK=3.4.3"
 set "vPHPREDIS=5.0.2"
+set "vOPENSSL=1.1.1d"
 
 :: Download link
 set "VCREDIST_1519=https://aka.ms/vs/16/release/VC_redist.x64.exe"
@@ -23,6 +24,7 @@ set "URL_PHP73=https://windows.php.net/downloads/releases/php-%vPHP73%-nts-Win32
 set "URL_PHP72=https://windows.php.net/downloads/releases/php-%vPHP72%-nts-Win32-VC15-x64.zip"
 set "URL_PHP56=https://windows.php.net/downloads/releases/archives/php-%vPHP56%-nts-Win32-VC11-x64.zip"
 set "URL_COMPOSER=https://getcomposer.org/download/%vCOMPOSER%/composer.phar"
+set "URL_OPENSSL=https://mirror.firedaemon.com/OpenSSL/openssl-%vOPENSSL%-dev.zip"
 
 set "URL_IMAGICK73=http://windows.php.net/downloads/pecl/snaps/imagick/%vIMAGICK%/php_imagick-%vIMAGICK%-7.3-nts-vc15-x64.zip"
 set "URL_IMAGICK72=http://windows.php.net/downloads/pecl/snaps/imagick/%vIMAGICK%/php_imagick-%vIMAGICK%-7.2-nts-vc15-x64.zip"
@@ -51,6 +53,19 @@ if not exist "%ODIR%\phpfpmservice.exe" ( copy /Y "%STUB%\winsw.exe" "%ODIR%\php
 :: Winsw PHP
 if exist "%ODIR%\nginxservice.exe" ( del /F "%ODIR%\nginxservice.exe" )
 if not exist "%ODIR%\nginxservice.exe" ( copy /Y "%STUB%\winsw.exe" "%ODIR%\nginxservice.exe" > nul )
+
+:: OpenSSL
+if not exist "%TMP%\openssl-%vOPENSSL%.zip" (
+    echo. && echo Downloading OpenSSL v%vOPENSSL% ...
+    %CURL% -L# %URL_OPENSSL% -o "%TMP%\openssl-%vOPENSSL%.zip"
+)
+if exist "%TMP%\openssl-%vOPENSSL%.zip" (
+    echo. && echo Extracting OpenSSL v%vOPENSSL% ...
+    if exist "%ODIR%\openssl" RD /S /Q "%ODIR%\openssl"
+    if exist "%TMP%\openssl-1.1" RD /S /Q "%TMP%\openssl-1.1"
+    %UNZIP% x "%TMP%\openssl-%vOPENSSL%.zip" -o"%TMP%" -y > nul
+    xcopy %TMP%\openssl-1.1\x64 %ODIR%\openssl /E /I /Y > nul
+)
 
 :: Nginx
 if not exist "%TMP%\nginx-%vNGINX%.zip" (

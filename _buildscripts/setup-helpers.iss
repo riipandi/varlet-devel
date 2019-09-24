@@ -432,6 +432,20 @@ begin
   end;
 end;
 
+procedure CreateEnvironmentVariable(Key: string; Value: string);
+begin
+  if RegWriteStringValue(HKEY_CURRENT_USER, EnvironmentKey, Key, Value)
+  then Log('Environment variable has been added')
+  else Log('Error while adding environment variable');
+end;
+
+procedure RemoveEnvironmentVariable(Key: string);
+begin
+  if RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, Key)
+  then Log('Environment variable has been removed')
+  else Log('Error while removing environment variable');
+end;
+
 procedure EnvAddPath(Path: string);
 var
   Paths: string;
