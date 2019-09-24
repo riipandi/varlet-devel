@@ -13,7 +13,7 @@ namespace VarletCli
             var app = new CommandLineApplication
             {
                 Name = "varlet",
-                FullName = "Varlet command line utility"
+                FullName = "\r\nA more enjoyable local development experience for Windows."
             };
 
             app.HelpOption("-?|-h|--help");

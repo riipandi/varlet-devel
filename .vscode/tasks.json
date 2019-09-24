@@ -33,6 +33,7 @@
                 "-c",
                 "Release",
                 "/p:PublishSingleFile=true",
+                "/p:PublishTrimmed=true",
                 "-o",
                 "output/cli"
             ],
