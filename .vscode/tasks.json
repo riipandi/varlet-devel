@@ -18,6 +18,10 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "presentation": {
+                "clear": true,
+                "focus": true
             }
         },
         {
@@ -37,7 +41,11 @@
                 "-o",
                 "output/cli"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "clear": true,
+                "focus": true
+            }
         },
         {
             "label": "Build Setup",
@@ -46,7 +54,11 @@
             "args": [
                 "${workspaceFolder}/_buildscripts/setup-script.iss"
             ],
-            "problemMatcher": []
+            "problemMatcher": [],
+            "presentation": {
+                "clear": true,
+                "focus": true
+            }
         }
     ]
 }
