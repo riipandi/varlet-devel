@@ -52,9 +52,9 @@ Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; Va
 Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "AppVersion"; ValueData: "{#AppVersion}";
 
 [Tasks]
+Name: task_install_vcredis; Description: "Install Visual C++ Redistributable"; Flags: unchecked;
 Name: task_add_path_envars; Description: "Add PATH environment variables";
-Name: task_install_vcredis; Description: "Install Visual C++ Redistributable";
-Name: task_autorun_service; Description: "Run services when Windows starts"; Flags: unchecked;
+Name: task_autorun_service; Description: "Run services when Windows starts";
 
 [Files]
 ; Main project files ----------------------------------------------------------------------------------

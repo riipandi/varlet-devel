@@ -8,7 +8,11 @@
             "args": [
                 "build",
                 "${workspaceFolder}/source/VarletCli.csproj",
-                "--nologo", "-c", "Release", "-o", "packages/cli"
+                "--nologo",
+                "-c",
+                "Release",
+                "-o",
+                "packages/cli"
             ],
             "problemMatcher": "$msCompile",
             "group": {
@@ -23,8 +27,13 @@
             "args": [
                 "publish",
                 "${workspaceFolder}/source/VarletCli.csproj",
-                "--nologo", "--runtime", "win10-x64",
-                "-c", "Release", "-o", "packages/cli"
+                "--nologo",
+                "--runtime",
+                "win10-x64",
+                "-c",
+                "Release",
+                "-o",
+                "packages/cli"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -48,6 +57,7 @@
             "args": [
                 "${workspaceFolder}/_buildscripts/setup-script.iss"
             ],
-        },
+            "problemMatcher": []
+        }
     ]
 }
