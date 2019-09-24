@@ -69,7 +69,7 @@ Source: {#BasePath}stubs\php\phpfpmservice.xml; DestDir: {app}; Flags: ignorever
 Source: {#BasePath}stubs\nginx\nginxservice.xml; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}output\phpfpmservice.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}output\nginxservice.exe; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}stubs\openssl.cnf; DestDir: {app}openssl; Flags: ignoreversion
+Source: {#BasePath}stubs\openssl.cnf; DestDir: {app}\openssl; Flags: ignoreversion
 ; CLI apps for varlet ---------------------------------------------------------------------------------
 ; Source: {#BasePath}output\cli\varlet.runtimeconfig.json; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
 ; Source: {#BasePath}output\cli\*.dll; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
