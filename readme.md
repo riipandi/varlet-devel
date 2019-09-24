@@ -18,19 +18,20 @@ Download [latest release](https://github.com/riipandi/varlet-core/releases) then
 
 <!-- ## Varlet Commands
 
-| Command                | Description
-| :--------------------- | :----------
-| varlet link            | Create virtualhost and serving the site.
-| varlet link-secure     | Create virtualhost and serving the site with https.
-| varlet unlink          | Remove virtualhost.
-| varlet unlink-secure   | Remove https virtualhost.
-| varlet forget          | Remove both of virtualhost http and https.
-| varlet start           | Start Nginx + PHP-FPM services.
-| varlet stop            | Stop Nginx + PHP-FPM services.
-| varlet restart         | Restart Nginx + PHP-FPM services.
-| varlet status          | View site link status.
-| varlet service-status  | View Nginx and PHP-FPM services status.
-| varlet log             | View a list of logs which are written by Varlet's services. -->
+| Command                      | Description
+| :--------------------------- | :----------
+| varlet link                  | Create virtualhost and serving the site.
+| varlet link-secure           | Create virtualhost and serving the site with https.
+| varlet unlink                | Remove virtualhost.
+| varlet unlink-secure         | Remove https virtualhost.
+| varlet forget                | Remove both of virtualhost http and https.
+| varlet start                 | Start Nginx + PHP-FPM services.
+| varlet log                   | View a list of logs which are written by Varlet's services.
+| varlet stop                  | Stop Nginx + PHP-FPM services.
+| varlet restart               | Restart Nginx + PHP-FPM services.
+| varlet status                | View site link status.
+| varlet service-status        | View Nginx and PHP-FPM services status.
+| varlet switch-php _version_  | Switch the default PHP version (version: 5.6/7.2/7.3). -->
 
 ## Things to know
 
