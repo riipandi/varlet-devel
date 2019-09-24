@@ -14,8 +14,7 @@ namespace VarletCli.CommandConfiguration
             command.Description = "An example command from the neat .NET Core Starter";
             command.HelpOption("--help|-h|-?");
 
-            var nameArgument = command.Argument("name",
-                                   "Name I should say hello to");
+            var nameArgument = command.Argument("name", "Name I should say hello to");
 
             command.OnExecute(() =>
             {

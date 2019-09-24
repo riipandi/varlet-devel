@@ -12,9 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="varletcfg.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Content Include="varletcfg.example.json" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
