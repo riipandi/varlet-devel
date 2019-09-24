@@ -2,7 +2,7 @@
 
 Inspired from Laravel Valet. Valet is a Laravel development environment for minimalists. Varlet Core is main
 packages, it's only include PHP, Composer, and Nginx. If you want to use a database like PostgreSQL, MariaDB,
-MySQL, etc, you need to install it separately.
+MySQL, you need to install it separately.
 
 Varlet is made for you, the developers who like to work in the terminal, like me!
 
