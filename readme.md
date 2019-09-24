@@ -14,14 +14,6 @@
 
 Download [latest release](https://github.com/riipandi/varlet-core/releases) then run the installation file.
 
-```ps1
-# Build cli-app
-dotnet build source/VarletCli.csproj -c Release -o packages/cli
-
-# Publish cli-app
-dotnet build source/VarletCli.csproj --runtime win10-x64 -c Release -o packages/cli
-```
-
 ## Things to know
 
 ### Additional Packages

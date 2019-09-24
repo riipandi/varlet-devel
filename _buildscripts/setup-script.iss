@@ -72,6 +72,7 @@ Source: {#BasePath}packages\nginxservice.exe; DestDir: {app}; Flags: ignoreversi
 ; CLI apps for varlet ---------------------------------------------------------------------------------
 Source: {#BasePath}packages\cli\*.dll; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}packages\cli\*.exe; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}packages\cli\varlet.runtimeconfig.json; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
 ; Essential files and directories ---------------------------------------------------------------------
 Source: {#BasePath}packages\php56\*; DestDir: {app}\php56; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}packages\php72\*; DestDir: {app}\php72; Flags: ignoreversion recursesubdirs
