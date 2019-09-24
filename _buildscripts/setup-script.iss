@@ -2,12 +2,12 @@
 
 #define BasePath      "..\"
 
-#define AppVersion    "1.1"
+#define AppVersion    "1.2a"
 #define AppName       "Varlet Core"
 #define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "https://arisio.us"
 #define AppGithubUrl  "https://github.com/riipandi/varlet-core"
-#define SetupFileName "varlet-core-1.1-x64"
+#define SetupFileName "varlet-core-1.2a-x64"
 
 [Setup]
 AppName                    = {#AppName}
@@ -43,7 +43,7 @@ Uninstallable         = yes
 CreateUninstallRegKey = yes
 DirExistsWarning      = yes
 AlwaysRestart         = no
-OutputDir             = {#BasePath}output
+OutputDir             = {#BasePath}packages
 
 [Registry]
 Root: HKLM; Subkey: "Software\{#AppPublisher}"; Flags: uninsdeletekeyifempty;
@@ -69,6 +69,9 @@ Source: {#BasePath}stubs\php\phpfpmservice.xml; DestDir: {app}; Flags: ignorever
 Source: {#BasePath}stubs\nginx\nginxservice.xml; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}packages\phpfpmservice.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}packages\nginxservice.exe; DestDir: {app}; Flags: ignoreversion
+; CLI apps for varlet ---------------------------------------------------------------------------------
+Source: {#BasePath}packages\cli\*.dll; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}packages\cli\*.exe; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
 ; Essential files and directories ---------------------------------------------------------------------
 Source: {#BasePath}packages\php56\*; DestDir: {app}\php56; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}packages\php72\*; DestDir: {app}\php72; Flags: ignoreversion recursesubdirs
@@ -153,6 +156,7 @@ end;
 
 procedure CreatePathEnvironment();
 begin
+  EnvAddPath(ExpandConstant('{app}\cli'));
   EnvAddPath(ExpandConstant('{app}\php73'));
   EnvAddPath(ExpandConstant('{app}\composer'));
   EnvAddPath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
@@ -160,6 +164,7 @@ end;
 
 procedure RemovePathEnvironment;
 begin
+  EnvRemovePath(ExpandConstant('{app}\cli'));
   EnvRemovePath(ExpandConstant('{app}\php73'));
   EnvRemovePath(ExpandConstant('{app}\composer'));
   EnvRemovePath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
