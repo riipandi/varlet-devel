@@ -45,7 +45,9 @@
             "label": "Build Setup",
             "command": "C:\\Program Files (x86)\\Inno Setup 6\\ISCC.exe",
             "type": "process",
-            "args": [ "${workspaceFolder}/_buildscripts/setup-script.iss" ],
+            "args": [
+                "${workspaceFolder}/_buildscripts/setup-script.iss"
+            ],
         },
     ]
 }
