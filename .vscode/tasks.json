@@ -10,10 +10,12 @@
                 "build",
                 "${workspaceFolder}/source/VarletCli.csproj",
                 "--nologo",
+                "--runtime",
+                "win10-x64",
                 "-c",
                 "Release",
                 "-o",
-                "output/cli"
+                "output/build"
             ],
             "problemMatcher": "$msCompile",
             "group": {
