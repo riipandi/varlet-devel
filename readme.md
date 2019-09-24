@@ -1,8 +1,10 @@
 # Varlet Core
 
-Inspired from Laravel Valet. Valet is a Laravel development environment for minimalists. This is core packages
-for Varlet in Windows environment. Can be another alternative for Laragon, XAMPP, etc. Varlet is made for you,
-the developers who like to work in the terminal, like me!
+Inspired from Laravel Valet. Valet is a Laravel development environment for minimalists. Varlet Core is main
+packages, it's only include PHP and Nginx. If you want to use a database like MariaDB, MySQL, PostgreSQL, etc,
+you need to install it separately.
+
+Varlet is made for you, the developers who like to work in the terminal, like me!
 
 ## What's in the box?
 
