@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.CommandLineUtils;
 
 namespace VarletCli.Commands

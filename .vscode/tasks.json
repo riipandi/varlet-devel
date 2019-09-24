@@ -40,19 +40,6 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "Watch Application",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/source/VarletCli.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
             "label": "Build Setup",
             "command": "C:\\Program Files (x86)\\Inno Setup 6\\ISCC.exe",
             "type": "process",
