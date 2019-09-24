@@ -16,6 +16,10 @@ the developers who like to work in the terminal, like me!
 
 Download [latest release](https://github.com/riipandi/varlet-core/releases) then run the installation file.
 
+Varlet doesn't have `park` command like Laravel Valet does. Your project files can stored at:
+`installation_path\core\htdocs`. Or, you can use the `varlet link` command and place your project
+files in any directory you want.
+
 <!-- ## Varlet Commands
 
 | Command                      | Description
