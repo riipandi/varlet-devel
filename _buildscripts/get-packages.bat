@@ -2,7 +2,7 @@
 
 set UNZIP=%~dp0..\_buildtools\7za.exe
 set CURL=%~dp0..\_buildtools\curl.exe
-set ODIR=%~dp0..\packages
+set ODIR=%~dp0..\output
 set STUB=%~dp0..\stubs
 
 :: Packages version

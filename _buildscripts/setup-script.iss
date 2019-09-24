@@ -43,7 +43,7 @@ Uninstallable         = yes
 CreateUninstallRegKey = yes
 DirExistsWarning      = yes
 AlwaysRestart         = no
-OutputDir             = {#BasePath}packages
+OutputDir             = {#BasePath}output
 
 [Registry]
 Root: HKLM; Subkey: "Software\{#AppPublisher}"; Flags: uninsdeletekeyifempty;
@@ -67,23 +67,23 @@ Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php72; Flags: ignoreversion
 Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php73; Flags: ignoreversion
 Source: {#BasePath}stubs\php\phpfpmservice.xml; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}stubs\nginx\nginxservice.xml; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}packages\phpfpmservice.exe; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}packages\nginxservice.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#BasePath}output\phpfpmservice.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#BasePath}output\nginxservice.exe; DestDir: {app}; Flags: ignoreversion
 ; CLI apps for varlet ---------------------------------------------------------------------------------
-Source: {#BasePath}packages\cli\*.dll; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}packages\cli\*.exe; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}packages\cli\varlet.runtimeconfig.json; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\cli\*.dll; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\cli\*.exe; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\cli\varlet.runtimeconfig.json; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
 ; Essential files and directories ---------------------------------------------------------------------
-Source: {#BasePath}packages\php56\*; DestDir: {app}\php56; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}packages\php72\*; DestDir: {app}\php72; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}packages\php73\*; DestDir: {app}\php73; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}packages\ioncube\*; DestDir: {app}\ioncube; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}packages\composer\*; DestDir: {app}\composer; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}packages\nginx\*; DestDir: {app}\nginx; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\php56\*; DestDir: {app}\php56; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\php72\*; DestDir: {app}\php72; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\php73\*; DestDir: {app}\php73; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\ioncube\*; DestDir: {app}\ioncube; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\composer\*; DestDir: {app}\composer; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\nginx\*; DestDir: {app}\nginx; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}stubs\nginx\html\*; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
 ; Dependencies and libraries -------------------------------------------------------------------------
-Source: {#BasePath}packages\vcredis\vcredis2012x64.exe; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
-Source: {#BasePath}packages\vcredis\vcredis1519x64.exe; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
+Source: {#BasePath}output\vcredis\vcredis2012x64.exe; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
+Source: {#BasePath}output\vcredis\vcredis1519x64.exe; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
 
 [Icons]
 Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"

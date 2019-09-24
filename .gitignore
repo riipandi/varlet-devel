@@ -1,9 +1,4 @@
-packages/*
-!packages/switch-php.bat
-!packages/php7.ini
-!packages/php5.ini
-VarletCore-*.exe
-output/
+[Oo]utput/
 
 # windows files
 [Dd]esktop.ini

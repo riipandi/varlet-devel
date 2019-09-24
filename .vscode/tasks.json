@@ -12,7 +12,7 @@
                 "-c",
                 "Release",
                 "-o",
-                "packages/cli"
+                "output/cli"
             ],
             "problemMatcher": "$msCompile",
             "group": {
@@ -33,7 +33,7 @@
                 "-c",
                 "Release",
                 "-o",
-                "packages/cli"
+                "output/cli"
             ],
             "problemMatcher": "$msCompile"
         },
