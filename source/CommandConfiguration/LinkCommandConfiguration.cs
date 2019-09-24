@@ -6,19 +6,19 @@ using Microsoft.Extensions.CommandLineUtils;
 
 namespace VarletCli.CommandConfiguration
 {
-    public static class GreetCommandConfiguration
+    public static class LinkCommandConfiguration
     {
         public static void Configure(CommandLineApplication command, CommandLineOptions options)
         {
 
-            command.Description = "Say hello and cheers up";
+            command.Description = "Create virtualhost and serving the site";
             command.HelpOption("--help|-h|-?");
 
-            var nameArgument = command.Argument("name", "Name I should say hello to");
+            var domainArgument = command.Argument("domain", "Name I should say hello to");
 
             command.OnExecute(() =>
             {
-                options.Command = new GreetCommand(nameArgument.Value, options);
+                options.Command = new LinkCommand(domainArgument.Value, options);
 
                 return 0;
             });

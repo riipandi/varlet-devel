@@ -18,9 +18,7 @@ namespace VarletCli
 
             app.HelpOption("-?|-h|--help");
 
-            var enthousiasticSwitch = app.Option("-e|--enthousiastically",
-                                          "Whether the app should be enthousiastic.",
-                                          CommandOptionType.NoValue);
+            var forcedOption = app.Option("-f|--force", "Force the operation to run", CommandOptionType.NoValue);
 
             RootCommandConfiguration.Configure(app, options);
 
@@ -31,12 +29,12 @@ namespace VarletCli
                 return null;
             }
 
-            options.IsEnthousiastic = enthousiasticSwitch.HasValue();
+            options.isForced = forcedOption.HasValue();
 
             return options;
         }
 
         public ICommand Command { get; set; }
-        public bool IsEnthousiastic { get; set; }
+        public bool isForced { get; set; }
     }
 }

@@ -10,7 +10,8 @@ namespace VarletCli.CommandConfiguration
     {
         public static void Configure(CommandLineApplication app, CommandLineOptions options)
         {
-
+            // Define command list
+            app.Command("link", c => LinkCommandConfiguration.Configure(c, options));
             app.Command("greet", c => GreetCommandConfiguration.Configure(c, options));
 
             app.OnExecute(() =>

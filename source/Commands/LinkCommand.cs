@@ -4,13 +4,13 @@ using Microsoft.Extensions.CommandLineUtils;
 namespace VarletCli.Commands
 {
 
-    public class GreetCommand : ICommand
+    public class LinkCommand : ICommand
     {
 
         private readonly string _name;
         private readonly CommandLineOptions _options;
 
-        public GreetCommand(string name, CommandLineOptions options)
+        public LinkCommand(string name, CommandLineOptions options)
         {
             _name = name;
             _options = options;
@@ -18,7 +18,7 @@ namespace VarletCli.Commands
 
         public int Run()
         {
-            Console.WriteLine("Hello "
+            Console.WriteLine("Hey "
                 + (_name != null ? _name : "World")
                 + (_options.isForced ? "!!!" : "."));
 
