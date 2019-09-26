@@ -7,8 +7,8 @@ set STUB=%~dp0..\stubs
 
 :: Packages version
 set "vNGINX=1.17.3"
-set "vPHP73=7.3.9"
-set "vPHP72=7.2.22"
+set "vPHP73=7.3.10"
+set "vPHP72=7.2.23"
 set "vPHP56=5.6.40"
 set "vCOMPOSER=1.9.0"
 set "vIMAGICK=3.4.3"
