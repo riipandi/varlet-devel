@@ -9,6 +9,9 @@
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <TrimUnusedDependencies>true</TrimUnusedDependencies>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <!--RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishReadyToRun>true</PublishReadyToRun-->
   </PropertyGroup>
 
   <ItemGroup>

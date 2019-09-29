@@ -40,6 +40,7 @@
                 "win10-x64",
                 "-c",
                 "Release",
+                "--self-contained",
                 "/p:PublishSingleFile=true",
                 "/p:PublishTrimmed=true",
                 "-o",
