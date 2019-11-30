@@ -2,12 +2,12 @@
 
 #define BasePath      "..\"
 
-#define AppVersion    "1.2a"
+#define AppVersion    "1.3"
 #define AppName       "Varlet Core"
 #define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "https://arisio.us"
 #define AppGithubUrl  "https://github.com/riipandi/varlet-core"
-#define SetupFileName "varlet-core-1.2a-x64"
+#define SetupFileName "varlet-core-1.3-x64"
 
 [Setup]
 AppName                    = {#AppName}
@@ -59,12 +59,11 @@ Name: task_autorun_service; Description: "Run services when Windows starts";
 [Files]
 ; Main project files ----------------------------------------------------------------------------------
 Source: varlet-license.txt; DestDir: {app}; Flags: ignoreversion
-; Source: {#BasePath}stubs\php\set-php-56.bat; DestDir: {app}; Flags: ignoreversion
 ; Source: {#BasePath}stubs\php\set-php-72.bat; DestDir: {app}; Flags: ignoreversion
 ; Source: {#BasePath}stubs\php\set-php-73.bat; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php56; Flags: ignoreversion
-Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php72; Flags: ignoreversion
+Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php74; Flags: ignoreversion
 Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php73; Flags: ignoreversion
+Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php72; Flags: ignoreversion
 Source: {#BasePath}stubs\php\phpfpmservice.xml; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}stubs\nginx\nginxservice.xml; DestDir: {app}; Flags: ignoreversion
 Source: {#BasePath}output\phpfpmservice.exe; DestDir: {app}; Flags: ignoreversion
@@ -73,11 +72,11 @@ Source: {#BasePath}stubs\openssl.cnf; DestDir: {app}\openssl; Flags: ignoreversi
 ; CLI apps for varlet ---------------------------------------------------------------------------------
 ; Source: {#BasePath}output\cli\varlet.runtimeconfig.json; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
 ; Source: {#BasePath}output\cli\*.dll; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}output\cli\*.exe; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
+; Source: {#BasePath}output\cli\*.exe; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
 ; Essential files and directories ---------------------------------------------------------------------
-Source: {#BasePath}output\php56\*; DestDir: {app}\php56; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}output\php72\*; DestDir: {app}\php72; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\php74\*; DestDir: {app}\php74; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}output\php73\*; DestDir: {app}\php73; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}output\php72\*; DestDir: {app}\php72; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}output\ioncube\*; DestDir: {app}\ioncube; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}output\composer\*; DestDir: {app}\composer; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}output\openssl\*; DestDir: {app}\openssl; Flags: ignoreversion recursesubdirs
@@ -125,6 +124,11 @@ procedure ConfigureApplication;
 begin
   BaseDir := ExpandConstant('{app}');
 
+  // PHP 7.4
+  FileReplaceString(BaseDir + '\php74\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
+  FileReplaceString(BaseDir + '\php74\php.ini', '<<PHP_DIR>>', PathWithSlashes(ExpandConstant('{app}\php73')));
+  FileReplaceString(BaseDir + '\php74\php.ini', '<<IONCUBE_FILE>>', 'ioncube_loader_win_7.4.dll');
+
   // PHP 7.3
   FileReplaceString(BaseDir + '\php73\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
   FileReplaceString(BaseDir + '\php73\php.ini', '<<PHP_DIR>>', PathWithSlashes(ExpandConstant('{app}\php73')));
@@ -134,11 +138,6 @@ begin
   FileReplaceString(BaseDir + '\php72\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
   FileReplaceString(BaseDir + '\php72\php.ini', '<<PHP_DIR>>', PathWithSlashes(ExpandConstant('{app}\php72')));
   FileReplaceString(BaseDir + '\php72\php.ini', '<<IONCUBE_FILE>>', 'ioncube_loader_win_7.2.dll');
-
-  // PHP 5.6
-  FileReplaceString(BaseDir + '\php56\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
-  FileReplaceString(BaseDir + '\php56\php.ini', '<<PHP_DIR>>', PathWithSlashes(ExpandConstant('{app}\php56')));
-  FileReplaceString(BaseDir + '\php56\php.ini', '<<IONCUBE_FILE>>', 'ioncube_loader_win_5.6.dll');
 
   // Create composer.bat
   Str := '@echo off' + #13#10#13#10 + '"'+BaseDir+'\php73\php.exe" "'+ExpandConstant('{app}\composer\composer.phar')+'" %*';

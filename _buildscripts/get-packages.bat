@@ -6,32 +6,39 @@ set ODIR=%~dp0..\output
 set STUB=%~dp0..\stubs
 
 :: Packages version
-set "vNGINX=1.17.3"
-set "vPHP73=7.3.10"
-set "vPHP72=7.2.23"
-set "vPHP56=5.6.40"
-set "vCOMPOSER=1.9.0"
+set "vNGINX=1.17.6"
+set "vPHP74=7.4.0"
+set "vPHP73=7.3.12"
+set "vPHP72=7.2.25"
+set "vCOMPOSER=1.9.1"
 set "vIMAGICK=3.4.3"
-set "vPHPREDIS=5.0.2"
-set "vOPENSSL=1.1.1d"
+set "vPHPREDIS=5.1.1"
+set "vOPENSSL=1.1.1e"
+set "vXDEBUG=2.8.0"
 
 :: Download link
 set "VCREDIST_1519=https://aka.ms/vs/16/release/VC_redist.x64.exe"
 set "VCREDIST_2012=http://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe"
 
 set "URL_NGINX=http://nginx.org/download/nginx-%vNGINX%.zip"
+set "URL_PHP74=https://windows.php.net/downloads/releases/php-%vPHP74%-nts-Win32-VC15-x64.zip"
 set "URL_PHP73=https://windows.php.net/downloads/releases/php-%vPHP73%-nts-Win32-VC15-x64.zip"
 set "URL_PHP72=https://windows.php.net/downloads/releases/php-%vPHP72%-nts-Win32-VC15-x64.zip"
-set "URL_PHP56=https://windows.php.net/downloads/releases/archives/php-%vPHP56%-nts-Win32-VC11-x64.zip"
+
 set "URL_COMPOSER=https://getcomposer.org/download/%vCOMPOSER%/composer.phar"
 set "URL_OPENSSL=https://mirror.firedaemon.com/OpenSSL/openssl-%vOPENSSL%-dev.zip"
 
-set "URL_IMAGICK73=http://windows.php.net/downloads/pecl/snaps/imagick/%vIMAGICK%/php_imagick-%vIMAGICK%-7.3-nts-vc15-x64.zip"
-set "URL_IMAGICK72=http://windows.php.net/downloads/pecl/snaps/imagick/%vIMAGICK%/php_imagick-%vIMAGICK%-7.2-nts-vc15-x64.zip"
-set "URL_IMAGICK56=http://windows.php.net/downloads/pecl/releases/imagick/%vIMAGICK%/php_imagick-%vIMAGICK%-5.6-nts-vc11-x64.zip"
+::set "URL_IMAGICK_PHP74=http://windows.php.net/downloads/pecl/snaps/imagick/%vIMAGICK%/php_imagick-%vIMAGICK%-7.4-nts-vc15-x64.zip"
+set "URL_IMAGICK_PHP73=http://windows.php.net/downloads/pecl/snaps/imagick/%vIMAGICK%/php_imagick-%vIMAGICK%-7.3-nts-vc15-x64.zip"
+set "URL_IMAGICK_PHP72=http://windows.php.net/downloads/pecl/snaps/imagick/%vIMAGICK%/php_imagick-%vIMAGICK%-7.2-nts-vc15-x64.zip"
 
-set "URL_REDISPHP73=https://windows.php.net/downloads/pecl/releases/redis/%vPHPREDIS%/php_redis-%vPHPREDIS%-7.3-nts-vc15-x64.zip"
-set "URL_REDISPHP72=https://windows.php.net/downloads/pecl/releases/redis/%vPHPREDIS%/php_redis-%vPHPREDIS%-7.2-nts-vc15-x64.zip"
+::set "URL_REDIS_PHP74=https://windows.php.net/downloads/pecl/releases/redis/%vPHPREDIS%/php_redis-%vPHPREDIS%-7.4-nts-vc15-x64.zip"
+set "URL_REDIS_PHP73=https://windows.php.net/downloads/pecl/releases/redis/%vPHPREDIS%/php_redis-%vPHPREDIS%-7.3-nts-vc15-x64.zip"
+set "URL_REDIS_PHP72=https://windows.php.net/downloads/pecl/releases/redis/%vPHPREDIS%/php_redis-%vPHPREDIS%-7.2-nts-vc15-x64.zip"
+
+set "URL_XDEBUG_PHP74=https://xdebug.org/files/php_xdebug-%vXDEBUG%-7.4-vc15-nts-x86_64.dll"
+set "URL_XDEBUG_PHP73=https://xdebug.org/files/php_xdebug-%vXDEBUG%-7.3-vc15-nts-x86_64.dll"
+set "URL_XDEBUG_PHP72=https://xdebug.org/files/php_xdebug-%vXDEBUG%-7.2-vc15-nts-x86_64.dll"
 
 :: Main components
 :: -----------------------------------------------------------------------------------------------
@@ -85,12 +92,37 @@ if exist "%TMP%\nginx-%vNGINX%.zip" (
     xcopy %STUB%\nginx\html %ODIR%\nginx\html /E /I /Y > nul
 )
 
+:: PHP v7.4
+if not exist "%TMP%\php-%vPHP74%.zip" (
+    echo. && echo Downloading PHP v%vPHP74% ...
+    %CURL% -L# %URL_PHP74% -o "%TMP%\php-%vPHP74%.zip"
+    REM %CURL% -L# %URL_IMAGICK_PHP74% -o "%TMP%\imagick-%vIMAGICK%-php74.zip"
+    REM %CURL% -L# %URL_REDIS_PHP74% -o "%TMP%\php74_redis.zip"
+    %CURL% -L# %URL_XDEBUG_PHP74% -o "%TMP%\php74_xdebug.dll"
+)
+if exist "%TMP%\php-%vPHP74%.zip" (
+    echo. && echo Extracting PHP v%vPHP74% ...
+    if exist "%ODIR%\php74" RD /S /Q "%ODIR%\php74"
+    %UNZIP% x "%TMP%\php-%vPHP74%.zip" -o"%ODIR%\php74" -y > nul
+
+    REM %UNZIP% x "%TMP%\imagick-%vIMAGICK%-php74.zip" -o"%ODIR%\php74" -y > nul
+    REM copy /Y "%ODIR%\php74\php_imagick.dll" "%ODIR%\php74\ext\php_imagick.dll" > nul
+    REM del /F "%ODIR%\php74\php_imagick.dll"
+
+    REM %UNZIP% x "%TMP%\php74_redis.zip" -o"%TMP%" -y > nul
+    REM copy /Y "%TMP%\php_redis.dll" "%ODIR%\php74\ext\php_redis.dll" > nul
+    REM del /F "%TMP%\php_redis.dll"
+
+    copy /Y "%TMP%\php74_xdebug.dll" "%ODIR%\php74\ext\php_xdebug.dll" > nul
+)
+
 :: PHP v7.3
 if not exist "%TMP%\php-%vPHP73%.zip" (
     echo. && echo Downloading PHP v%vPHP73% ...
     %CURL% -L# %URL_PHP73% -o "%TMP%\php-%vPHP73%.zip"
-    %CURL% -L# %URL_IMAGICK73% -o "%TMP%\imagick-%vIMAGICK%-php73.zip"
-    %CURL% -L# %URL_REDISPHP73% -o "%TMP%\php73_redis.zip"
+    %CURL% -L# %URL_IMAGICK_PHP73% -o "%TMP%\imagick-%vIMAGICK%-php73.zip"
+    %CURL% -L# %URL_REDIS_PHP73% -o "%TMP%\php73_redis.zip"
+    %CURL% -L# %URL_XDEBUG_PHP73% -o "%TMP%\php73_xdebug.dll"
 )
 if exist "%TMP%\php-%vPHP73%.zip" (
     echo. && echo Extracting PHP v%vPHP73% ...
@@ -104,14 +136,17 @@ if exist "%TMP%\php-%vPHP73%.zip" (
     %UNZIP% x "%TMP%\php73_redis.zip" -o"%TMP%" -y > nul
     copy /Y "%TMP%\php_redis.dll" "%ODIR%\php73\ext\php_redis.dll" > nul
     del /F "%TMP%\php_redis.dll"
+
+    copy /Y "%TMP%\php73_xdebug.dll" "%ODIR%\php73\ext\php_xdebug.dll" > nul
 )
 
 :: PHP v7.2
 if not exist "%TMP%\php-%vPHP72%.zip" (
     echo. && echo Downloading PHP v%vPHP72% ...
     %CURL% -L# %URL_PHP72% -o "%TMP%\php-%vPHP72%.zip"
-    %CURL% -L# %URL_IMAGICK72% -o "%TMP%\imagick-%vIMAGICK%-php72.zip"
-    %CURL% -L# %URL_REDISPHP72% -o "%TMP%\php72_redis.zip"
+    %CURL% -L# %URL_IMAGICK_PHP72% -o "%TMP%\imagick-%vIMAGICK%-php72.zip"
+    %CURL% -L# %URL_REDIS_PHP72% -o "%TMP%\php72_redis.zip"
+    %CURL% -L# %URL_XDEBUG_PHP73% -o "%TMP%\php73_xdebug.dll"
 )
 if exist "%TMP%\php-%vPHP72%.zip" (
     echo. && echo Extracting PHP v%vPHP72% ...
@@ -125,21 +160,8 @@ if exist "%TMP%\php-%vPHP72%.zip" (
     %UNZIP% x "%TMP%\php72_redis.zip" -o"%TMP%" -y > nul
     copy /Y "%TMP%\php_redis.dll" "%ODIR%\php72\ext\php_redis.dll" > nul
     del /F "%TMP%\php_redis.dll"
-)
 
-:: PHP v5.6
-if not exist "%TMP%\php-%vPHP56%.zip" (
-    echo. && echo Downloading PHP v%vPHP56% ...
-    %CURL% -L# %URL_PHP56% -o "%TMP%\php-%vPHP56%.zip"
-    %CURL% -L# %URL_IMAGICK56% -o "%TMP%\imagick-%vIMAGICK%-php56.zip"
-)
-if exist "%TMP%\php-%vPHP56%.zip" (
-    echo. && echo Extracting PHP v%vPHP56% ...
-    if exist "%ODIR%\php56" RD /S /Q "%ODIR%\php56"
-    %UNZIP% x "%TMP%\php-%vPHP56%.zip" -o"%ODIR%\php56" -y > nul
-    %UNZIP% x "%TMP%\imagick-%vIMAGICK%-php56.zip" -o"%ODIR%\php56" -y > nul
-    copy /Y "%ODIR%\php56\php_imagick.dll" "%ODIR%\php56\ext\php_imagick.dll" > nul
-    del /F "%ODIR%\php56\php_imagick.dll"
+    copy /Y "%TMP%\php72_xdebug.dll" "%ODIR%\php72\ext\php_xdebug.dll" > nul
 )
 
 :: Composer
@@ -158,13 +180,6 @@ if not exist "%TMP%\ioncube-vc15.zip" (
     %CURL% -L# "https://downloads.ioncube.com/loader_downloads/ioncube_loaders_win_nonts_vc15_x86-64.zip" -o "%TMP%\ioncube-vc15.zip"
 )
 if exist "%TMP%\ioncube-vc15.zip" ( %UNZIP% x "%TMP%\ioncube-vc15.zip" -o"%ODIR%" -y > nul )
-
-:: ionCube Loader VC11
-echo. && echo Download or extracting ionCube Loader VC11 ...
-if not exist "%TMP%\ioncube-vc11.zip" (
-    %CURL% -L#      "https://downloads.ioncube.com/loader_downloads/ioncube_loaders_win_nonts_vc11_x86-64.zip" -o "%TMP%\ioncube-vc11.zip"
-)
-if exist "%TMP%\ioncube-vc11.zip" ( %UNZIP% x "%TMP%\ioncube-vc11.zip" -o"%ODIR%" -y > nul )
 
 :: Cleanup unused files
 echo. && echo Cleanup unused files ...

@@ -8,9 +8,9 @@ Varlet is made for you, the developers who like to work in the terminal, like me
 
 ## What's in the box?
 
-- PHP 7.3 + ImageMagick + ionCube Loader + PHP Redis extension
-- PHP 7.2 + ImageMagick + ionCube Loader + PHP Redis extension
-- PHP 5.6 + ImageMagick + ionCube Loader
+- PHP 7.4 + xDebug
+- PHP 7.3 + xDebug + ImageMagick + ionCube Loader + PHP Redis extension
+- PHP 7.2 + xDebug + ImageMagick + ionCube Loader + PHP Redis extension
 - Latest version of Composer
 - Nginx Mainline
 
@@ -37,7 +37,7 @@ files in any directory you want.
 | varlet restart               | Restart Nginx + PHP-FPM services.
 | varlet status                | View site link status.
 | varlet service-status        | View Nginx and PHP-FPM services status.
-| varlet switch-php _version_  | Switch the default PHP version (version: 5.6/7.2/7.3). -->
+| varlet switch-php _version_  | Switch the default PHP version (version: 7.4/7.3/7.2). -->
 
 ## Things to know
 
