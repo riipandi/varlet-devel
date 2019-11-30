@@ -2,12 +2,12 @@
 
 #define BasePath      "..\"
 
-#define AppVersion    "1.3"
+#define AppVersion    "1.2"
 #define AppName       "Varlet Core"
 #define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "https://arisio.us"
 #define AppGithubUrl  "https://github.com/riipandi/varlet-core"
-#define SetupFileName "varlet-core-1.3-x64"
+#define SetupFileName "varlet-core-1.2-x64"
 
 [Setup]
 AppName                    = {#AppName}
