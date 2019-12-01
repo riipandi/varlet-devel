@@ -134,7 +134,7 @@ begin
   FileReplaceString(BaseDir + '\php\php-7.3-ts\php.ini', '<<PHP_BASEDIR>>', PathWithSlashes(BaseDir + '\php\php-7.3-ts'));
 
   // Create composer.bat
-  Str := '@echo off' + #13#10#13#10 + '"'+BaseDir+'php-7.3-ts\php.exe" "'+ExpandConstant('{app}\utils\composer.phar')+'" %*';
+  Str := '@echo off' + #13#10#13#10 + '"'+BaseDir+'\php\php-7.3-ts\php.exe" "'+ExpandConstant('{app}\utils\composer.phar')+'" %*';
   SaveStringToFile(BaseDir + '\utils\composer.bat', Str, False);
 end;
 
