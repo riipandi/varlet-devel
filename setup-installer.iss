@@ -51,8 +51,8 @@ Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; Va
 Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "AppVersion"; ValueData: "{#AppVersion}";
 
 [Tasks]
-Name: task_install_vcredis; Description: "Install Visual C++ Redistributable"; Flags: unchecked;
-Name: task_autorun_service; Description: "Run services when Windows starts"; Flags: unchecked;
+Name: task_install_vcredis; Description: "Install Visual C++ Redistributable"; Flags: unchecked
+Name: task_autorun_service; Description: "Run services when Windows starts"; Flags: unchecked
 Name: task_add_path_envars; Description: "Add PATH environment variables";
 
 [Files]
@@ -89,7 +89,7 @@ Type: filesandordirs; Name: {app}
 ; Install external packages --------------------------------------------------------------------------
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
-; Filename: "{app}\varlet.exe"; BeforeInstall: CreatePathEnvironment
+Filename: "http://localhost/"; Description: "Open localhost page"; Flags: postinstall shellexec skipifsilent unchecked; BeforeInstall: StartHttpdService
 
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
@@ -136,19 +136,6 @@ begin
   // Create composer.bat
   Str := '@echo off' + #13#10#13#10 + '"'+BaseDir+'php-7.3-ts\php.exe" "'+ExpandConstant('{app}\utils\composer.phar')+'" %*';
   SaveStringToFile(BaseDir + '\utils\composer.bat', Str, False);
-
-  // Nginx
-  // FileReplaceString(BaseDir + '\nginx\conf\vhost\default.conf', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
-
-  // PHP & Nginx Services
-  // FileReplaceString(BaseDir + '\phpfpmservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
-  // FileReplaceString(BaseDir + '\nginxservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
-
-  // Autorun services
-  // if WizardIsTaskSelected('task_autorun_service') then begin
-  //   FileReplaceString(BaseDir + '\phpfpmservice.xml', 'Manual', 'Automatic');
-  //   FileReplaceString(BaseDir + '\nginxservice.xml', 'Manual', 'Automatic');
-  // end;
 end;
 
 procedure CreatePathEnvironment();
@@ -157,9 +144,7 @@ begin
   EnvAddPath(ExpandConstant('{app}\httpd\bin'));
   EnvAddPath(ExpandConstant('{app}\php\php-7.3-ts'));
   EnvAddPath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
-  // OpenSSL configuration file
-  // EnvAddPath(ExpandConstant('{app}\openssl\bin'));
-  // CreateEnvironmentVariable('OPENSSL_CONF', ExpandConstant('{app}\openssl\openssl.cnf'));
+  CreateEnvironmentVariable('OPENSSL_CONF', ExpandConstant('{app}\httpd\conf\openssl.cnf'));
 end;
 
 procedure RemovePathEnvironment;
@@ -168,7 +153,12 @@ begin
   EnvRemovePath(ExpandConstant('{app}\httpd\bin'));
   EnvRemovePath(ExpandConstant('{app}\php\php-7.3-ts'));
   EnvRemovePath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
-  // RemoveEnvironmentVariable('OPENSSL_CONF');
+  RemoveEnvironmentVariable('OPENSSL_CONF');
+end;
+
+procedure StartHttpdService;
+begin
+  Exec(ExpandConstant('net.exe'), 'start VarletHttpd', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
 end;
 
 procedure CurPageChanged(CurPageID: Integer);
@@ -194,32 +184,22 @@ begin
       CreatePathEnvironment;
     end;
 
-    // WizardForm.StatusLabel.Caption := 'Installing PHP-FPM services ...';
-    // if Exec(ExpandConstant('{app}\phpfpmservice.exe'), 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then begin
-    //   Exec(ExpandConstant('net.exe'), 'start VarletPHP', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
-    // end else begin
-    //   MsgBox('Failed to install PHP-FPM service', mbInformation, MB_OK);
-    // end;
-
-    // WizardForm.StatusLabel.Caption := 'Installing Nginx services ...';
-    // if Exec(ExpandConstant('{app}\nginxservice.exe'), 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then begin
-    //   Exec(ExpandConstant('net.exe'), 'start VarletNginx', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
-    // end else begin
-    //   MsgBox('Failed to install Nginx service', mbInformation, MB_OK);
-    // end;
-
     // httpd services
     WizardForm.StatusLabel.Caption := 'Installing HTTPd services ...';
     Str := '-k install -n "VarletHttpd" -f '+BaseDir+'"\httpd\conf\httpd.conf"';
     Exec(HttpdBin, Str, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-    Exec(ExpandConstant('net.exe'), 'start VarletHttpd', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-
-    // httpd service mode
     if WizardIsTaskSelected('task_autorun_service') then begin
       Exec(ExpandConstant('sc.exe'), 'config VarletHttpd start=auto', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+      Exec(ExpandConstant('net.exe'), 'start VarletHttpd', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
     end else begin
       Exec(ExpandConstant('sc.exe'), 'config VarletHttpd start=demand', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+      Exec(ExpandConstant('net.exe'), 'stop VarletHttpd', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
     end;
+  end;
+
+  if (CurStep=ssDone) then
+  begin
+    // do somethind
   end;
 end;
 
@@ -229,8 +209,7 @@ begin
     usUninstall:
       begin
         RemovePathEnvironment;
-        // KillService('VarletNginx');
-        // KillService('VarletPHP');
+        KillService('VarletHttpd');
       end;
     usPostUninstall:
       begin
