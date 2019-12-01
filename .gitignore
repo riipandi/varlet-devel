@@ -1,6 +1,12 @@
 # project files
+_temp/
+[Tt]temp/
 [Oo]utput/
 source/varletcfg.json
+source/build/
+source/bin/
+source/obj/
+.notes.txt
 
 # windows files
 [Dd]esktop.ini
