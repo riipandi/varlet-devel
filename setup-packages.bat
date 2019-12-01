@@ -82,6 +82,7 @@ if exist "%TMPDIR%\httpd-%ver_httpd%.zip" (
   RD /S /Q "%ODIR%\httpd\htdocs"
   RD /S /Q "%ODIR%\httpd\icons"
   RD /S /Q "%ODIR%\httpd\include"
+  RD /S /Q "%ODIR%\httpd\logs"
   RD /S /Q "%ODIR%\httpd\lib"
   RD /S /Q "%ODIR%\httpd\manual"
   xcopy %STUB%\httpd\conf %ODIR%\httpd\conf /E /I /Y > nul
@@ -193,8 +194,8 @@ if not exist "%TMPDIR%\composer.phar" (
   %CURL% -L# "https://getcomposer.org/download/%ver_composer%/composer.phar" -o "%TMPDIR%\composer.phar"
 )
 if exist "%TMPDIR%\composer.phar" (
-  if not exist "%ODIR%\composer" mkdir "%ODIR%\composer" 2> NUL
-  copy /Y "%TMPDIR%\composer.phar" "%ODIR%\composer\composer.phar" > nul
+  if not exist "%ODIR%\utils" mkdir "%ODIR%\utils" 2> NUL
+  copy /Y "%TMPDIR%\composer.phar" "%ODIR%\utils\composer.phar" > nul
 )
 
 :: ionCube Loader VC15

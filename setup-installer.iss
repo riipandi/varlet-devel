@@ -72,7 +72,7 @@ Source: {#BasePath}stubs\php\php.ini; DestDir: "{app}\php\php-7.3-ts"; Flags: ig
 ; Essential files and directories ---------------------------------------------------------------------
 Source: "{#BasePath}_output\php\php-7.2-ts\*"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\php\php-7.3-ts\*"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}_output\composer\*; DestDir: {app}\composer; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}_output\utils\*; DestDir: {app}\utils; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}_output\httpd\*; DestDir: {app}\httpd; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}stubs\htdocs\*; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
 ; Source: {#BasePath}_output\nginx\*; DestDir: {app}\nginx; Flags: ignoreversion recursesubdirs
@@ -94,6 +94,7 @@ Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /no
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
 Name: {app}\httpd; Flags: uninsalwaysuninstall
+Name: {app}\httpd\conf\certs; Flags: uninsalwaysuninstall
 
 ; ----------------------------------------------------------------------------------------------------
 ; Programmatic section -------------------------------------------------------------------------------
@@ -113,20 +114,28 @@ begin
 end;
 
 procedure ConfigureApplication;
+var CertDir : String;
 begin
-  BaseDir := ExpandConstant('{app}\php\');
+  BaseDir := ExpandConstant('{app}');
+  CertDir := BaseDir + '\httpd\conf\certs';
+
+  // httpd + mkcert
+  Str := '-key-file ' + CertDir + '\localhost.key -cert-file ' + CertDir + '\localhost.pem localhost';
+  Exec(BaseDir + '\httpd\bin\mkcert.exe', Str, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  Exec(BaseDir + '\httpd\bin\mkcert.exe', '-install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  FileReplaceString(BaseDir + '\httpd\conf\httpd.conf', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
 
   // PHP 7.2
-  FileReplaceString(BaseDir + 'php-7.2-ts\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
-  FileReplaceString(BaseDir + 'php-7.2-ts\php.ini', '<<PHP_BASEDIR>>', PathWithSlashes(BaseDir + 'php-7.2-ts'));
+  FileReplaceString(BaseDir + '\php\php-7.2-ts\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
+  FileReplaceString(BaseDir + '\php\php-7.2-ts\php.ini', '<<PHP_BASEDIR>>', PathWithSlashes(BaseDir + '\php\php-7.2-ts'));
 
   // PHP 7.3
-  FileReplaceString(BaseDir + 'php-7.3-ts\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
-  FileReplaceString(BaseDir + 'php-7.3-ts\php.ini', '<<PHP_BASEDIR>>', PathWithSlashes(BaseDir + 'php-7.3-ts'));
+  FileReplaceString(BaseDir + '\php\php-7.3-ts\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
+  FileReplaceString(BaseDir + '\php\php-7.3-ts\php.ini', '<<PHP_BASEDIR>>', PathWithSlashes(BaseDir + '\php\php-7.3-ts'));
 
   // Create composer.bat
-  Str := '@echo off' + #13#10#13#10 + '"'+BaseDir+'php-7.3-ts\php.exe" "'+ExpandConstant('{app}\composer\composer.phar')+'" %*';
-  SaveStringToFile(BaseDir + '\composer\composer.bat', Str, False);
+  Str := '@echo off' + #13#10#13#10 + '"'+BaseDir+'php-7.3-ts\php.exe" "'+ExpandConstant('{app}\utils\composer.phar')+'" %*';
+  SaveStringToFile(BaseDir + '\utils\composer.bat', Str, False);
 
   // Nginx
   // FileReplaceString(BaseDir + '\nginx\conf\vhost\default.conf', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
@@ -145,7 +154,6 @@ end;
 procedure CreatePathEnvironment();
 begin
   EnvAddPath(ExpandConstant('{app}\utils'));
-  EnvAddPath(ExpandConstant('{app}\composer'));
   EnvAddPath(ExpandConstant('{app}\httpd\bin'));
   EnvAddPath(ExpandConstant('{app}\php\php-7.3-ts'));
   EnvAddPath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
@@ -157,7 +165,6 @@ end;
 procedure RemovePathEnvironment;
 begin
   EnvRemovePath(ExpandConstant('{app}\utils'));
-  EnvRemovePath(ExpandConstant('{app}\composer'));
   EnvRemovePath(ExpandConstant('{app}\httpd\bin'));
   EnvRemovePath(ExpandConstant('{app}\php\php-7.3-ts'));
   EnvRemovePath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
@@ -172,8 +179,11 @@ begin
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
+var HttpdBin : String;
 begin
   BaseDir := ExpandConstant('{app}');
+  HttpdBin := BaseDir + '\httpd\bin\httpd.exe';
+
   if CurStep = ssPostInstall then begin
 
     WizardForm.StatusLabel.Caption := 'Setting up application configuration ...';
@@ -195,8 +205,21 @@ begin
     // if Exec(ExpandConstant('{app}\nginxservice.exe'), 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then begin
     //   Exec(ExpandConstant('net.exe'), 'start VarletNginx', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
     // end else begin
-    //   MsgBox('Failed to install PHP-FPM service', mbInformation, MB_OK);
+    //   MsgBox('Failed to install Nginx service', mbInformation, MB_OK);
     // end;
+
+    // httpd services
+    WizardForm.StatusLabel.Caption := 'Installing HTTPd services ...';
+    Str := '-k install -n "VarletHttpd" -f '+BaseDir+'"\httpd\conf\httpd.conf"';
+    Exec(HttpdBin, Str, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    Exec(ExpandConstant('net.exe'), 'start VarletHttpd', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+
+    // httpd service mode
+    if WizardIsTaskSelected('task_autorun_service') then begin
+      Exec(ExpandConstant('sc.exe'), 'config VarletHttpd start=auto', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    end else begin
+      Exec(ExpandConstant('sc.exe'), 'config VarletHttpd start=demand', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    end;
   end;
 end;
 
