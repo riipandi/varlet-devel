@@ -32,9 +32,9 @@ set "url_phpredis72=https://windows.php.net/downloads/pecl/releases/redis/%ver_p
 set "url_phpredis73=https://windows.php.net/downloads/pecl/releases/redis/%ver_phpredis%/php_redis-%ver_phpredis%-7.3-ts-vc15-x64.zip"
 set "url_phpredis74=https://windows.php.net/downloads/pecl/releases/redis/%ver_phpredis%/php_redis-%ver_phpredis%-7.4-ts-vc15-x64.zip"
 
-set "url_xdebug_php72=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.2-vc15-ts-x86_64.dll"
-set "url_xdebug_php73=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.3-vc15-ts-x86_64.dll"
-set "url_xdebug_php74=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.4-vc15-ts-x86_64.dll"
+set "url_xdebug_php72=https://xdebug.org/files/php_xdebug-%ver_xdebug%beta2-7.2-vc15-x86_64.dll"
+set "url_xdebug_php73=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.3-vc15-x86_64.dll"
+set "url_xdebug_php74=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.4-vc15-x86_64.dll"
 
 :: Main components
 :: -----------------------------------------------------------------------------------------------
@@ -188,11 +188,11 @@ if exist "%TMPDIR%\php-%ver_php72%.zip" (
 )
 
 :: Composer
-if not exist "%TMP%\composer.phar" (
+if not exist "%TMPDIR%\composer.phar" (
   echo. && echo Downloading Composer v%ver_composer% ...
-  %CURL% -L# "https://getcomposer.org/download/%ver_composer%/composer.phar" -o "%TMP%\composer.phar"
+  %CURL% -L# "https://getcomposer.org/download/%ver_composer%/composer.phar" -o "%TMPDIR%\composer.phar"
 )
-if exist "%TMP%\composer.phar" (
+if exist "%TMPDIR%\composer.phar" (
   if not exist "%ODIR%\composer" mkdir "%ODIR%\composer" 2> NUL
   copy /Y "%TMPDIR%\composer.phar" "%ODIR%\composer\composer.phar" > nul
 )
@@ -217,4 +217,4 @@ forfiles /p "%ODIR%" /s /m *.pdb /d -1 /c "cmd /c del /F @file"
 :: -----------------------------------------------------------------------------------------------
 
 echo All files already downloaded! && echo.
-pause
+::pause

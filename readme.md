@@ -8,11 +8,13 @@ Varlet is made for you, the developers who like to work in the terminal, like me
 
 ## What's in the box?
 
-- PHP 7.4 + xDebug
-- PHP 7.3 + xDebug + ImageMagick + ionCube Loader + PHP Redis extension
-- PHP 7.2 + xDebug + ImageMagick + ionCube Loader + PHP Redis extension
-- Latest version of Composer
-- Nginx Mainline
+- PHP 7.2 + 7.3
+- Apache HTTPd
+- Composer
+- xDebug
+- ImageMagick
+- ionCube Loader
+- PHP Redis
 
 ## Quick Start
 

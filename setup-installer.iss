@@ -1,13 +1,12 @@
 ; by Aris Ripandi - 2019
 
-#define BasePath      "..\"
-
-#define AppVersion    "1.2"
+#define BasePath      ""
+#define AppVersion    "2.0"
 #define AppName       "Varlet Core"
 #define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "https://arisio.us"
 #define AppGithubUrl  "https://github.com/riipandi/varlet-core"
-#define SetupFileName "varlet-core-1.2-x64"
+#define SetupFileName "varlet-core-2.0-x64"
 
 [Setup]
 AppName                    = {#AppName}
@@ -33,17 +32,17 @@ AppendDefaultDirName       = yes
 AlwaysShowComponentsList   = no
 FlatComponentsList         = yes
 
-SetupIconFile         = "setup-icon.ico"
-LicenseFile           = "varlet-license.txt"
-WizardImageFile       = "setup-img-side.bmp"
-WizardSmallImageFile  = "setup-img-top.bmp"
+OutputDir             = {#BasePath}_output
+SetupIconFile         = "{#BasePath}include\setup-icon.ico"
+LicenseFile           = "{#BasePath}include\varlet-license.txt"
+WizardImageFile       = "{#BasePath}include\setup-img-side.bmp"
+WizardSmallImageFile  = "{#BasePath}include\setup-img-top.bmp"
 DefaultDirName        = {sd}\Varlet\core
 UninstallFilesDir     = {app}
 Uninstallable         = yes
 CreateUninstallRegKey = yes
 DirExistsWarning      = yes
 AlwaysRestart         = no
-OutputDir             = {#BasePath}output
 
 [Registry]
 Root: HKLM; Subkey: "Software\{#AppPublisher}"; Flags: uninsdeletekeyifempty;
@@ -53,38 +52,32 @@ Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; Va
 
 [Tasks]
 Name: task_install_vcredis; Description: "Install Visual C++ Redistributable"; Flags: unchecked;
+Name: task_autorun_service; Description: "Run services when Windows starts"; Flags: unchecked;
 Name: task_add_path_envars; Description: "Add PATH environment variables";
-Name: task_autorun_service; Description: "Run services when Windows starts";
 
 [Files]
 ; Main project files ----------------------------------------------------------------------------------
-Source: varlet-license.txt; DestDir: {app}; Flags: ignoreversion
-; Source: {#BasePath}stubs\php\set-php-72.bat; DestDir: {app}; Flags: ignoreversion
-; Source: {#BasePath}stubs\php\set-php-73.bat; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php74; Flags: ignoreversion
-Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php73; Flags: ignoreversion
-Source: {#BasePath}stubs\php\php.ini; DestDir: {app}\php72; Flags: ignoreversion
-Source: {#BasePath}stubs\php\phpfpmservice.xml; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}stubs\nginx\nginxservice.xml; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}_output\phpfpmservice.exe; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}_output\nginxservice.exe; DestDir: {app}; Flags: ignoreversion
-Source: {#BasePath}stubs\openssl.cnf; DestDir: {app}\openssl; Flags: ignoreversion
+Source: {#BasePath}include\varlet-license.txt; DestDir: {app}\docs; Flags: ignoreversion
+Source: {#BasePath}stubs\php\php.ini; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion
+Source: {#BasePath}stubs\php\php.ini; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion
+; Source: {#BasePath}stubs\php\phpfpmservice.xml; DestDir: {app}; Flags: ignoreversion
+; Source: {#BasePath}stubs\nginx\nginxservice.xml; DestDir: {app}; Flags: ignoreversion
+; Source: {#BasePath}_output\phpfpmservice.exe; DestDir: {app}; Flags: ignoreversion
+; Source: {#BasePath}_output\nginxservice.exe; DestDir: {app}; Flags: ignoreversion
+; Source: {#BasePath}stubs\openssl.cnf; DestDir: {app}\openssl; Flags: ignoreversion
 ; CLI apps for varlet ---------------------------------------------------------------------------------
 ; Source: {#BasePath}_output\cli\varlet.runtimeconfig.json; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
 ; Source: {#BasePath}_output\cli\*.dll; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
 ; Source: {#BasePath}_output\cli\*.exe; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
 ; Essential files and directories ---------------------------------------------------------------------
-Source: {#BasePath}_output\php74\*; DestDir: {app}\php74; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}_output\php73\*; DestDir: {app}\php73; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}_output\php72\*; DestDir: {app}\php72; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}_output\ioncube\*; DestDir: {app}\ioncube; Flags: ignoreversion recursesubdirs
+Source: "{#BasePath}_output\php\php-7.2-ts\*"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion recursesubdirs
+Source: "{#BasePath}_output\php\php-7.3-ts\*"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion recursesubdirs
 Source: {#BasePath}_output\composer\*; DestDir: {app}\composer; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}_output\openssl\*; DestDir: {app}\openssl; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}_output\nginx\*; DestDir: {app}\nginx; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}stubs\nginx\html\*; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}_output\httpd\*; DestDir: {app}\httpd; Flags: ignoreversion recursesubdirs
+Source: {#BasePath}stubs\htdocs\*; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
+; Source: {#BasePath}_output\nginx\*; DestDir: {app}\nginx; Flags: ignoreversion recursesubdirs
 ; Dependencies and libraries -------------------------------------------------------------------------
-Source: {#BasePath}_output\vcredis\vcredis2012x64.exe; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
-Source: {#BasePath}_output\vcredis\vcredis1519x64.exe; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
+Source: {#BasePath}_temp\vcredis\*; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
 
 [Icons]
 Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
@@ -100,13 +93,12 @@ Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /no
 
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
-Name: {app}\nginx\temp; Flags: uninsalwaysuninstall
-Name: {app}\nginx\logs; Flags: uninsalwaysuninstall
+Name: {app}\httpd; Flags: uninsalwaysuninstall
 
 ; ----------------------------------------------------------------------------------------------------
 ; Programmatic section -------------------------------------------------------------------------------
 ; ----------------------------------------------------------------------------------------------------
-#include 'setup-helpers.iss'
+#include 'include\setup-helpers.iss'
 
 [Code]
 var
@@ -122,59 +114,54 @@ end;
 
 procedure ConfigureApplication;
 begin
-  BaseDir := ExpandConstant('{app}');
-
-  // PHP 7.4
-  FileReplaceString(BaseDir + '\php74\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
-  FileReplaceString(BaseDir + '\php74\php.ini', '<<PHP_DIR>>', PathWithSlashes(ExpandConstant('{app}\php73')));
-  FileReplaceString(BaseDir + '\php74\php.ini', '<<IONCUBE_FILE>>', 'ioncube_loader_win_7.4.dll');
-
-  // PHP 7.3
-  FileReplaceString(BaseDir + '\php73\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
-  FileReplaceString(BaseDir + '\php73\php.ini', '<<PHP_DIR>>', PathWithSlashes(ExpandConstant('{app}\php73')));
-  FileReplaceString(BaseDir + '\php73\php.ini', '<<IONCUBE_FILE>>', 'ioncube_loader_win_7.3.dll');
+  BaseDir := ExpandConstant('{app}\php\');
 
   // PHP 7.2
-  FileReplaceString(BaseDir + '\php72\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
-  FileReplaceString(BaseDir + '\php72\php.ini', '<<PHP_DIR>>', PathWithSlashes(ExpandConstant('{app}\php72')));
-  FileReplaceString(BaseDir + '\php72\php.ini', '<<IONCUBE_FILE>>', 'ioncube_loader_win_7.2.dll');
+  FileReplaceString(BaseDir + 'php-7.2-ts\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
+  FileReplaceString(BaseDir + 'php-7.2-ts\php.ini', '<<PHP_BASEDIR>>', PathWithSlashes(BaseDir + 'php-7.2-ts'));
+
+  // PHP 7.3
+  FileReplaceString(BaseDir + 'php-7.3-ts\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
+  FileReplaceString(BaseDir + 'php-7.3-ts\php.ini', '<<PHP_BASEDIR>>', PathWithSlashes(BaseDir + 'php-7.3-ts'));
 
   // Create composer.bat
-  Str := '@echo off' + #13#10#13#10 + '"'+BaseDir+'\php73\php.exe" "'+ExpandConstant('{app}\composer\composer.phar')+'" %*';
+  Str := '@echo off' + #13#10#13#10 + '"'+BaseDir+'php-7.3-ts\php.exe" "'+ExpandConstant('{app}\composer\composer.phar')+'" %*';
   SaveStringToFile(BaseDir + '\composer\composer.bat', Str, False);
 
   // Nginx
-  FileReplaceString(BaseDir + '\nginx\conf\vhost\default.conf', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
+  // FileReplaceString(BaseDir + '\nginx\conf\vhost\default.conf', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
 
   // PHP & Nginx Services
-  FileReplaceString(BaseDir + '\phpfpmservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
-  FileReplaceString(BaseDir + '\nginxservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
+  // FileReplaceString(BaseDir + '\phpfpmservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
+  // FileReplaceString(BaseDir + '\nginxservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
 
   // Autorun services
-  if WizardIsTaskSelected('task_autorun_service') then begin
-    FileReplaceString(BaseDir + '\phpfpmservice.xml', 'Manual', 'Automatic');
-    FileReplaceString(BaseDir + '\nginxservice.xml', 'Manual', 'Automatic');
-  end;
+  // if WizardIsTaskSelected('task_autorun_service') then begin
+  //   FileReplaceString(BaseDir + '\phpfpmservice.xml', 'Manual', 'Automatic');
+  //   FileReplaceString(BaseDir + '\nginxservice.xml', 'Manual', 'Automatic');
+  // end;
 end;
 
 procedure CreatePathEnvironment();
 begin
-  EnvAddPath(ExpandConstant('{app}\cli'));
-  EnvAddPath(ExpandConstant('{app}\php73'));
+  EnvAddPath(ExpandConstant('{app}\utils'));
   EnvAddPath(ExpandConstant('{app}\composer'));
+  EnvAddPath(ExpandConstant('{app}\httpd\bin'));
+  EnvAddPath(ExpandConstant('{app}\php\php-7.3-ts'));
   EnvAddPath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
-  EnvAddPath(ExpandConstant('{app}\openssl\bin'));
   // OpenSSL configuration file
-  CreateEnvironmentVariable('OPENSSL_CONF', ExpandConstant('{app}\openssl\openssl.cnf'));
+  // EnvAddPath(ExpandConstant('{app}\openssl\bin'));
+  // CreateEnvironmentVariable('OPENSSL_CONF', ExpandConstant('{app}\openssl\openssl.cnf'));
 end;
 
 procedure RemovePathEnvironment;
 begin
-  EnvRemovePath(ExpandConstant('{app}\cli'));
-  EnvRemovePath(ExpandConstant('{app}\php73'));
+  EnvRemovePath(ExpandConstant('{app}\utils'));
   EnvRemovePath(ExpandConstant('{app}\composer'));
+  EnvRemovePath(ExpandConstant('{app}\httpd\bin'));
+  EnvRemovePath(ExpandConstant('{app}\php\php-7.3-ts'));
   EnvRemovePath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
-  RemoveEnvironmentVariable('OPENSSL_CONF');
+  // RemoveEnvironmentVariable('OPENSSL_CONF');
 end;
 
 procedure CurPageChanged(CurPageID: Integer);
@@ -197,19 +184,19 @@ begin
       CreatePathEnvironment;
     end;
 
-    WizardForm.StatusLabel.Caption := 'Installing PHP-FPM services ...';
-    if Exec(ExpandConstant('{app}\phpfpmservice.exe'), 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then begin
-      Exec(ExpandConstant('net.exe'), 'start VarletPHP', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
-    end else begin
-      MsgBox('Failed to install PHP-FPM service', mbInformation, MB_OK);
-    end;
+    // WizardForm.StatusLabel.Caption := 'Installing PHP-FPM services ...';
+    // if Exec(ExpandConstant('{app}\phpfpmservice.exe'), 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then begin
+    //   Exec(ExpandConstant('net.exe'), 'start VarletPHP', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
+    // end else begin
+    //   MsgBox('Failed to install PHP-FPM service', mbInformation, MB_OK);
+    // end;
 
-    WizardForm.StatusLabel.Caption := 'Installing Nginx services ...';
-    if Exec(ExpandConstant('{app}\nginxservice.exe'), 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then begin
-      Exec(ExpandConstant('net.exe'), 'start VarletNginx', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
-    end else begin
-      MsgBox('Failed to install PHP-FPM service', mbInformation, MB_OK);
-    end;
+    // WizardForm.StatusLabel.Caption := 'Installing Nginx services ...';
+    // if Exec(ExpandConstant('{app}\nginxservice.exe'), 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then begin
+    //   Exec(ExpandConstant('net.exe'), 'start VarletNginx', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
+    // end else begin
+    //   MsgBox('Failed to install PHP-FPM service', mbInformation, MB_OK);
+    // end;
   end;
 end;
 
@@ -219,8 +206,8 @@ begin
     usUninstall:
       begin
         RemovePathEnvironment;
-        KillService('VarletNginx');
-        KillService('VarletPHP');
+        // KillService('VarletNginx');
+        // KillService('VarletPHP');
       end;
     usPostUninstall:
       begin
