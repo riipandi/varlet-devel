@@ -85,7 +85,7 @@ Type: filesandordirs; Name: {app}
 ; Install external packages --------------------------------------------------------------------------
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
-Filename: "http://localhost/"; Description: "Open localhost page"; Flags: postinstall shellexec skipifsilent unchecked; BeforeInstall: StartHttpdService
+Filename: "{app}\VarletUi.exe"; Description: "Run {#AppName}"; Flags: postinstall shellexec skipifsilent unchecked; BeforeInstall: StartHttpdService
 
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
@@ -157,6 +157,7 @@ end;
 procedure StartHttpdService;
 begin
   Exec(ExpandConstant('net.exe'), 'start VarletHttpd', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  ShellExec('open', 'http://localhost/', '', '', SW_SHOW, ewNoWait, ResultCode);
 end;
 
 procedure CurPageChanged(CurPageID: Integer);
@@ -197,7 +198,7 @@ begin
 
   if (CurStep=ssDone) then
   begin
-    // do somethind
+    // do something
   end;
 end;
 
