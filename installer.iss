@@ -64,12 +64,14 @@ Source: "{#BasePath}_output\php\php-7.3-ts\*"; DestDir: "{app}\php\php-7.3-ts"; 
 Source: "{#BasePath}stubs\php\php.ini"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion
 Source: "{#BasePath}stubs\php\php.ini"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion
 ; ----------------------------------------------------------------------------------------------------------------------
+Source: "{#BasePath}_output\opt\*"; DestDir: {app}\opt; Flags: ignoreversion recursesubdirs
+Source: "{#BasePath}stubs\opt\*"; DestDir: {app}\opt; Flags: ignoreversion recursesubdirs
+; ----------------------------------------------------------------------------------------------------------------------
 Source: "{#BasePath}_temp\vcredis\*"; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
 Source: "{#BasePath}stubs\htdocs\*"; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\httpd\*"; DestDir: {app}\httpd; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\utils\*"; DestDir: {app}\utils; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\imagick\*"; DestDir: {app}\imagick; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}_output\opt\*"; DestDir: {app}\opt; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\VarletUi.exe"; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
