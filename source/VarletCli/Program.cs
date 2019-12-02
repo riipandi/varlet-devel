@@ -28,7 +28,7 @@ namespace VarletCli
         static void Main(string[] args)
         {
             Helper hlp = new Helper();
-            var version = SemVersion.Parse("1.1.0-rc.1+nightly.2345");
+            var version = SemVersion.Parse("1.1.0");
 
             Parser.Default.ParseArguments<Options>(args)
                    .WithParsed<Options>(o =>
