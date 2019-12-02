@@ -1,12 +1,12 @@
 ; by Aris Ripandi - 2019
 
 #define BasePath      ""
-#define AppVersion    "2.0"
+#define AppVersion    "2.1"
 #define AppName       "Varlet Core"
 #define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "https://arisio.us"
 #define AppGithubUrl  "https://github.com/riipandi/varlet-core"
-#define SetupFileName "varlet-core-2.0-x64"
+#define SetupFileName "varlet-core-2.1-x64"
 
 [Setup]
 AppName                    = {#AppName}
