@@ -30,9 +30,9 @@ namespace VarletUi
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.SuspendLayout();
-            //
+            // 
             // FrmMain
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(536, 371);
@@ -44,6 +44,7 @@ namespace VarletUi
             this.Text = "FrmMain";
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.ResumeLayout(false);
+
         }
 
         #endregion

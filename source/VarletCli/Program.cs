@@ -1,3 +1,13 @@
+/**
+ * Varlet Controller
+ * 
+ * The following code was provided for controlling Varlet. 
+ * 
+ * Author Name: Aris Ripandi <aris@ripandi.id>
+ * Author Url: https://github.com/riipandi
+ * 
+ */
+
 using System;
 using System.IO;
 using System.Linq;

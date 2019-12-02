@@ -1,4 +1,15 @@
+/**
+ * Varlet Controller
+ *
+ * The following code was provided for controlling Varlet.
+ *
+ * Author Name: Aris Ripandi <aris@ripandi.id>
+ * Author Url: https://github.com/riipandi
+ *
+ */
+
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,6 +25,7 @@ namespace VarletUi
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            TrayContext oContext = new TrayContext();
             Application.Run(new FrmMain());
         }
     }
