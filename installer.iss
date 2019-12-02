@@ -5,8 +5,7 @@
 #define AppName       "Varlet"
 #define AppSlug       "varlet"
 #define AppPublisher  "Aris Ripandi"
-#define AppWebsite    "https://arisio.us"
-#define AppGithubUrl  "https://github.com/riipandi/varlet"
+#define AppWebsite    "varlet.dev"
 
 [Setup]
 AppName                    = {#AppName}
@@ -107,7 +106,7 @@ procedure InitializeWizard;
 begin
   CustomLicensePage;
   //CreateFooterText(#169 + ' 2019 - {#AppPublisher}');
-  CreateFooterText('{#AppGithubUrl}');
+  CreateFooterText('{#AppWebsite}');
 end;
 
 procedure ConfigureApplication;
@@ -209,6 +208,8 @@ begin
       begin
         RemovePathEnvironment;
         KillService('VarletHttpd');
+        TaskKillByPid('VarletUi');
+        TaskKillByPid('varlet');
       end;
     usPostUninstall:
       begin

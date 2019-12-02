@@ -14,6 +14,7 @@ namespace VarletUi
         private IContainer mComponents;
         private NotifyIcon TrayIcon;
         private ContextMenuStrip TrayContextMenu;
+        private ToolStripMenuItem TrayMenuItemOptions;
         private ToolStripMenuItem TrayMenuItemDisplayForm;
         private ToolStripMenuItem TrayMenuItemExit;
         #endregion
@@ -27,7 +28,7 @@ namespace VarletUi
             TrayIcon = new NotifyIcon(this.mComponents);
 
             TrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            TrayIcon.Text = "System Tray Application Demo";
+            TrayIcon.Text = Application.ProductName + "v" + Application.ProductVersion;
             TrayIcon.Visible = true;
             TrayIcon.DoubleClick += new System.EventHandler(this.TrayIcon_DoubleClick);
 
@@ -37,15 +38,20 @@ namespace VarletUi
 
             // Context menu item
             TrayMenuItemDisplayForm = new ToolStripMenuItem();
-            TrayMenuItemDisplayForm.Text = "Open " + Application.ProductName;
+            TrayMenuItemDisplayForm.Text = "Open Varlet";
             TrayMenuItemDisplayForm.Click += new EventHandler(TrayMenuItemDisplayForm_Click);
 
+            TrayMenuItemOptions = new ToolStripMenuItem();
+            TrayMenuItemOptions.Text = "&Options";
+            // TrayMenuItemOptions.Click += new EventHandler(TrayMenuItemOptions_Click);
+
             TrayMenuItemExit = new ToolStripMenuItem();
-            TrayMenuItemExit.Text = "Exit " + Application.ProductName;
+            TrayMenuItemExit.Text = "E&xit";
             TrayMenuItemExit.Click += new EventHandler(TrayMenuItemExit_Click);
 
             // Attach context menu item
             TrayContextMenu.Items.Add(TrayMenuItemDisplayForm);
+            TrayContextMenu.Items.Add(TrayMenuItemOptions);
             TrayContextMenu.Items.Add(new ToolStripSeparator());
             TrayContextMenu.Items.Add(TrayMenuItemExit);
         }
