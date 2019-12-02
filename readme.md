@@ -17,6 +17,7 @@ Varlet is made for you, the developers who like to work in the terminal, like me
 - PHP Redis
 - ImageMagick
 - ionCube loader
+- Mailhog + mhsendmail
 - Adminer db manager
 - Automatic https
 

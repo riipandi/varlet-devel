@@ -20,6 +20,8 @@ set "ver_phpredis=5.1.1"
 set "ver_xdebug=2.8.0"
 set "ver_mkcert=1.4.1"
 set "ver_adminer=4.7.5"
+set "ver_mailhog=1.0.0"
+set "ver_mhsendmail=0.2.0"
 
 :: Download link
 set "url_php72=https://windows.php.net/downloads/releases/php-%ver_php72%-Win32-VC15-x64.zip"
@@ -221,6 +223,18 @@ if exist "%TMPDIR%\ioncube-vc15.zip" (
   %UNZIP% x "%TMPDIR%\ioncube-vc15.zip" -o"%TMPDIR%" -y > nul
   copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.2.dll" "%ODIR%\php\php-7.2-ts\ext\php_ioncube.dll" > nul
   copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.3.dll" "%ODIR%\php\php-7.3-ts\ext\php_ioncube.dll" > nul
+)
+
+:: Mailhog + mhsendmail
+if not exist "%TMPDIR%\mailhog.exe" (
+  echo. && echo Downloading Mailhog v%ver_mailhog% ...
+  %CURL% -L# "https://github.com/mailhog/MailHog/releases/download/v%ver_mailhog%/MailHog_windows_amd64.exe" -o "%TMPDIR%\mailhog.exe"
+  %CURL% -L# "https://github.com/mailhog/mhsendmail/releases/download/v%ver_mhsendmail%/mhsendmail_windows_amd64.exe" -o "%TMPDIR%\mhsendmail.exe"
+)
+if exist "%TMPDIR%\mailhog.exe" (
+  echo. && echo Extracting Mailhog v%ver_mailhog% ...
+  copy /Y "%TMPDIR%\mailhog.exe" "%ODIR%\utils\mailhog.exe" > nul
+  copy /Y "%TMPDIR%\mhsendmail.exe" "%ODIR%\utils\mhsendmail.exe" > nul
 )
 
 :: Adminer
