@@ -1,8 +1,8 @@
-# Varlet Core
+# Varlet
 
-Inspired from Laravel Valet. Valet is a Laravel development environment for minimalists. Varlet Core is main
-packages, it's only include PHP, Composer, and Nginx. If you want to use a database like PostgreSQL, MariaDB,
-MySQL, you need to install it separately.
+Inspired from Laravel Valet. Valet is a Laravel development environment for minimalists. Varlet is main packages for
+web development, it's only include PHP, Composer, and Nginx. If you want to use a database like PostgreSQL, MariaDB,
+MySQL, you need to install it separately. Alternatively, you can use <https://github.com/riipandi/unodb>.
 
 Varlet is made for you, the developers who like to work in the terminal, like me!
 
@@ -18,10 +18,10 @@ Varlet is made for you, the developers who like to work in the terminal, like me
 
 ## Quick Start
 
-Download [latest release](https://github.com/riipandi/varlet-core/releases) then run the installation file.
+Download [latest release](https://github.com/riipandi/varlet/releases) then run the installation file.
 
 Varlet doesn't have `park` command like Laravel Valet does. Your project files can stored at:
-`installation_path\core\htdocs`. Or, you can use the `varlet link` command and place your project
+`installation_path\htdocs`. Or, you can use the `varlet link` command and place your project
 files in any directory you want.
 
 <!-- ## Varlet Commands
@@ -40,16 +40,6 @@ files in any directory you want.
 | varlet status                | View site link status.
 | varlet service-status        | View Nginx and PHP-FPM services status.
 | varlet switch-php _version_  | Switch the default PHP version (version: 7.4/7.3/7.2). -->
-
-## Things to know
-
-### Additional Packages
-
-- <https://github.com/riipandi/varlet-mariadb>
-- <https://github.com/riipandi/varlet-mysql>
-- <https://github.com/riipandi/varlet-postgresql>
-<!-- - <https://github.com/riipandi/varlet-mongodb> -->
-<!-- - <https://github.com/riipandi/varlet-redis> -->
 
 ### Useful Documentation
 

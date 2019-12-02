@@ -2,11 +2,11 @@
 
 #define BasePath      ""
 #define AppVersion    "2.1"
-#define AppName       "Varlet Core"
+#define AppName       "Varlet"
 #define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "https://arisio.us"
-#define AppGithubUrl  "https://github.com/riipandi/varlet-core"
-#define SetupFileName "varlet-core-2.1-x64"
+#define AppGithubUrl  "https://github.com/riipandi/varlet"
+#define SetupFileName "varlet-2.1-x64"
 
 [Setup]
 AppName                    = {#AppName}
@@ -37,7 +37,7 @@ SetupIconFile         = "{#BasePath}include\setup-icon.ico"
 LicenseFile           = "{#BasePath}include\varlet-license.txt"
 WizardImageFile       = "{#BasePath}include\setup-img-side.bmp"
 WizardSmallImageFile  = "{#BasePath}include\setup-img-top.bmp"
-DefaultDirName        = {sd}\Varlet\core
+DefaultDirName        = {sd}\Varlet
 UninstallFilesDir     = {app}
 Uninstallable         = yes
 CreateUninstallRegKey = yes
@@ -56,30 +56,23 @@ Name: task_autorun_service; Description: "Run services when Windows starts"; Fla
 Name: task_add_path_envars; Description: "Add PATH environment variables";
 
 [Files]
-; Main project files ----------------------------------------------------------------------------------
-Source: {#BasePath}include\varlet-license.txt; DestDir: {app}\docs; Flags: ignoreversion
-Source: {#BasePath}stubs\php\php.ini; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion
-Source: {#BasePath}stubs\php\php.ini; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion
-; Source: {#BasePath}stubs\php\phpfpmservice.xml; DestDir: {app}; Flags: ignoreversion
-; Source: {#BasePath}stubs\nginx\nginxservice.xml; DestDir: {app}; Flags: ignoreversion
-; Source: {#BasePath}_output\phpfpmservice.exe; DestDir: {app}; Flags: ignoreversion
-; Source: {#BasePath}_output\nginxservice.exe; DestDir: {app}; Flags: ignoreversion
-; Source: {#BasePath}stubs\openssl.cnf; DestDir: {app}\openssl; Flags: ignoreversion
-; CLI apps for varlet ---------------------------------------------------------------------------------
-; Source: {#BasePath}_output\cli\varlet.runtimeconfig.json; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
-; Source: {#BasePath}_output\cli\*.dll; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
-; Source: {#BasePath}_output\cli\*.exe; DestDir: {app}\cli; Flags: ignoreversion recursesubdirs
-; Essential files and directories ---------------------------------------------------------------------
+; ----------------------------------------------------------------------------------------------------------------------
+Source: "{#BasePath}include\varlet-license.txt"; DestDir: {app}; DestName: "license.txt"; Flags: ignoreversion
+; ----------------------------------------------------------------------------------------------------------------------
 Source: "{#BasePath}_output\php\php-7.2-ts\*"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\php\php-7.3-ts\*"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}_output\utils\*; DestDir: {app}\utils; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}_output\httpd\*; DestDir: {app}\httpd; Flags: ignoreversion recursesubdirs
-Source: {#BasePath}stubs\htdocs\*; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
-; Source: {#BasePath}_output\nginx\*; DestDir: {app}\nginx; Flags: ignoreversion recursesubdirs
-; Dependencies and libraries -------------------------------------------------------------------------
-Source: {#BasePath}_temp\vcredis\*; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
+Source: "{#BasePath}stubs\php\php.ini"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion
+Source: "{#BasePath}stubs\php\php.ini"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion
+; ----------------------------------------------------------------------------------------------------------------------
+Source: "{#BasePath}stubs\htdocs\*"; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
+Source: "{#BasePath}_output\httpd\*"; DestDir: {app}\httpd; Flags: ignoreversion recursesubdirs
+Source: "{#BasePath}_output\utils\*"; DestDir: {app}\utils; Flags: ignoreversion recursesubdirs
+Source: "{#BasePath}_temp\vcredis\*"; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
+Source: "{#BasePath}_output\VarletUi.exe"; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
+Name: "{group}\VarletUi"; Filename: "{app}\VarletUi.exe"
+Name: "{commondesktop}\VarletUi"; Filename: "{app}\VarletUi.exe"
 Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
 
 [UninstallDelete]

@@ -213,8 +213,14 @@ if exist "%TMPDIR%\ioncube-vc15.zip" (
 echo. && echo Compiling Varlet App ...
 :: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version
 "%WINDIR%\Microsoft.NET\FrameWork64\v4.0.30319\MSBuild.exe" -nologo %~dp0source\Varlet.sln /p:Configuration=Release /p:Platform=x64 /verbosity:minimal
-copy /Y "%~dp0source\_build\x64\Release\VarletUi.exe" "%ODIR%\utils\VarletUi.exe" > nul
 copy /Y "%~dp0source\_build\x64\Release\varlet.exe" "%ODIR%\utils\varlet.exe" > nul
+copy /Y "%~dp0source\_build\x64\Release\VarletUi.exe" "%ODIR%\VarletUi.exe" > nul
+copy /Y "%~dp0utils\7za.dll" "%ODIR%\utils\7za.dll" > nul
+copy /Y "%~dp0utils\7za.exe" "%ODIR%\utils\7za.exe" > nul
+copy /Y "%~dp0utils\7zxa.dll" "%ODIR%\utils\7zxa.dll" > nul
+copy /Y "%~dp0utils\curl.exel" "%ODIR%\utils\curl.exe" > nul
+copy /Y "%~dp0utils\curl-ca-bundle.crtll" "%ODIR%\utils\curl-ca-bundle.crt" > nul
+copy /Y "%~dp0utils\libcurl-x64.dll" "%ODIR%\utils\libcurl-x64.dll" > nul
 
 :: Cleanup unused files
 echo. && echo Cleanup unused files ...
