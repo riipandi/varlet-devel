@@ -1,8 +1,10 @@
+<!-- <p align="center"><img src="./include/varlet.png" height="80px"></p> -->
+
 # Varlet
 
-Inspired from Laravel Valet. Valet is a Laravel development environment for minimalists. Varlet is main packages for
-web development, it's only include PHP, Composer, and Nginx. If you want to use a database like PostgreSQL, MariaDB,
-MySQL, you need to install it separately. Alternatively, you can use <https://github.com/riipandi/unodb>.
+Inspired from [Laravel Valet](https://laravel.com/docs/valet). Valet is a Laravel development environment for minimalists.
+Varlet is main packages for web development, it's only include PHP, Composer, and Nginx. If you want to use a database like
+PostgreSQL, MariaDB, MySQL, you need to install it separately. Alternatively, you can use <https://github.com/riipandi/unodb>.
 
 Varlet is made for you, the developers who like to work in the terminal, like me!
 
@@ -40,10 +42,6 @@ files in any directory you want.
 | varlet status                | View site link status.
 | varlet service-status        | View Nginx and PHP-FPM services status.
 | varlet switch-php _version_  | Switch the default PHP version (version: 7.4/7.3/7.2). -->
-
-### Useful Documentation
-
-- <https://laravel.com/docs/valet>
 
 ## License
 
