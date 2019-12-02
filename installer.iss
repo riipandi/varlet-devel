@@ -208,8 +208,8 @@ begin
       begin
         RemovePathEnvironment;
         KillService('VarletHttpd');
-        TaskKillByPid('VarletUi');
-        TaskKillByPid('varlet');
+        TaskKillByPid('VarletUi.exe');
+        TaskKillByPid('varlet.exe');
       end;
     usPostUninstall:
       begin
