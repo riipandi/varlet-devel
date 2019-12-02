@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CommandLine;
@@ -15,6 +16,8 @@ namespace VarletCli
         
         static void Main(string[] args)
         {
+            Helper hlp = new Helper();
+
             Parser.Default.ParseArguments<Options>(args)
                    .WithParsed<Options>(o =>
                    {
@@ -32,7 +35,10 @@ namespace VarletCli
                        }
                        else
                        {
-                           Console.WriteLine("Quick start example!");
+                           var dirPath = Environment.CurrentDirectory;
+                           var dirName = Path.GetFileName(dirPath);
+                           hlp.PrintlnInfo("You are here: " + dirName.ToLower());
+                           hlp.PrintlnSuccess("Full path is: " + dirPath.Replace("\\", "/"));
                        }
                    });
         }
