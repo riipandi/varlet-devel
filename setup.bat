@@ -19,6 +19,7 @@ set "ver_php_imagick=3.4.3"
 set "ver_phpredis=5.1.1"
 set "ver_xdebug=2.8.0"
 set "ver_mkcert=1.4.1"
+set "ver_adminer=4.7.5"
 
 :: Download link
 set "url_php72=https://windows.php.net/downloads/releases/php-%ver_php72%-Win32-VC15-x64.zip"
@@ -220,6 +221,22 @@ if exist "%TMPDIR%\ioncube-vc15.zip" (
   %UNZIP% x "%TMPDIR%\ioncube-vc15.zip" -o"%TMPDIR%" -y > nul
   copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.2.dll" "%ODIR%\php\php-7.2-ts\ext\php_ioncube.dll" > nul
   copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.3.dll" "%ODIR%\php\php-7.3-ts\ext\php_ioncube.dll" > nul
+)
+
+:: Adminer
+if not exist "%ODIR%\opt\adminer" (
+  mkdir "%ODIR%\opt\adminer" 2> NUL
+  echo. && echo Downloading Adminer v%ver_adminer% ...
+  copy /Y "%STUB%\opt\adminer\index.php" "%ODIR%\opt\adminer\index.php" > nul
+  %CURL% -Ls "https://github.com/vrana/adminer/releases/download/v%ver_adminer%/adminer-%ver_adminer%-en.php" -o "%ODIR%\opt\adminer\adminer.php"
+  %CURL% -Ls "https://raw.githubusercontent.com/vrana/adminer/master/designs/rmsoft/adminer.css" -o "%ODIR%\opt\adminer\adminer.css"
+  if not exist "%ODIR%\opt\adminer\plugins" mkdir "%ODIR%\opt\adminer\plugins" 2> NUL
+  %CURL% -Ls "https://raw.github.com/vrana/adminer/master/plugins/plugin.php" -o "%ODIR%\opt\adminer\plugin.php"
+  %CURL% -Ls "https://raw.github.com/vrana/adminer/master/plugins/foreign-system.php" -o "%ODIR%\opt\adminer\plugins\foreign-system.php"
+  %CURL% -Ls "https://raw.github.com/vrana/adminer/master/plugins/login-servers.php" -o "%ODIR%\opt\adminer\plugins\login-servers.php"
+  %CURL% -Ls "https://raw.github.com/vrana/adminer/master/plugins/database-hide.php" -o "%ODIR%\opt\adminer\plugins\database-hide.php"
+  %CURL% -Ls "https://raw.github.com/vrana/adminer/master/plugins/edit-foreign.php" -o "%ODIR%\opt\adminer\plugins\edit-foreign.php"
+  %CURL% -Ls "https://raw.github.com/vrana/adminer/master/plugins/dump-zip.php" -o "%ODIR%\opt\adminer\plugins\dump-zip.php"
 )
 
 echo. && echo Compiling Varlet App ... && echo.

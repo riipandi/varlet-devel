@@ -1,12 +1,12 @@
 ; by Aris Ripandi - 2019
 
 #define BasePath      ""
-#define AppVersion    "2.1"
+#define AppVersion    "1.0"
 #define AppName       "Varlet"
+#define AppSlug       "varlet"
 #define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "https://arisio.us"
 #define AppGithubUrl  "https://github.com/riipandi/varlet"
-#define SetupFileName "varlet-2.1-x64"
 
 [Setup]
 AppName                    = {#AppName}
@@ -16,7 +16,6 @@ AppPublisherURL            = {#AppWebsite}
 AppSupportURL              = {#AppWebsite}
 AppUpdatesURL              = {#AppWebsite}
 DefaultGroupName           = {#AppName}
-OutputBaseFilename         = {#SetupFileName}
 AppCopyright               = Copyright (c) {#AppPublisher}
 ArchitecturesAllowed            = x64
 ArchitecturesInstallIn64BitMode = x64
@@ -33,6 +32,7 @@ AlwaysShowComponentsList   = no
 FlatComponentsList         = yes
 
 OutputDir             = {#BasePath}_output
+OutputBaseFilename    = {#AppSlug}-{#AppVersion}-x64
 SetupIconFile         = "{#BasePath}include\setup-icon.ico"
 LicenseFile           = "{#BasePath}include\varlet-license.txt"
 WizardImageFile       = "{#BasePath}include\setup-img-side.bmp"
@@ -63,13 +63,13 @@ Source: "{#BasePath}_output\php\php-7.2-ts\*"; DestDir: "{app}\php\php-7.2-ts"; 
 Source: "{#BasePath}_output\php\php-7.3-ts\*"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}stubs\php\php.ini"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion
 Source: "{#BasePath}stubs\php\php.ini"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion
-Source: "{#BasePath}stubs\opt\*"; DestDir: {app}\opt; Flags: ignoreversion recursesubdirs
 ; ----------------------------------------------------------------------------------------------------------------------
 Source: "{#BasePath}_temp\vcredis\*"; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
 Source: "{#BasePath}stubs\htdocs\*"; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\httpd\*"; DestDir: {app}\httpd; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\utils\*"; DestDir: {app}\utils; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\imagick\*"; DestDir: {app}\imagick; Flags: ignoreversion recursesubdirs
+Source: "{#BasePath}_output\opt\*"; DestDir: {app}\opt; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\VarletUi.exe"; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
