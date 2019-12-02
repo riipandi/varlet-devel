@@ -112,10 +112,10 @@ begin
   BaseDir := ExpandConstant('{app}');
   CertDir := BaseDir + '\httpd\conf\certs';
 
-  // httpd + mkcert
+  // httpd with ssl
   Str := '-key-file ' + CertDir + '\localhost.key -cert-file ' + CertDir + '\localhost.pem localhost';
-  Exec(BaseDir + '\httpd\bin\mkcert.exe', Str, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-  Exec(BaseDir + '\httpd\bin\mkcert.exe', '-install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  Exec(BaseDir + '\utils\mkcert.exe', Str, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  Exec(BaseDir + '\utils\mkcert.exe', '-install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   FileReplaceString(BaseDir + '\httpd\conf\httpd.conf', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
 
   // PHP 7.2

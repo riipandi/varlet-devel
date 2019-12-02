@@ -41,6 +41,7 @@ set "url_xdebug_php74=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.4-vc15-
 
 if not exist "%ODIR%" mkdir "%ODIR%" 2> NUL
 if not exist "%TMPDIR%" mkdir "%TMPDIR%" 2> NUL
+if not exist "%ODIR%\utils" mkdir "%ODIR%\utils" 2> NUL
 
 :: VCRedist 2012 + 2015-2019
 set "URL_VCREDIST_1519=https://aka.ms/vs/16/release/VC_redist.x64.exe"
@@ -90,10 +91,10 @@ if exist "%TMPDIR%\httpd-%ver_httpd%.zip" (
 
 :: mkcert
 if not exist "%TMPDIR%\mkcert.exe" (
-  echo. && echo Downloading OpenSSL v%ver_openssl% ...
+  echo. && echo Downloading mkcert v%ver_mkcert% ...
   %CURL% -L# "https://github.com/FiloSottile/mkcert/releases/download/v%ver_mkcert%/mkcert-v%ver_mkcert%-windows-amd64.exe" -o "%TMPDIR%\mkcert.exe"
 )
-if exist "%TMPDIR%\mkcert.exe" ( copy /Y "%TMPDIR%\mkcert.exe" "%ODIR%\httpd\bin\mkcert.exe" > nul )
+if exist "%TMPDIR%\mkcert.exe" ( copy /Y "%TMPDIR%\mkcert.exe" "%ODIR%\utils\mkcert.exe" > nul )
 
 :: Winsw PHP + Nginx
 REM if exist "%ODIR%\phpfpmservice.exe" ( del /F "%ODIR%\phpfpmservice.exe" )
@@ -193,10 +194,7 @@ if not exist "%TMPDIR%\composer.phar" (
   echo. && echo Downloading Composer v%ver_composer% ...
   %CURL% -L# "https://getcomposer.org/download/%ver_composer%/composer.phar" -o "%TMPDIR%\composer.phar"
 )
-if exist "%TMPDIR%\composer.phar" (
-  if not exist "%ODIR%\utils" mkdir "%ODIR%\utils" 2> NUL
-  copy /Y "%TMPDIR%\composer.phar" "%ODIR%\utils\composer.phar" > nul
-)
+if exist "%TMPDIR%\composer.phar" ( copy /Y "%TMPDIR%\composer.phar" "%ODIR%\utils\composer.phar" > nul )
 
 :: ionCube Loader VC15
 echo. && echo Download or extracting ionCube Loader VC15 ...

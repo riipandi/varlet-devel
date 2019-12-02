@@ -17,6 +17,7 @@ Varlet is made for you, the developers who like to work in the terminal, like me
 - ImageMagick
 - ionCube Loader
 - PHP Redis
+- HTTPS by default
 
 ## Quick Start
 
