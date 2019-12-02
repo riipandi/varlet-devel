@@ -21,9 +21,10 @@ namespace VarletUi
             this.Location = new Point(res.Width - (Size.Width + 400), res.Height - (Size.Height + 200));
             this.Text = Application.ProductName + " v" + Application.ProductVersion;
         }
-        
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            // Hide to tray icon
             base.OnFormClosing(e);
             e.Cancel = true;
             Hide();

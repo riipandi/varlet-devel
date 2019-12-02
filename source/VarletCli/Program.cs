@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CommandLine;
+using Semver;
 
 namespace VarletCli
 {
@@ -27,6 +28,7 @@ namespace VarletCli
         static void Main(string[] args)
         {
             Helper hlp = new Helper();
+            var version = SemVersion.Parse("1.1.0-rc.1+nightly.2345");
 
             Parser.Default.ParseArguments<Options>(args)
                    .WithParsed<Options>(o =>
@@ -49,6 +51,9 @@ namespace VarletCli
                            var dirName = Path.GetFileName(dirPath);
                            hlp.PrintlnInfo("You are here: " + dirName.ToLower());
                            hlp.PrintlnSuccess("Full path is: " + dirPath.Replace("\\", "/"));
+
+                           if (version >= "1.0")
+                               Console.WriteLine("You are using version {0}", version);
                        }
                    });
         }
