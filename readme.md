@@ -2,47 +2,46 @@
 
 # Varlet
 
-Inspired from [Laravel Valet](https://laravel.com/docs/valet). Valet is a Laravel development environment for minimalists.
-Varlet is main packages for web development, it's only include PHP, Composer, and Nginx. If you want to use a database like
-PostgreSQL, MariaDB, MySQL, you need to install it separately. Alternatively, you can use <https://github.com/riipandi/unodb>.
+Varlet is a a web development environment for minimalists, inspired from [Laravel Valet](https://laravel.com/docs/valet)
+and [Laragon](https://laragon.org). Varlet only includes PHP, Composer, and HTTP web server. If you want to use databases
+like PostgreSQL, MariaDB/MySQL, Redis, you need to install them separately. Alternatively, you can use <https://github.com/riipandi/unodb>.
 
 Varlet is made for you, the developers who like to work in the terminal, like me!
 
 ## What's in the box?
 
 - PHP 7.2 + 7.3
-- Apache HTTPd
+- Apache HTTPD
 - Composer
 - xDebug
-- ImageMagick
-- ionCube Loader
 - PHP Redis
-- HTTPS by default
+- ImageMagick
+- ionCube loader
+- Adminer db manager
+- Automatic https
 
 ## Quick Start
 
 Download [latest release](https://github.com/riipandi/varlet/releases) then run the installation file.
 
 Varlet doesn't have `park` command like Laravel Valet does. Your project files can stored at:
-`installation_path\htdocs`. Or, you can use the `varlet link` command and place your project
-files in any directory you want.
+`installation_path\htdocs`.
+
+Or, you can use the `varlet link` command and place your project files in any directory you want.
 
 <!-- ## Varlet Commands
 
 | Command                      | Description
 | :--------------------------- | :----------
-| varlet link                  | Create virtualhost and serving the site.
-| varlet link-secure           | Create virtualhost and serving the site with https.
-| varlet unlink                | Remove virtualhost.
-| varlet unlink-secure         | Remove https virtualhost.
-| varlet forget                | Remove both of virtualhost http and https.
-| varlet start                 | Start Nginx + PHP-FPM services.
-| varlet log                   | View a list of logs which are written by Varlet's services.
-| varlet stop                  | Stop Nginx + PHP-FPM services.
-| varlet restart               | Restart Nginx + PHP-FPM services.
-| varlet status                | View site link status.
-| varlet service-status        | View Nginx and PHP-FPM services status.
-| varlet switch-php _version_  | Switch the default PHP version (version: 7.4/7.3/7.2). -->
+| `varlet link`                  | Create virtualhost and serving the site
+| `varlet unlink`                | Remove virtualhost
+| `varlet forget`                | Remove both of virtualhost http and https
+| `varlet start`                 | Start Httpd service
+| `varlet stop`                  | Stop Httpd service
+| `varlet restart`               | Restart Httpd service
+| `varlet status`                | View site link status
+| `varlet service-status`        | View services status
+| `varlet switch-php _version_`  | Switch PHP version `7.4/7.3/7.2` -->
 
 ## License
 
