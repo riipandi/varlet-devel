@@ -1,8 +1,4 @@
 # project files
-source/varletcfg.json
-source/build/
-source/bin/
-source/obj/
 .notes.txt
 [Tt]temp/
 [Oo]utput/
@@ -20,3 +16,9 @@ $RECYCLE.BIN/
 *.msp
 *.db
 *.lnk
+
+# vstudio project
+**/.vs
+source/_build/
+source/**/bin/
+source/**/obj/
