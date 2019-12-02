@@ -22,3 +22,5 @@ $RECYCLE.BIN/
 source/_build/
 source/**/bin/
 source/**/obj/
+source/**/packages/
+source/packages/
