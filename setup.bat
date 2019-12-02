@@ -239,11 +239,19 @@ if not exist "%ODIR%\opt\adminer" (
   %CURL% -Ls "https://raw.github.com/vrana/adminer/master/plugins/dump-zip.php" -o "%ODIR%\opt\adminer\plugins\dump-zip.php"
 )
 
+:: "%WINDIR%\Microsoft.NET\FrameWork64\v4.0.30319\MSBuild.exe"
+:: "%programfiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\amd64\MSBuild.exe"
+if not exist "%~dp0source\packages" (
+  echo. && echo Installing Nuget packages ...
+  "%~dp0utils\nuget.exe" install "%~dp0source\VarletCli\packages.config" -OutputDirectory "%~dp0source\packages" > nul
+  "%~dp0utils\nuget.exe" install "%~dp0source\VarletUi\packages.config" -OutputDirectory "%~dp0source\packages" > nul
+)
 echo. && echo Compiling Varlet App ... && echo.
-:: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version
-"%WINDIR%\Microsoft.NET\FrameWork64\v4.0.30319\MSBuild.exe" -nologo %~dp0source\Varlet.sln /p:Configuration=Release /p:Platform=x64 /verbosity:minimal
+"%programfiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" -nologo "%~dp0source\Varlet.sln" /p:Configuration=Release /p:Platform=x64 /verbosity:minimal
 copy /Y "%~dp0source\_build\x64\Release\varlet.exe" "%ODIR%\utils\varlet.exe" > nul
 copy /Y "%~dp0source\_build\x64\Release\VarletUi.exe" "%ODIR%\VarletUi.exe" > nul
+
+echo. && echo Include extra utilities ...
 copy /Y "%~dp0utils\7za.dll" "%ODIR%\utils\7za.dll" > nul
 copy /Y "%~dp0utils\7za.exe" "%ODIR%\utils\7za.exe" > nul
 copy /Y "%~dp0utils\7zxa.dll" "%ODIR%\utils\7zxa.dll" > nul
