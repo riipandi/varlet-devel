@@ -8,13 +8,14 @@ set STUB=%~dp0stubs
 
 :: Packages version
 set "ver_composer=1.9.1"
-set "ver_imagick=3.4.3"
 set "ver_httpd=2.4.41"
 set "ver_nginx=1.17.6"
 set "ver_openssl=1.1.1e"
 set "ver_php72=7.2.25"
 set "ver_php73=7.3.12"
 set "ver_php74=7.4.0"
+set "ver_imagick=7.0.7-11"
+set "ver_php_imagick=3.4.3"
 set "ver_phpredis=5.1.1"
 set "ver_xdebug=2.8.0"
 set "ver_mkcert=1.4.1"
@@ -24,13 +25,14 @@ set "url_php72=https://windows.php.net/downloads/releases/php-%ver_php72%-Win32-
 set "url_php73=https://windows.php.net/downloads/releases/php-%ver_php73%-Win32-VC15-x64.zip"
 set "url_php74=https://windows.php.net/downloads/releases/php-%ver_php74%-Win32-vc15-x64.zip"
 
-set "url_imagick_php72=http://windows.php.net/downloads/pecl/snaps/imagick/%ver_imagick%/php_imagick-%ver_imagick%-7.2-ts-vc15-x64.zip"
-set "url_imagick_php73=http://windows.php.net/downloads/pecl/snaps/imagick/%ver_imagick%/php_imagick-%ver_imagick%-7.3-ts-vc15-x64.zip"
-set "url_imagick_php74=http://windows.php.net/downloads/pecl/snaps/imagick/%ver_imagick%/php_imagick-%ver_imagick%-7.4-ts-vc15-x64.zip"
+set "url_imagick_php72=https://windows.php.net/downloads/pecl/snaps/imagick/%ver_php_imagick%/php_imagick-%ver_php_imagick%-7.2-ts-vc15-x64.zip"
+set "url_imagick_php73=https://windows.php.net/downloads/pecl/snaps/imagick/%ver_php_imagick%/php_imagick-%ver_php_imagick%-7.3-ts-vc15-x64.zip"
+set "url_imagick_php74=https://windows.php.net/downloads/pecl/snaps/imagick/%ver_php_imagick%/php_imagick-%ver_php_imagick%-7.4-ts-vc15-x64.zip"
+set "url_imagick=http://windows.php.net/downloads/pecl/deps/ImageMagick-%ver_imagick%-vc15-x64.zip"
 
-set "url_phpredis72=https://windows.php.net/downloads/pecl/releases/redis/%ver_phpredis%/php_redis-%ver_phpredis%-7.2-ts-vc15-x64.zip"
-set "url_phpredis73=https://windows.php.net/downloads/pecl/releases/redis/%ver_phpredis%/php_redis-%ver_phpredis%-7.3-ts-vc15-x64.zip"
-set "url_phpredis74=https://windows.php.net/downloads/pecl/releases/redis/%ver_phpredis%/php_redis-%ver_phpredis%-7.4-ts-vc15-x64.zip"
+set "url_phpredis_php72=https://windows.php.net/downloads/pecl/releases/redis/%ver_phpredis%/php_redis-%ver_phpredis%-7.2-ts-vc15-x64.zip"
+set "url_phpredis_php73=https://windows.php.net/downloads/pecl/releases/redis/%ver_phpredis%/php_redis-%ver_phpredis%-7.3-ts-vc15-x64.zip"
+set "url_phpredis_php74=https://windows.php.net/downloads/pecl/releases/redis/%ver_phpredis%/php_redis-%ver_phpredis%-7.4-ts-vc15-x64.zip"
 
 set "url_xdebug_php72=https://xdebug.org/files/php_xdebug-%ver_xdebug%beta2-7.2-vc15-x86_64.dll"
 set "url_xdebug_php73=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.3-vc15-x86_64.dll"
@@ -125,8 +127,8 @@ REM if not exist "%TMPDIR%\php-%ver_php74%.zip" (
 REM   echo. && echo Downloading PHP v%ver_php74% ...
 REM   %CURL% -L# %url_php74% -o "%TMPDIR%\php-%ver_php74%.zip"
 REM   %CURL% -L# %url_xdebug_php74% -o "%TMPDIR%\php74_xdebug.dll"
-REM   %CURL% -L# %url_imagick_php74% -o "%TMPDIR%\imagick-%ver_imagick%-php74.zip"
-REM   %CURL% -L# %url_phpredis74% -o "%TMPDIR%\php74_redis.zip"
+REM   %CURL% -L# %url_imagick_php74% -o "%TMPDIR%\imagick-%ver_php_imagick%-php74.zip"
+REM   %CURL% -L# %url_phpredis_php74% -o "%TMPDIR%\php74_redis.zip"
 REM )
 REM if exist "%TMPDIR%\php-%ver_php74%.zip" (
 REM   echo. && echo Extracting PHP v%ver_php74% ...
@@ -134,7 +136,7 @@ REM   if exist "%ODIR%\php\php-7.4-ts" RD /S /Q "%ODIR%\php\php-7.4-ts"
 REM   %UNZIP% x "%TMPDIR%\php-%ver_php74%.zip" -o"%ODIR%\php\php-7.4-ts" -y > nul
 REM   copy /Y "%TMPDIR%\php74_xdebug.dll" "%ODIR%\php\php-7.4-ts\ext\php_xdebug.dll" > nul
 
-REM   %UNZIP% x "%TMPDIR%\imagick-%ver_imagick%-php74.zip" -o"%ODIR%\php\php-7.4-ts" -y > nul
+REM   %UNZIP% x "%TMPDIR%\imagick-%ver_php_imagick%-php74.zip" -o"%ODIR%\php\php-7.4-ts" -y > nul
 REM   copy /Y "%ODIR%\php\php-7.4-ts\php_imagick.dll" "%ODIR%\php\php-7.4-ts\ext\php_imagick.dll" > nul
 REM   del /F "%ODIR%\php\php-7.4-ts\php_imagick.dll"
 
@@ -148,8 +150,8 @@ if not exist "%TMPDIR%\php-%ver_php73%.zip" (
   echo. && echo Downloading PHP v%ver_php73% ...
   %CURL% -L# %url_php73% -o "%TMPDIR%\php-%ver_php73%.zip"
   %CURL% -L# %url_xdebug_php73% -o "%TMPDIR%\php73_xdebug.dll"
-  %CURL% -L# %url_imagick_php73% -o "%TMPDIR%\imagick-%ver_imagick%-php73.zip"
-  %CURL% -L# %url_phpredis73% -o "%TMPDIR%\php73_redis.zip"
+  %CURL% -L# %url_phpredis_php73% -o "%TMPDIR%\php73_redis.zip"
+  %CURL% -L# %url_imagick_php73% -o "%TMPDIR%\imagick-%ver_php_imagick%-php73.zip"
 )
 if exist "%TMPDIR%\php-%ver_php73%.zip" (
   echo. && echo Extracting PHP v%ver_php73% ...
@@ -157,13 +159,13 @@ if exist "%TMPDIR%\php-%ver_php73%.zip" (
   %UNZIP% x "%TMPDIR%\php-%ver_php73%.zip" -o"%ODIR%\php\php-7.3-ts" -y > nul
   copy /Y "%TMPDIR%\php73_xdebug.dll" "%ODIR%\php\php-7.3-ts\ext\php_xdebug.dll" > nul
 
-  %UNZIP% x "%TMPDIR%\imagick-%ver_imagick%-php73.zip" -o"%ODIR%\php\php-7.3-ts" -y > nul
-  copy /Y "%ODIR%\php\php-7.3-ts\php_imagick.dll" "%ODIR%\php\php-7.3-ts\ext\php_imagick.dll" > nul
-  del /F "%ODIR%\php\php-7.3-ts\php_imagick.dll"
-
   %UNZIP% x "%TMPDIR%\php73_redis.zip" -o"%TMPDIR%" -y > nul
   copy /Y "%TMPDIR%\php_redis.dll" "%ODIR%\php\php-7.3-ts\ext\php_redis.dll" > nul
   del /F "%TMPDIR%\php_redis.dll"
+
+  %UNZIP% x "%TMPDIR%\imagick-%ver_php_imagick%-php73.zip" -o"%ODIR%\php\php-7.3-ts" -y > nul
+  copy /Y "%ODIR%\php\php-7.3-ts\php_imagick.dll" "%ODIR%\php\php-7.3-ts\ext\php_imagick.dll" > nul
+  del /F "%ODIR%\php\php-7.3-ts\php_imagick.dll"
 )
 
 :: PHP v7.2
@@ -171,8 +173,8 @@ if not exist "%TMPDIR%\php-%ver_php72%.zip" (
   echo. && echo Downloading PHP v%ver_php72% ...
   %CURL% -L# %url_php72% -o "%TMPDIR%\php-%ver_php72%.zip"
   %CURL% -L# %url_xdebug_php72% -o "%TMPDIR%\php72_xdebug.dll"
-  %CURL% -L# %url_imagick_php72% -o "%TMPDIR%\imagick-%ver_imagick%-php72.zip"
-  %CURL% -L# %url_phpredis72% -o "%TMPDIR%\php72_redis.zip"
+  %CURL% -L# %url_phpredis_php72% -o "%TMPDIR%\php72_redis.zip"
+  %CURL% -L# %url_imagick_php72% -o "%TMPDIR%\imagick-%ver_php_imagick%-php72.zip"
 )
 if exist "%TMPDIR%\php-%ver_php72%.zip" (
   echo. && echo Extracting PHP v%ver_php72% ...
@@ -180,13 +182,24 @@ if exist "%TMPDIR%\php-%ver_php72%.zip" (
   %UNZIP% x "%TMPDIR%\php-%ver_php72%.zip" -o"%ODIR%\php\php-7.2-ts" -y > nul
   copy /Y "%TMPDIR%\php72_xdebug.dll" "%ODIR%\php\php-7.2-ts\ext\php_xdebug.dll" > nul
 
-  %UNZIP% x "%TMPDIR%\imagick-%ver_imagick%-php72.zip" -o"%ODIR%\php\php-7.2-ts" -y > nul
-  copy /Y "%ODIR%\php\php-7.2-ts\php_imagick.dll" "%ODIR%\php\php-7.2-ts\ext\php_imagick.dll" > nul
-  del /F "%ODIR%\php\php-7.2-ts\php_imagick.dll"
-
   %UNZIP% x "%TMPDIR%\php72_redis.zip" -o"%TMPDIR%" -y > nul
   copy /Y "%TMPDIR%\php_redis.dll" "%ODIR%\php\php-7.2-ts\ext\php_redis.dll" > nul
   del /F "%TMPDIR%\php_redis.dll"
+
+  %UNZIP% x "%TMPDIR%\imagick-%ver_php_imagick%-php72.zip" -o"%ODIR%\php\php-7.2-ts" -y > nul
+  copy /Y "%ODIR%\php\php-7.2-ts\php_imagick.dll" "%ODIR%\php\php-7.2-ts\ext\php_imagick.dll" > nul
+  del /F "%ODIR%\php\php-7.2-ts\php_imagick.dll"
+)
+
+:: ImageMagick
+if not exist "%TMPDIR%\imagick-%ver_imagick%.zip" (
+  echo. && echo Downloading ImageMagick v%ver_imagick% ...
+  %CURL% -L# %url_imagick% -o "%TMPDIR%\imagick-%ver_imagick%.zip"
+)
+if exist "%TMPDIR%\imagick-%ver_imagick%.zip" (
+  echo. && echo Extracting ImageMagick v%ver_imagick% ...
+  if exist "%ODIR%\imagick" RD /S /Q "%ODIR%\imagick"
+  %UNZIP% x "%TMPDIR%\imagick-%ver_imagick%.zip" -o"%ODIR%\imagick" -y > nul
 )
 
 :: Composer

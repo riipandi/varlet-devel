@@ -63,11 +63,13 @@ Source: "{#BasePath}_output\php\php-7.2-ts\*"; DestDir: "{app}\php\php-7.2-ts"; 
 Source: "{#BasePath}_output\php\php-7.3-ts\*"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}stubs\php\php.ini"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion
 Source: "{#BasePath}stubs\php\php.ini"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion
+Source: "{#BasePath}stubs\opt\*"; DestDir: {app}\opt; Flags: ignoreversion recursesubdirs
 ; ----------------------------------------------------------------------------------------------------------------------
+Source: "{#BasePath}_temp\vcredis\*"; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
 Source: "{#BasePath}stubs\htdocs\*"; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\httpd\*"; DestDir: {app}\httpd; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\utils\*"; DestDir: {app}\utils; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}_temp\vcredis\*"; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
+Source: "{#BasePath}_output\imagick\*"; DestDir: {app}\imagick; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\VarletUi.exe"; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
@@ -135,6 +137,7 @@ procedure CreatePathEnvironment();
 begin
   EnvAddPath(ExpandConstant('{app}\utils'));
   EnvAddPath(ExpandConstant('{app}\httpd\bin'));
+  EnvAddPath(ExpandConstant('{app}\imagick\bin'));
   EnvAddPath(ExpandConstant('{app}\php\php-7.3-ts'));
   EnvAddPath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
   CreateEnvironmentVariable('OPENSSL_CONF', ExpandConstant('{app}\httpd\conf\openssl.cnf'));
@@ -144,6 +147,7 @@ procedure RemovePathEnvironment;
 begin
   EnvRemovePath(ExpandConstant('{app}\utils'));
   EnvRemovePath(ExpandConstant('{app}\httpd\bin'));
+  EnvRemovePath(ExpandConstant('{app}\imagick\bin'));
   EnvRemovePath(ExpandConstant('{app}\php\php-7.3-ts'));
   EnvRemovePath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
   RemoveEnvironmentVariable('OPENSSL_CONF');
