@@ -210,6 +210,12 @@ if exist "%TMPDIR%\ioncube-vc15.zip" (
   copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.3.dll" "%ODIR%\php\php-7.3-ts\ext\php_ioncube.dll" > nul
 )
 
+echo. && echo Compiling Varlet App ...
+:: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version
+"%WINDIR%\Microsoft.NET\FrameWork64\v4.0.30319\MSBuild.exe" -nologo %~dp0source\Varlet.sln /p:Configuration=Release /p:Platform=x64 /verbosity:minimal
+copy /Y "%~dp0source\_build\x64\Release\VarletUi.exe" "%ODIR%\utils\VarletUi.exe" > nul
+copy /Y "%~dp0source\_build\x64\Release\varlet.exe" "%ODIR%\utils\varlet.exe" > nul
+
 :: Cleanup unused files
 echo. && echo Cleanup unused files ...
 forfiles /p "%ODIR%" /s /m *.pdb /d -1 /c "cmd /c del /F @file"
