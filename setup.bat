@@ -197,18 +197,19 @@ if not exist "%TMPDIR%\composer.phar" (
 if exist "%TMPDIR%\composer.phar" ( copy /Y "%TMPDIR%\composer.phar" "%ODIR%\utils\composer.phar" > nul )
 
 :: ionCube Loader VC15
-echo. && echo Download or extracting ionCube Loader VC15 ...
 if not exist "%TMPDIR%\ioncube-vc15.zip" (
+  echo. && echo Downloading ionCube loader ...
   %CURL% -L# "https://downloads.ioncube.com/loader_downloads/ioncube_loaders_win_vc15_x86-64.zip" -o "%TMPDIR%\ioncube-vc15.zip"
 )
 if exist "%TMPDIR%\ioncube-vc15.zip" (
+  echo. && echo Extracting ionCube loader ...
   if exist "%TMPDIR%\ioncube" RD /S /Q "%TMPDIR%\ioncube"
   %UNZIP% x "%TMPDIR%\ioncube-vc15.zip" -o"%TMPDIR%" -y > nul
   copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.2.dll" "%ODIR%\php\php-7.2-ts\ext\php_ioncube.dll" > nul
   copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.3.dll" "%ODIR%\php\php-7.3-ts\ext\php_ioncube.dll" > nul
 )
 
-echo. && echo Compiling Varlet App ...
+echo. && echo Compiling Varlet App ... && echo.
 :: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version
 "%WINDIR%\Microsoft.NET\FrameWork64\v4.0.30319\MSBuild.exe" -nologo %~dp0source\Varlet.sln /p:Configuration=Release /p:Platform=x64 /verbosity:minimal
 copy /Y "%~dp0source\_build\x64\Release\varlet.exe" "%ODIR%\utils\varlet.exe" > nul
@@ -224,8 +225,21 @@ copy /Y "%~dp0utils\libcurl-x64.dll" "%ODIR%\utils\libcurl-x64.dll" > nul
 echo. && echo Cleanup unused files ...
 forfiles /p "%ODIR%" /s /m *.pdb /d -1 /c "cmd /c del /F @file"
 
-:: Done!
-:: -----------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------
 
-echo All files already downloaded! && echo.
-::pause
+:choice
+set /P c="Do you want to compile installer script? [y/N] : "
+if /I "%c%" EQU "Y" goto :compile_inno
+if /I "%c%" EQU "N" goto :quit
+goto :choice
+
+:compile_inno
+echo. && echo Compiling installer files ...
+"%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
+echo. && echo Setup file has been created! && echo.
+pause
+exit
+
+:quit
+echo. && echo All files already downloaded! && echo.
+pause
