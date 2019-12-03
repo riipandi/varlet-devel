@@ -28,11 +28,7 @@
     <ErrorReportUrl>https://github.com/riipandi/varlet/issues</ErrorReportUrl>
     <ProductName>VarletCli</ProductName>
     <PublisherName>Aris Ripandi</PublisherName>
-    <!-- <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.%2a</ApplicationVersion>
-    <Version>1.0</Version>
-    <AssemblyVersion>1.0.*</AssemblyVersion>
-    <Deterministic>false</Deterministic> -->
+    <Deterministic>false</Deterministic>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
