@@ -24,7 +24,6 @@ namespace VarletUi
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            // Hide to tray icon
             base.OnFormClosing(e);
             e.Cancel = true;
             Hide();

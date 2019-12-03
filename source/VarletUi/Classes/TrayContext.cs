@@ -16,7 +16,7 @@ namespace VarletUi
 
         public TrayContext()
         {
-            ComponentResourceManager res = new ComponentResourceManager(typeof(FormMain));
+            var res = new ComponentResourceManager(typeof(FormMain));
 
             //Instantiate the component Module to hold everything
             TrayIcon = new NotifyIcon(new System.ComponentModel.Container())
@@ -33,7 +33,7 @@ namespace VarletUi
             TrayIcon.ContextMenuStrip = TrayContextMenu;
 
             // Context menu item
-            TrayMenuItemDisplayForm = new ToolStripMenuItem() { Text = "Open Varlet" };
+            TrayMenuItemDisplayForm = new ToolStripMenuItem() { Text = "Open " + Application.ProductName };
             TrayMenuItemDisplayForm.Click += new EventHandler(TrayMenuItemDisplayForm_Click);
 
             TrayMenuItemOptions = new ToolStripMenuItem() { Text = "&Options" };
@@ -67,13 +67,27 @@ namespace VarletUi
         protected override void ExitThreadCore()
         {
             base.ExitThreadCore();
+            TrayIcon.Dispose(); // Close tray icon first
             Application.ExitThread();
         }
 
-        private void ShowMainForm()
+        private static void ShowMainForm()
         {
-            FormMain fm = new FormMain();
-            fm.Show();
+            try {
+                var fm = new FormMain();
+
+                if (fm.WindowState == FormWindowState.Minimized) {
+                    fm.WindowState = FormWindowState.Normal;
+                    fm.ShowInTaskbar = true;
+                    fm.BringToFront();
+                    fm.Activate();
+                    fm.Focus();
+                }
+                
+                // fm.Show();
+            } catch (FormatException) {
+                // do something here
+            }
         }
     }
 }

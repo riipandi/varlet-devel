@@ -19,6 +19,7 @@ $RECYCLE.BIN/
 
 # vstudio project
 **/.vs
+**/.idea
 source/_build/
 source/**/bin/
 source/**/obj/
