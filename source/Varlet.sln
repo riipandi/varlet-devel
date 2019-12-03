@@ -1,41 +1,36 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29318.209
+VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VarletCli", "VarletCli\VarletCli.csproj", "{3BE7EC8B-E500-4B7C-8F0C-EA3C39B52D63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VarletUi", "VarletUi\VarletUi.csproj", "{AB23566F-7553-4F2D-9101-82C32FFC050F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VarletUi", "VarletUi\VarletUi.csproj", "{F56AD3E8-A2DE-4815-974A-08CD96823FB9}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VarletCore", "VarletCore\VarletCore.shproj", "{19058EBA-586B-4277-A735-F7A2C8BE34B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VarletCli", "VarletCli\VarletCli.csproj", "{683CF41B-262B-4EF3-81C3-EF879BDF423A}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		VarletCore\VarletCore.projitems*{19058eba-586b-4277-a735-f7a2c8be34b6}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
-		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3BE7EC8B-E500-4B7C-8F0C-EA3C39B52D63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BE7EC8B-E500-4B7C-8F0C-EA3C39B52D63}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BE7EC8B-E500-4B7C-8F0C-EA3C39B52D63}.Debug|x64.ActiveCfg = Debug|x64
-		{3BE7EC8B-E500-4B7C-8F0C-EA3C39B52D63}.Debug|x64.Build.0 = Debug|x64
-		{3BE7EC8B-E500-4B7C-8F0C-EA3C39B52D63}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BE7EC8B-E500-4B7C-8F0C-EA3C39B52D63}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BE7EC8B-E500-4B7C-8F0C-EA3C39B52D63}.Release|x64.ActiveCfg = Release|x64
-		{3BE7EC8B-E500-4B7C-8F0C-EA3C39B52D63}.Release|x64.Build.0 = Release|x64
-		{F56AD3E8-A2DE-4815-974A-08CD96823FB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F56AD3E8-A2DE-4815-974A-08CD96823FB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F56AD3E8-A2DE-4815-974A-08CD96823FB9}.Debug|x64.ActiveCfg = Debug|x64
-		{F56AD3E8-A2DE-4815-974A-08CD96823FB9}.Debug|x64.Build.0 = Debug|x64
-		{F56AD3E8-A2DE-4815-974A-08CD96823FB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F56AD3E8-A2DE-4815-974A-08CD96823FB9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F56AD3E8-A2DE-4815-974A-08CD96823FB9}.Release|x64.ActiveCfg = Release|x64
-		{F56AD3E8-A2DE-4815-974A-08CD96823FB9}.Release|x64.Build.0 = Release|x64
+		{AB23566F-7553-4F2D-9101-82C32FFC050F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB23566F-7553-4F2D-9101-82C32FFC050F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB23566F-7553-4F2D-9101-82C32FFC050F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB23566F-7553-4F2D-9101-82C32FFC050F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{683CF41B-262B-4EF3-81C3-EF879BDF423A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{683CF41B-262B-4EF3-81C3-EF879BDF423A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{683CF41B-262B-4EF3-81C3-EF879BDF423A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{683CF41B-262B-4EF3-81C3-EF879BDF423A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {827DFDF8-25AE-4799-8AB7-88AFF9809423}
+		SolutionGuid = {E8BBD963-B449-44B0-B628-358E0078886B}
 	EndGlobalSection
 EndGlobal
