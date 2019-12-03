@@ -9,8 +9,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace VarletUi
@@ -25,8 +23,8 @@ namespace VarletUi
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            TrayContext oContext = new TrayContext();
-            Application.Run(new FrmMain());
+            _ = new TrayContext();
+            Application.Run(new FormMain());
         }
     }
 }

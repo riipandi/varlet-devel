@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
 
@@ -11,42 +7,39 @@ namespace VarletUi
     public class TrayContext : ApplicationContext
     {
         #region Private Members
-        private IContainer mComponents;
-        private NotifyIcon TrayIcon;
-        private ContextMenuStrip TrayContextMenu;
-        private ToolStripMenuItem TrayMenuItemOptions;
-        private ToolStripMenuItem TrayMenuItemDisplayForm;
-        private ToolStripMenuItem TrayMenuItemExit;
+        private readonly NotifyIcon TrayIcon;
+        private readonly ContextMenuStrip TrayContextMenu;
+        private readonly ToolStripMenuItem TrayMenuItemOptions;
+        private readonly ToolStripMenuItem TrayMenuItemDisplayForm;
+        private readonly ToolStripMenuItem TrayMenuItemExit;
         #endregion
 
         public TrayContext()
         {
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(FrmMain));
+            ComponentResourceManager res = new ComponentResourceManager(typeof(FormMain));
 
             //Instantiate the component Module to hold everything
-            mComponents = new System.ComponentModel.Container();
-            TrayIcon = new NotifyIcon(this.mComponents);
+            TrayIcon = new NotifyIcon(new System.ComponentModel.Container())
+            {
+                Icon = ((System.Drawing.Icon)(res.GetObject("$this.Icon"))),
+                Text = Application.ProductName + "v" + Application.ProductVersion,
+                Visible = true
+            };
 
-            TrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            TrayIcon.Text = Application.ProductName + "v" + Application.ProductVersion;
-            TrayIcon.Visible = true;
             TrayIcon.DoubleClick += new System.EventHandler(this.TrayIcon_DoubleClick);
 
-            // Instantiate the context menu and items
+            // Initiate the context menu and items
             TrayContextMenu = new ContextMenuStrip();
             TrayIcon.ContextMenuStrip = TrayContextMenu;
 
             // Context menu item
-            TrayMenuItemDisplayForm = new ToolStripMenuItem();
-            TrayMenuItemDisplayForm.Text = "Open Varlet";
+            TrayMenuItemDisplayForm = new ToolStripMenuItem() { Text = "Open Varlet" };
             TrayMenuItemDisplayForm.Click += new EventHandler(TrayMenuItemDisplayForm_Click);
 
-            TrayMenuItemOptions = new ToolStripMenuItem();
-            TrayMenuItemOptions.Text = "&Options";
+            TrayMenuItemOptions = new ToolStripMenuItem() { Text = "&Options" };
             // TrayMenuItemOptions.Click += new EventHandler(TrayMenuItemOptions_Click);
 
-            TrayMenuItemExit = new ToolStripMenuItem();
-            TrayMenuItemExit.Text = "E&xit";
+            TrayMenuItemExit = new ToolStripMenuItem() { Text = "E&xit" };
             TrayMenuItemExit.Click += new EventHandler(TrayMenuItemExit_Click);
 
             // Attach context menu item
@@ -79,11 +72,8 @@ namespace VarletUi
 
         private void ShowMainForm()
         {
-            FrmMain f = new FrmMain();
-
-            f.Show();
-            f.Focus();
+            FormMain fm = new FormMain();
+            fm.Show();
         }
-
     }
 }

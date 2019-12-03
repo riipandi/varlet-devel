@@ -1,20 +1,20 @@
 using System;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VarletUi
 {
-    public partial class FrmMain : Form
+    public partial class FormMain : Form
     {
-        public bool IsVisible { get; internal set; }
-
-        public FrmMain()
+        public FormMain()
         {
             InitializeComponent();
         }
 
-        private void FrmMain_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Interface controller
+        /// </summary>
+        private void FormMain_Load(object sender, EventArgs e)
         {
             // Put window at bottom-right
             Rectangle res = Screen.PrimaryScreen.Bounds;
