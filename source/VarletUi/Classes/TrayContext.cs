@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 
@@ -67,8 +68,12 @@ namespace VarletUi
         protected override void ExitThreadCore()
         {
             base.ExitThreadCore();
-            TrayIcon.Dispose(); // Close tray icon first
-            Application.ExitThread();
+
+            if (MessageBox.Show("Stop services and exit?", Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                TrayIcon.Dispose();
+                Application.ExitThread();
+            }
         }
 
         private static void ShowMainForm()
@@ -76,15 +81,14 @@ namespace VarletUi
             try {
                 var fm = new FormMain();
 
-                if (fm.WindowState == FormWindowState.Minimized) {
-                    fm.WindowState = FormWindowState.Normal;
-                    fm.ShowInTaskbar = true;
-                    fm.BringToFront();
-                    fm.Activate();
-                    fm.Focus();
+                foreach (Form fc in Application.OpenForms) {
+                    if (fc.Name == fm.Name) fc.Hide();
                 }
                 
-                // fm.Show();
+                fm.Show();
+                fm.BringToFront();
+                fm.Focus();
+
             } catch (FormatException) {
                 // do something here
             }

@@ -16,12 +16,21 @@ namespace VarletUi
         /// </summary>
         private void FormMain_Load(object sender, EventArgs e)
         {
-            // Put window at bottom-right
-            Rectangle res = Screen.PrimaryScreen.Bounds;
-            this.Location = new Point(res.Width - (Size.Width + 400), res.Height - (Size.Height + 200));
-            this.Text = Application.ProductName + " v" + Application.ProductVersion;
+            InitiateWindow();
         }
 
+        private void InitiateWindow()
+        {
+            int py, px;
+            var res = Screen.PrimaryScreen.Bounds;
+            
+            py = res.Height - (Size.Height + 200);
+            px = res.Width - (Size.Width + 400);
+            
+            this.Location = new Point(px, py);
+            this.Text = Application.ProductName + " v" + Application.ProductVersion;
+        }
+        
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
