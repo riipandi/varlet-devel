@@ -214,6 +214,7 @@ namespace VarletUi
             this.btnPreference.TabIndex = 20;
             this.btnPreference.Text = "&Preferences";
             this.btnPreference.UseVisualStyleBackColor = true;
+            this.btnPreference.Click += new System.EventHandler(this.btnPreference_Click);
             // 
             // pictStatusHttpd
             // 

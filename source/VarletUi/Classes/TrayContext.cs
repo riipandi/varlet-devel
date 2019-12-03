@@ -38,7 +38,7 @@ namespace VarletUi
             TrayMenuItemDisplayForm.Click += new EventHandler(TrayMenuItemDisplayForm_Click);
 
             TrayMenuItemOptions = new ToolStripMenuItem() { Text = "&Options" };
-            // TrayMenuItemOptions.Click += new EventHandler(TrayMenuItemOptions_Click);
+            TrayMenuItemOptions.Click += new EventHandler(TrayMenuItemOptions_Click);
 
             TrayMenuItemExit = new ToolStripMenuItem() { Text = "E&xit" };
             TrayMenuItemExit.Click += new EventHandler(TrayMenuItemExit_Click);
@@ -48,6 +48,25 @@ namespace VarletUi
             TrayContextMenu.Items.Add(TrayMenuItemOptions);
             TrayContextMenu.Items.Add(new ToolStripSeparator());
             TrayContextMenu.Items.Add(TrayMenuItemExit);
+        }
+
+        private void TrayMenuItemOptions_Click(object sender, EventArgs e)
+        {
+            ShowMainForm();
+            try
+            {
+                ShowMainForm();
+                var fs = new FormSetting();
+                foreach (Form fc in Application.OpenForms) {
+                    if (fc.Name == fs.Name) fc.Dispose();
+                }
+                
+                (new FormMain()).btnPreference_Click(sender, e);
+            }
+            catch (FormatException)
+            {
+                // do something here
+            }
         }
 
         private void TrayIcon_DoubleClick(object Sender, EventArgs e)
