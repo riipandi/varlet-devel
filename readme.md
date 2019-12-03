@@ -30,6 +30,17 @@ Varlet doesn't have `park` command like Laravel Valet does. Your project files c
 
 Or, you can use the `varlet link` command and place your project files in any directory you want.
 
+## Building Packages
+
+If you want to build by yourself you will need:
+
+```
+Build Tools for Visual Studio 2019  : https://visualstudio.microsoft.com/downloads/#vstool-2019-family
+Inno Setup (creating the installer) : http://www.jrsoftware.org/isdl.php
+```
+
+Then execute `setup.bat` and enjoy a cup of coffee.
+
 <!-- ## Varlet Commands
 
 | Command                      | Description
