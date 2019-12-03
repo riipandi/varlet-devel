@@ -233,8 +233,11 @@ if not exist "%TMPDIR%\mailhog.exe" (
 )
 if exist "%TMPDIR%\mailhog.exe" (
   echo. && echo Extracting Mailhog v%ver_mailhog% ...
-  copy /Y "%TMPDIR%\mailhog.exe" "%ODIR%\utils\mailhog.exe" > nul
-  copy /Y "%TMPDIR%\mhsendmail.exe" "%ODIR%\utils\mhsendmail.exe" > nul
+  if not exist "%ODIR%\mailhog" mkdir "%ODIR%\mailhog" 2> NUL
+  copy /Y "%TMPDIR%\mailhog.exe" "%ODIR%\mailhog\mailhog.exe" > nul
+  copy /Y "%TMPDIR%\mhsendmail.exe" "%ODIR%\mailhog\mhsendmail.exe" > nul
+  copy /Y "%STUB%\config\mailhogservice.xml" "%ODIR%\mailhog\mailhogservice.xml" > nul
+  copy /Y "%~dp0utils\winsw.exe" "%ODIR%\mailhog\mailhogservice.exe" > nul
 )
 
 :: Adminer

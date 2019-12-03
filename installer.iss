@@ -50,9 +50,10 @@ Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; Va
 Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "AppVersion"; ValueData: "{#AppVersion}";
 
 [Tasks]
+Name: task_add_path_envars; Description: "Add PATH environment variables";
+Name: task_install_mailhog; Description: "Install Mailhog SMTP Testing"; Flags: unchecked
 Name: task_install_vcredis; Description: "Install Visual C++ Redistributable"; Flags: unchecked
 Name: task_autorun_service; Description: "Run services when Windows starts"; Flags: unchecked
-Name: task_add_path_envars; Description: "Add PATH environment variables";
 
 [Files]
 ; ----------------------------------------------------------------------------------------------------------------------
@@ -60,9 +61,10 @@ Source: "{#BasePath}include\varlet-license.txt"; DestDir: {app}; DestName: "lice
 ; ----------------------------------------------------------------------------------------------------------------------
 Source: "{#BasePath}_output\php\php-7.2-ts\*"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\php\php-7.3-ts\*"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}stubs\php\php.ini"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion
-Source: "{#BasePath}stubs\php\php.ini"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion
+Source: "{#BasePath}stubs\config\php.ini"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion
+Source: "{#BasePath}stubs\config\php.ini"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion
 ; ----------------------------------------------------------------------------------------------------------------------
+Source: "{#BasePath}_output\mailhog\*"; DestDir: {app}\mailhog; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_output\opt\*"; DestDir: {app}\opt; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}stubs\opt\*"; DestDir: {app}\opt; Flags: ignoreversion recursesubdirs
 ; ----------------------------------------------------------------------------------------------------------------------
@@ -85,7 +87,7 @@ Type: filesandordirs; Name: {app}
 ; Install external packages --------------------------------------------------------------------------
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
-Filename: "{app}\VarletUi.exe"; Description: "Run {#AppName}"; Flags: postinstall shellexec skipifsilent unchecked; BeforeInstall: StartHttpdService
+Filename: "{app}\VarletUi.exe"; Description: "Run {#AppName}"; Flags: postinstall shellexec skipifsilent unchecked; BeforeInstall: StartAppServices
 
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
@@ -154,8 +156,9 @@ begin
   RemoveEnvironmentVariable('OPENSSL_CONF');
 end;
 
-procedure StartHttpdService;
+procedure StartAppServices;
 begin
+  Exec(ExpandConstant('net.exe'), 'start VarletMailhog', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   Exec(ExpandConstant('net.exe'), 'start VarletHttpd', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   ShellExec('open', 'http://localhost/', '', '', SW_SHOW, ewNoWait, ResultCode);
 end;
@@ -194,6 +197,19 @@ begin
       Exec(ExpandConstant('sc.exe'), 'config VarletHttpd start=demand', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
       Exec(ExpandConstant('net.exe'), 'stop VarletHttpd', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
     end;
+
+    // Mailhog service
+    if WizardIsTaskSelected('task_install_mailhog') then begin
+      WizardForm.StatusLabel.Caption := 'Installing Mailhog services ...';
+      FileReplaceString(BaseDir + '\mailhog\mailhogservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
+      if WizardIsTaskSelected('task_autorun_service') then begin
+        FileReplaceString(BaseDir + '\mailhog\mailhogservice.xml', '<<SERVICE_MODE>>', 'Automatic');
+      end else begin
+        FileReplaceString(BaseDir + '\mailhog\mailhogservice.xml', '<<SERVICE_MODE>>', 'Manual');
+      end;
+      Exec(BaseDir + '\mailhog\mailhogservice.exe', 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+      Exec(ExpandConstant('net.exe'), 'stop VarletMailhog', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    end;
   end;
 
   if (CurStep=ssDone) then
@@ -209,6 +225,7 @@ begin
       begin
         RemovePathEnvironment;
         KillService('VarletHttpd');
+        KillService('VarletMailhog');
         TaskKillByPid('VarletUi.exe');
         TaskKillByPid('varlet.exe');
       end;
