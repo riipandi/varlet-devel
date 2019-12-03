@@ -59,5 +59,15 @@ namespace VarletUi.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap varlet_2 {
+            get {
+                object obj = ResourceManager.GetObject("varlet-2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
