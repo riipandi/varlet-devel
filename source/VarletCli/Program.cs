@@ -1,43 +1,55 @@
 using System;
+using System.Collections.Generic;
 using Variety;
 using CommandLine;
-using System.Collections.Generic;
 
 namespace VarletCli
 {
+    class DefaultOptions { }
+
+    [Verb("add", HelpText = "Add file contents to the index.")]
+    class AddOptions
+    {
+        [Option('f', "file", Required = true, HelpText = "Input files to be processed.")]
+        public IEnumerable<string> InputFiles { get; set; }
+
+        [Option('V', "verbose", Default = false, HelpText = "Prints all messages to standard output.")]
+        public bool Verbose { get; set; }
+    }
+
+    [Verb("commit", HelpText = "Record changes to the repository.")]
+    class CommitOptions {}
+    
+    [Verb("clone", HelpText = "Clone a repository into a new directory.")]
+    class CloneOptions {}
+
     class Program
     {
-        class Options
+        static int Main(string[] args)
         {
-            [Option('r', "read", Required = true, HelpText = "Input files to be processed.")]
-            public IEnumerable<string> InputFiles { get; set; }
-
-            // Omitting long name, defaults to name of property, ie "--verbose"
-            [Option(Default = false, HelpText = "Prints all messages to standard output.")]
-            public bool Verbose { get; set; }
-
-            [Option("stdin", Default = false, HelpText = "Read from stdin")]
-            public bool stdin { get; set; }
-
-            [Value(0, MetaName = "offset", HelpText = "File offset.")]
-            public long? Offset { get; set; }
+            return CommandLine.Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions>(args)
+              .MapResult(
+                (AddOptions opts) => CmdAddHandler(opts),
+                (CommitOptions opts) => CmdCommitHandler(opts),
+                (CloneOptions opts) => CmdCloneHandler(opts),
+                errs => 1);
+        }
+        
+        private static int CmdAddHandler(AddOptions opts)
+        {
+            return 1;
         }
 
-        static void Main(string[] args)
+        private static int CmdCommitHandler(CommitOptions opts)
         {
-            CommandLine.Parser.Default.ParseArguments<Options>(args)
-              .WithParsed<Options>(opts => RunOptionsAndReturnExitCode(opts))
-              .WithNotParsed<Options>((errs) => HandleParseError(errs));
+            return 1;
+        }
+        
+        private static int CmdCloneHandler(CloneOptions opts)
+        {
+            return 1;
         }
 
-        private static void HandleParseError(IEnumerable<Error> errs)
-        {
-            Console.WriteLine("error: " + errs);
-        }
 
-        private static void RunOptionsAndReturnExitCode(Options opts)
-        {
-            Console.WriteLine("handle: " + opts);
-        }
     }
 }
