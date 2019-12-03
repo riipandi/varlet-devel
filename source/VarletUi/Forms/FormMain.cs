@@ -17,13 +17,8 @@ namespace VarletUi
             bool checkInstall = Services.IsServiceInstalled(svcName);
             bool checkRunning = Services.IsServiceRunning(svcName);
 
-            if ((checkInstall == true) && (checkRunning== true))
-            {
-                MessageBox.Show("Ok");
-            } else
-            {
-                MessageBox.Show("Bad!");
-            }
+            string msg = ((checkInstall == true) && (checkRunning == true)) ? "Installed" : "Not installed!";
+            MessageBox.Show(msg);
         }
     }
 }

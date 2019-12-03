@@ -33,7 +33,7 @@ namespace Variety
             return false;
         }
 
-        public static void StartService(string serviceName, int timeoutMilliseconds)
+        public static void StartService(string serviceName, int timeoutMilliseconds = 200)
         {
             try
             {
