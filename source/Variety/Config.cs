@@ -1,13 +1,14 @@
 using System.IO;
 using Newtonsoft.Json;
+using Variety;
 
 namespace Variety
 {
     public class Config
     {
-        public string ServerHost { get; set; }
-        public string ServerPort { get; set; }
-        public string ServerTimeout { get; set; }
+        public string PhpVersion { get; set; }
+        public bool InstallHttpService { get; set; }
+        public bool InstalMailhogService { get; set; }
         
         public void Save(string configFile)
         {
@@ -20,14 +21,14 @@ namespace Variety
             var json = JsonConvert.SerializeObject(this, Formatting.Indented);
             File.WriteAllText(configFile, json);
         }
-
+        
         public static Config Load()
         {
-            // var jsonValue = File.ReadAllText(configFile);
+            // var jsonValue = File.ReadAllText(configFileName);
             var jsonValue = @"{ 
-			    ServerHost: null, 
-				ServerPort: null, 
-				ServerTimeout: null
+			    PhpVersion: '7.3',
+                InstallHttpService: true,
+				InstalMailhogService: false,
             }";
 
             return JsonConvert.DeserializeObject<Config>(jsonValue);

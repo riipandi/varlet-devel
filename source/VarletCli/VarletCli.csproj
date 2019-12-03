@@ -28,13 +28,15 @@
     <ErrorReportUrl>https://github.com/riipandi/varlet/issues</ErrorReportUrl>
     <ProductName>VarletCli</ProductName>
     <PublisherName>Aris Ripandi</PublisherName>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <!-- <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.%2a</ApplicationVersion>
+    <Version>1.0</Version>
+    <AssemblyVersion>1.0.*</AssemblyVersion>
+    <Deterministic>false</Deterministic> -->
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -86,6 +88,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Properties\AssemblyVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
