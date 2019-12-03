@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace VarletUi
@@ -21,10 +22,20 @@ namespace VarletUi
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            _ = new TrayContext();
-            Application.Run(new FormMain());
+            bool instanceCountOne = false;
+
+            using (Mutex mtex = new Mutex(true, "VarletUi", out instanceCountOne))
+            {
+                if (instanceCountOne) {
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    _ = new TrayContext();
+                    Application.Run(new FormMain());
+                    mtex.ReleaseMutex();
+                } else {
+                    MessageBox.Show(Application.ProductName + " already running!", "Warning");
+                }
+            }
         }
     }
 }
