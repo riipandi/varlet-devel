@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Variety
 {
-    class Common
+    public static class Common
     {
+        // do something
     }
 }
