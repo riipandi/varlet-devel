@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VarletCore
+namespace Variety
 {
-    class Helpers
+    class Common
     {
     }
 }

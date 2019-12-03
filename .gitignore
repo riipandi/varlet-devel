@@ -24,4 +24,7 @@ source/_build/
 source/**/bin/
 source/**/obj/
 source/**/packages/
+source/_debug/
+source/_release/
+source/_publish/
 source/packages/

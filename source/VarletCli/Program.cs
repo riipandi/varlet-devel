@@ -1,4 +1,5 @@
 ﻿using System;
+using Variety;
 
 namespace VarletCli
 {
@@ -6,7 +7,7 @@ namespace VarletCli
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello!");
         }
     }
 }
