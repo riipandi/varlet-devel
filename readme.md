@@ -4,7 +4,7 @@
 
 Varlet is a a web development environment for minimalists, inspired from [Laravel Valet](https://laravel.com/docs/valet)
 and [Laragon](https://laragon.org). Varlet only includes PHP, Composer, and HTTP web server. If you want to use databases
-like PostgreSQL, MariaDB/MySQL, Redis, you need to install them separately. Alternatively, you can use <https://github.com/riipandi/unodb>.
+like PostgreSQL, MariaDB/MySQL, Redis, you need to install them separately.
 
 Varlet is made for you, the developers who like to work in the terminal, like me!
 
@@ -17,14 +17,15 @@ Varlet is made for you, the developers who like to work in the terminal, like me
 - PHP Redis
 - ImageMagick
 - ionCube loader
+- Phalcon PHP extension
 - Mailhog + mhsendmail
 - Adminer db manager
 - Automatic https
 
 ## Quick Start
 
-You need [dotNet Framework](https://www.microsoft.com/en-us/download/details.aspx?id=42642) >= 4.5.2.
-To install Varlet, just download [latest release](https://github.com/riipandi/varlet/releases) then run installation file.
+To install Varlet you need [dotNet Framework](https://www.microsoft.com/en-us/download/details.aspx?id=42642) >= 4.5.2,
+then download [latest release](https://github.com/riipandi/varlet/releases) and run installation file.
 
 Varlet doesn't have `park` command like Laravel Valet does. Your project files can stored at:
 `installation_path\htdocs`.
