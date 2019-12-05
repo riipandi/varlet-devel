@@ -1,4 +1,4 @@
-namespace Variety
+﻿namespace Variety
 {
     public static class Globals
     {
@@ -13,7 +13,7 @@ namespace Variety
             ServiceNameHttp = "VarletHttpd";
             LastUpdateCheck = 5;
         }
-        
+
         public static string ConfigFileName()
         {
             return "varlet.json";

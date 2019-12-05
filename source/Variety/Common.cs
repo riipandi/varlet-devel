@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Variety
+﻿namespace Variety
 {
-    public static class Common
+    public class Common
     {
-        // do something
+        
     }
 }

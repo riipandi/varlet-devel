@@ -1,11 +1,13 @@
-﻿namespace VarletUi
+﻿using System.ComponentModel;
+
+namespace VarletUi
 {
-    partial class FormMain
+    partial class FormSettings
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -17,6 +19,7 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -28,21 +31,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources =
+                new System.ComponentModel.ComponentResourceManager(typeof(FormSettings));
             this.SuspendLayout();
             // 
-            // FormMain
+            // FormSettings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(521, 381);
-            this.Name = "FormMain";
-            this.Text = "FormMain";
-            this.Load += new System.EventHandler(this.FormMain_Load);
+            this.ClientSize = new System.Drawing.Size(463, 291);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "FormSettings";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "FormSettings";
             this.ResumeLayout(false);
-
         }
 
         #endregion
     }
 }
-

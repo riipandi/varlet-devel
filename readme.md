@@ -24,7 +24,7 @@ Varlet is made for you, the developers who like to work in the terminal, like me
 
 ## Quick Start
 
-To install Varlet you need [dotNet Framework](https://www.microsoft.com/en-us/download/details.aspx?id=42642) >= 4.5.2,
+To install Varlet you need [dotNet Framework](https://dotnet.microsoft.com/download/dotnet-framework) >= 4.5.2,
 then download [latest release](https://github.com/riipandi/varlet/releases) and run installation file.
 
 Varlet doesn't have `park` command like Laravel Valet does. Your project files can stored at:

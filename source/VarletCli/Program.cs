@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Variety;
 using CommandLine;
@@ -19,7 +19,7 @@ namespace VarletCli
 
     [Verb("commit", HelpText = "Record changes to the repository.")]
     class CommitOptions {}
-    
+
     [Verb("clone", HelpText = "Clone a repository into a new directory.")]
     class CloneOptions {}
 
@@ -28,13 +28,13 @@ namespace VarletCli
         static int Main(string[] args)
         {
             return CommandLine.Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions>(args)
-              .MapResult(
-                (AddOptions opts) => CmdAddHandler(opts),
-                (CommitOptions opts) => CmdCommitHandler(opts),
-                (CloneOptions opts) => CmdCloneHandler(opts),
-                errs => 1);
+                .MapResult(
+                    (AddOptions opts) => CmdAddHandler(opts),
+                    (CommitOptions opts) => CmdCommitHandler(opts),
+                    (CloneOptions opts) => CmdCloneHandler(opts),
+                    errs => 1);
         }
-        
+
         private static int CmdAddHandler(AddOptions opts)
         {
             return 1;
@@ -44,12 +44,10 @@ namespace VarletCli
         {
             return 1;
         }
-        
+
         private static int CmdCloneHandler(CloneOptions opts)
         {
             return 1;
         }
-
-
     }
 }

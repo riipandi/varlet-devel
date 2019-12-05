@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ServiceProcess;
 using System.Diagnostics;
 using System.Threading;
@@ -23,7 +23,7 @@ namespace Variety
         public static bool IsServiceRunning(string serviceName)
         {
             ServiceController[] services = ServiceController.GetServices();
-            
+
             foreach (ServiceController service in services)
             {
                 if ((service.ServiceName == serviceName) && (service.Status == ServiceControllerStatus.Running))
