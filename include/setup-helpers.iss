@@ -381,16 +381,6 @@ begin
   Result := InstallPath;
 end;
 
-function GetInstallPath(Param: string): string;
-begin
-  if not InstallPath then begin
-    Result := ExpandConstant('{DefaultDirName}');
-    //Result := ExpandConstant('{app}');
-  end else begin
-    Result := GetAppRegistry('InstallPath');
-  end;
-end;
-
 function VCRedistNotInstalled(version: string): Boolean;
 begin
   Result := not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\WOW6432Node\Microsoft\VisualStudio\' + version);

@@ -249,6 +249,14 @@ forfiles /p "%ODIR%" /s /m *.pdb /d -1 /c "cmd /c del /F @file"
 goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
+:install_msbuild
+echo. && echo ^> Installing JetBrains MSBuild ...
+if not exist "%TMP%\JetMSBuild.zip" ( %CURL% -L# "https://jb.gg/msbuild" -o "%TMP%\JetMSBuild.zip" )
+if exist "%TMP%\JetMSBuild.zip" ( %UNZIP% x "%TMP%\JetMSBuild.zip" -o"%HOMEDRIVE%\SDK\JetMSBuild" -y > nul )
+echo. && echo ^> JetBrains MSBuild has been installed!
+echo. && goto :menu
+
+:: ---------------------------------------------------------------------------------------------------------------------
 :compile_app
 echo. && echo ^> Compiling Varlet App ... && echo.
 if not exist "%~dp0source\packages" (
@@ -271,14 +279,6 @@ echo. && goto :menu
 echo. && echo ^> Compiling installer files ...
 "%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
 echo. && echo. && echo Setup file has been created!
-echo. && goto :menu
-
-:: ---------------------------------------------------------------------------------------------------------------------
-:install_msbuild
-echo. && echo ^> Installing JetBrains MSBuild ...
-if not exist "%TMP%\JetMSBuild.zip" ( %CURL% -L# "https://jb.gg/msbuild" -o "%TMP%\JetMSBuild.zip" )
-if exist "%TMP%\JetMSBuild.zip" ( %UNZIP% x "%TMP%\JetMSBuild.zip" -o"%HOMEDRIVE%\SDK\JetMSBuild" -y > nul )
-echo. && echo ^> JetBrains MSBuild has been installed!
 echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------

@@ -36,7 +36,8 @@ SetupIconFile         = "{#BasePath}include\setup-icon.ico"
 LicenseFile           = "{#BasePath}include\varlet-license.txt"
 WizardImageFile       = "{#BasePath}include\setup-img-side.bmp"
 WizardSmallImageFile  = "{#BasePath}include\setup-img-top.bmp"
-DefaultDirName        = {sd}\Varlet
+;DefaultDirName        = {sd}\Varlet
+DefaultDirName        = {code:GetDefaultDir}
 UninstallFilesDir     = {app}
 Uninstallable         = yes
 CreateUninstallRegKey = yes
@@ -77,9 +78,9 @@ Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
 Type: filesandordirs; Name: {app}
 
 [Run]
-Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /passive /norestart"; Flags: waituntilterminated; Check: VCRedist2012NotInstalled
-Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /passive /norestart"; Flags: waituntilterminated; Check: VCRedist2015NotInstalled
-Filename: "{app}\VarletUi.exe"; Description: "Run {#AppName}"; Flags: postinstall shellexec skipifsilent unchecked; BeforeInstall: StartAppServices
+Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /passive /norestart"; Flags: shellexec waituntilterminated; Check: VCRedist2012NotInstalled
+Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /passive /norestart"; Flags: shellexec waituntilterminated; Check: VCRedist2015NotInstalled
+Filename: "{app}\VarletUi.exe"; Description: "Run {#AppName}"; Flags: postinstall shellexec skipifsilent ; BeforeInstall: StartAppServices
 
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
@@ -92,11 +93,29 @@ Name: {app}\httpd\conf\certs; Flags: uninsalwaysuninstall
 #include 'include\setup-helpers.iss'
 
 [Code]
+const AppFolder = 'Varlet';
+
+function GetDefaultDir(Param: string): string;
+begin
+  Result := GetAppRegistry('InstallPath');
+  if not RegKeyExists(HKLM, 'Software\{#AppPublisher}\{#AppName}') then
+    Result := ExpandConstant('{sd}\') + AppFolder;
+end;
+
+function ShouldSkipPage(PageID: Integer): Boolean;
+begin
+  Result := (PageID = wpSelectDir) and DirExists(GetAppRegistry('InstallPath'));
+  if not RegKeyExists(HKLM, 'Software\{#AppPublisher}\{#AppName}') then
+    Result := ExpandConstant('{sd}\') + AppFolder;
+end;
+
 function InitializeSetup: Boolean;
 begin
   Result := True;
   if RegKeyExists(HKLM, 'Software\{#AppPublisher}\{#AppName}') then begin
-    Result := MsgBox('This process will update current installation.' #13#13 'Do you want to start the process?', mbConfirmation, MB_YESNO) = idYes;
+    InstallPath := GetAppRegistry('InstallPath');
+    Str := 'Previous installation detected at: '+InstallPath+''#13#13'This process will update current installation.'#13'Do you want to start the process?';
+    Result := MsgBox(Str, mbConfirmation, MB_YESNO) = idYes;
     if Result = False then begin
       MsgBox('Installation cancelled!', mbInformation, MB_OK);
       Abort;
@@ -203,8 +222,8 @@ begin
       CreatePathEnvironment;
     end;
 
-    // httpd services
-    WizardForm.StatusLabel.Caption := 'Installing HTTPd services ...';
+    // Apache Web Server
+    WizardForm.StatusLabel.Caption := 'Installing Apache Web Server ...';
     Str := '-k install -n "VarletHttpd" -f '+BaseDir+'"\httpd\conf\httpd.conf"';
     Exec(HttpdBin, Str, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
     if WizardIsTaskSelected('task_autorun_service') then begin
