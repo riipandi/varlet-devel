@@ -1,4 +1,5 @@
 @echo off
+setlocal EnableDelayedExpansion
 
 set CURL=%~dp0utils\curl.exe
 set UNZIP=%~dp0utils\7za.exe
@@ -46,15 +47,18 @@ set "url_xdebug_php74=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.4-vc15-
 
 :: ---------------------------------------------------------------------------------------------------------------------
 :choice
+color 02
 echo =====================================================
-echo =  1 - Build setup files     3 - Compile installer
-echo =  2 - Compile Varlet app    x - Exit
+echo =  1 - Build setup files       c - Clean packages
+echo =  2 - Compile Varlet app      x - Exit -----^>
+echo =  3 - Compile installer
 echo =====================================================
 set /P c="What do you want to do ? "
 if /I "%c%" EQU "1" goto :build_setup
 if /I "%c%" EQU "2" goto :compile_app
 if /I "%c%" EQU "3" goto :compile_inno
-if /I "%c%" EQU "x" goto :quit
+if /I "%c%" EQU "c" goto :clean_packages
+if /I "%c%" EQU "x" goto :eof
 goto :choice
 
 :: ---------------------------------------------------------------------------------------------------------------------
@@ -258,5 +262,12 @@ echo. && echo Setup file has been created! && echo.
 echo. && goto :choice
 
 :: ---------------------------------------------------------------------------------------------------------------------
-:quit
+:clean_packages
+echo. && ^> Removing old packages ...
+if exist "%TMPDIR%" RD /S /Q "%TMPDIR%"
+if exist "%ODIR%" RD /S /Q "%ODIR%"
+echo. && goto :choice
+
+:: ---------------------------------------------------------------------------------------------------------------------
+:eof
 echo. && echo Done, good bye! && echo.
