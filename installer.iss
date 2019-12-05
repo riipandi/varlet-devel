@@ -78,8 +78,8 @@ Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
 Type: filesandordirs; Name: {app}
 
 [Run]
-Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /passive /norestart"; Flags: shellexec waituntilterminated; Check: VCRedist2012NotInstalled
-Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /passive /norestart"; Flags: shellexec waituntilterminated; Check: VCRedist2015NotInstalled
+Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Check: VCRedist2012NotInstalled
+Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Check: VCRedist2015NotInstalled
 Filename: "{app}\VarletUi.exe"; Description: "Run {#AppName}"; Flags: postinstall shellexec skipifsilent ; BeforeInstall: StartAppServices
 
 [Dirs]
@@ -106,7 +106,7 @@ function ShouldSkipPage(PageID: Integer): Boolean;
 begin
   Result := (PageID = wpSelectDir) and DirExists(GetAppRegistry('InstallPath'));
   if not RegKeyExists(HKLM, 'Software\{#AppPublisher}\{#AppName}') then
-    Result := ExpandConstant('{sd}\') + AppFolder;
+    Result := (PageID = wpSelectDir) and DirExists(ExpandConstant('{sd}\') + AppFolder);
 end;
 
 function InitializeSetup: Boolean;

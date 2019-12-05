@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>false</Deterministic>
     <ApplicationIcon>..\Resources\varlet_icon.ico</ApplicationIcon>
   </PropertyGroup>
