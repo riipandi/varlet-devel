@@ -71,7 +71,7 @@ if /I "%c%" EQU "3" goto :compile_inno
 if /I "%c%" EQU "s" goto :install_msbuild
 if /I "%c%" EQU "c" goto :clean_packages
 if /I "%c%" EQU "x" goto :quit
-goto :menu
+goto :choice
 
 :: ---------------------------------------------------------------------------------------------------------------------
 :build_setup
@@ -276,8 +276,8 @@ echo. && goto :menu
 :: ---------------------------------------------------------------------------------------------------------------------
 :install_msbuild
 echo. && echo ^> Installing JetBrains MSBuild ...
-if not exist "%TMPDIR%\JetMSBuild.zip" ( %CURL% -L# "https://jb.gg/msbuild" -o "%TMPDIR%\JetMSBuild.zip" )
-if exist "%TMPDIR%\JetMSBuild.zip" ( %UNZIP% x "%TMPDIR%\JetMSBuild.zip" -o"%HOMEDRIVE%\SDK\JetMSBuild" -y > nul )
+if not exist "%TMP%\JetMSBuild.zip" ( %CURL% -L# "https://jb.gg/msbuild" -o "%TMP%\JetMSBuild.zip" )
+if exist "%TMP%\JetMSBuild.zip" ( %UNZIP% x "%TMP%\JetMSBuild.zip" -o"%HOMEDRIVE%\SDK\JetMSBuild" -y > nul )
 echo. && echo ^> JetBrains MSBuild has been installed!
 echo. && goto :menu
 
