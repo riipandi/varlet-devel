@@ -45,10 +45,17 @@ set "url_xdebug_php72=https://xdebug.org/files/php_xdebug-%ver_xdebug%beta2-7.2-
 set "url_xdebug_php73=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.3-vc15-x86_64.dll"
 set "url_xdebug_php74=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.4-vc15-x86_64.dll"
 
+:PainText
+<nul set /p "=%DEL%" > "%~2"
+findstr /v /a:%1 /R "+" "%~2" nul
+del "%~2" > nul
+goto :eof
+
 :: ---------------------------------------------------------------------------------------------------------------------
 :choice
 color 02
 echo =====================================================
+call :PainText 02 "1 - Build setup files"
 echo =  1 - Build setup files       c - Clean packages
 echo =  2 - Compile Varlet app      x - Exit -----^>
 echo =  3 - Compile installer
@@ -58,7 +65,7 @@ if /I "%c%" EQU "1" goto :build_setup
 if /I "%c%" EQU "2" goto :compile_app
 if /I "%c%" EQU "3" goto :compile_inno
 if /I "%c%" EQU "c" goto :clean_packages
-if /I "%c%" EQU "x" goto :eof
+if /I "%c%" EQU "x" goto :quit
 goto :choice
 
 :: ---------------------------------------------------------------------------------------------------------------------
@@ -269,5 +276,5 @@ if exist "%ODIR%" RD /S /Q "%ODIR%"
 echo. && goto :choice
 
 :: ---------------------------------------------------------------------------------------------------------------------
-:eof
+:quit
 echo. && echo Done, good bye! && echo.
