@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Threading;
 
 namespace VarletUi
 {
@@ -22,11 +23,11 @@ namespace VarletUi
             //Instantiate the component Module to hold everything
             TrayIcon = new NotifyIcon(new System.ComponentModel.Container())
             {
+                Visible = true,
                 Icon = ((System.Drawing.Icon)(res.GetObject("$this.Icon"))),
+                BalloonTipText = Application.ProductName + " minimized to tray.",
                 Text = Application.ProductName + "v" + Application.ProductVersion,
-                Visible = true
             };
-
             TrayIcon.DoubleClick += new System.EventHandler(TrayIcon_DoubleClick);
 
             // Initiate the context menu and items
@@ -68,6 +69,12 @@ namespace VarletUi
             }
         }
 
+        public void ShowTrayIconNotification()
+        {
+            TrayIcon.ShowBalloonTip(5000);
+            TrayIcon.Dispose();
+        }
+
         private static void TrayIcon_DoubleClick(object Sender, EventArgs e)
         {
             ShowMainForm();
@@ -85,33 +92,28 @@ namespace VarletUi
 
         private void TrayMenuItemExit_Click(object sender, EventArgs e)
         {
-            ExitApplication();
+            ExitThreadCore();
         }
 
         protected override void ExitThreadCore()
         {
             base.ExitThreadCore();
-
-            if (MessageBox.Show("Stop services and exit?", Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                TrayIcon.Dispose();
-                Application.ExitThread();
-            }
+            if (MessageBox.Show("Exit Varlet Controller?", Application.ProductName, MessageBoxButtons.YesNo) !=  DialogResult.Yes) return;
+            TrayIcon.Dispose();
+            Application.ExitThread();
         }
 
         private static void ShowMainForm()
         {
             try {
                 var fm = new FormMain();
-
                 foreach (Form fc in Application.OpenForms) {
                     if (fc.Name == fm.Name) fc.Hide();
                 }
-
                 fm.Show();
+                fm.Activate();
                 fm.BringToFront();
                 fm.Focus();
-
             } catch (FormatException) {
                 // do something here
             }

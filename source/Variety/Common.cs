@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Variety
 {
@@ -65,5 +66,25 @@ namespace Variety
             Console.WriteLine(value.PadRight(Console.WindowWidth - 1));
             Console.ResetColor();
         }
+
+         public static void OpenUrl(string url)
+         {
+             try {
+                 Process.Start(url);
+             } catch (FormatException) {
+                 // do something here
+             }
+         }
+
+         public static void OpenWithNotepad(string file, bool asAdmin)
+         {
+             try {
+                 var p = new Process {StartInfo = new ProcessStartInfo() {UseShellExecute = true, FileName = file}};
+                 p.Start();
+                 p.WaitForExit();
+             } catch (FormatException) {
+                 // do something here
+             }
+         }
     }
 }

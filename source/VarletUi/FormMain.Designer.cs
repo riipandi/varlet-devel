@@ -208,6 +208,7 @@
             this.lblAbout.TabIndex = 10;
             this.lblAbout.Text = "About";
             this.lblAbout.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblAbout.Click += new System.EventHandler(this.lblAbout_Click);
             // 
             // lblHostFile
             // 
@@ -221,6 +222,7 @@
             this.lblHostFile.TabIndex = 11;
             this.lblHostFile.Text = "Hosts File";
             this.lblHostFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblHostFile.Click += new System.EventHandler(this.lblHostFile_Click);
             // 
             // comboPhpVersion
             // 

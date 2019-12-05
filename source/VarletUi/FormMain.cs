@@ -39,6 +39,7 @@ namespace VarletUi
         {
             base.OnFormClosing(e);
             e.Cancel = true;
+            (new TrayContext()).ShowTrayIconNotification();
             Hide();
         }
 
@@ -107,6 +108,18 @@ namespace VarletUi
             {
                 // do something here
             }
+        }
+
+        private void lblAbout_Click(object sender, EventArgs e)
+        {
+            Common.OpenUrl("https://github.com/riipandi/varlet");
+        }
+
+        private void lblHostFile_Click(object sender, EventArgs e)
+        {
+            // Common.OpenWithNotepad("https://github.com/riipandi/varlet");
+            var path = Environment.SystemDirectory + "\\drivers\\etc\\hosts";
+            MessageBox.Show("SystemDirectory: " + path);
         }
     }
 }
