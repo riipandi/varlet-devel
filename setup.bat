@@ -44,16 +44,28 @@ set "url_xdebug_php72=https://xdebug.org/files/php_xdebug-%ver_xdebug%beta2-7.2-
 set "url_xdebug_php73=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.3-vc15-x86_64.dll"
 set "url_xdebug_php74=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.4-vc15-x86_64.dll"
 
-:: Main components
-:: -----------------------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------------------------------------------
+:choice
+echo =====================================================
+echo =  1 - Build setup files     3 - Compile installer
+echo =  2 - Compile Varlet app    x - Exit
+echo =====================================================
+set /P c="What do you want to do ? "
+if /I "%c%" EQU "1" goto :build_setup
+if /I "%c%" EQU "2" goto :compile_app
+if /I "%c%" EQU "3" goto :compile_inno
+if /I "%c%" EQU "x" goto :quit
+goto :choice
 
+:: ---------------------------------------------------------------------------------------------------------------------
+:build_setup
 if not exist "%ODIR%" mkdir "%ODIR%" 2> NUL
 if not exist "%TMPDIR%" mkdir "%TMPDIR%" 2> NUL
 if not exist "%ODIR%\utils" mkdir "%ODIR%\utils" 2> NUL
 
 :: PHP v7.3
 if not exist "%TMPDIR%\php-%ver_php73%.zip" (
-  echo. && echo Downloading PHP v%ver_php73% ...
+  echo. && echo ^> Downloading PHP v%ver_php73% ...
   %CURL% -L# %url_php73% -o "%TMPDIR%\php-%ver_php73%.zip"
   %CURL% -L# %url_xdebug_php73% -o "%TMPDIR%\php73_xdebug.dll"
   %CURL% -L# %url_phpredis_php73% -o "%TMPDIR%\php73_redis.zip"
@@ -61,7 +73,7 @@ if not exist "%TMPDIR%\php-%ver_php73%.zip" (
   %CURL% -L# %url_phalcon_php73% -o "%TMPDIR%\phalcon-%ver_php73%-php73.zip"
 )
 if exist "%TMPDIR%\php-%ver_php73%.zip" (
-  echo. && echo Extracting PHP v%ver_php73% ...
+  echo. && echo ^> Extracting PHP v%ver_php73% ...
   if exist "%ODIR%\php\php-7.3-ts" RD /S /Q "%ODIR%\php\php-7.3-ts"
   %UNZIP% x "%TMPDIR%\php-%ver_php73%.zip" -o"%ODIR%\php\php-7.3-ts" -y > nul
   copy /Y "%TMPDIR%\php73_xdebug.dll" "%ODIR%\php\php-7.3-ts\ext\php_xdebug.dll" > nul
@@ -88,7 +100,7 @@ if not exist "%TMPDIR%\php-%ver_php72%.zip" (
   %CURL% -L# %url_phalcon_php72% -o "%TMPDIR%\phalcon-%ver_php72%-php72.zip"
 )
 if exist "%TMPDIR%\php-%ver_php72%.zip" (
-  echo. && echo Extracting PHP v%ver_php72% ...
+  echo. && echo ^> Extracting PHP v%ver_php72% ...
   if exist "%ODIR%\php\php-7.2-ts" RD /S /Q "%ODIR%\php\php-7.2-ts"
   %UNZIP% x "%TMPDIR%\php-%ver_php72%.zip" -o"%ODIR%\php\php-7.2-ts" -y > nul
   copy /Y "%TMPDIR%\php72_xdebug.dll" "%ODIR%\php\php-7.2-ts\ext\php_xdebug.dll" > nul
@@ -111,7 +123,7 @@ if not exist "%TMPDIR%\httpd-%ver_httpd%.zip" (
   %CURL% -L# "https://home.apache.org/~steffenal/VC15/binaries/httpd-%ver_httpd%-win64-VC15.zip" -o "%TMPDIR%\httpd-%ver_httpd%.zip"
 )
 if exist "%TMPDIR%\httpd-%ver_httpd%.zip" (
-  echo. && echo Extracting Apache HTTPd v%ver_httpd% ...
+  echo. && echo ^> Extracting Apache HTTPd v%ver_httpd% ...
   if exist "%ODIR%\httpd" RD /S /Q "%ODIR%\httpd"
   if exist "%TMPDIR%\Apache24" RD /S /Q "%TMPDIR%\Apache24"
   %UNZIP% x "%TMPDIR%\httpd-%ver_httpd%.zip" -o"%TMPDIR%" -y > nul
@@ -134,7 +146,7 @@ if not exist "%TMPDIR%\imagick-%ver_imagick%.zip" (
   %CURL% -L# "http://windows.php.net/downloads/pecl/deps/ImageMagick-%ver_imagick%-vc15-x64.zip" -o "%TMPDIR%\imagick-%ver_imagick%.zip"
 )
 if exist "%TMPDIR%\imagick-%ver_imagick%.zip" (
-  echo. && echo Extracting ImageMagick v%ver_imagick% ...
+  echo. && echo ^> Extracting ImageMagick v%ver_imagick% ...
   if exist "%ODIR%\imagick" RD /S /Q "%ODIR%\imagick"
   %UNZIP% x "%TMPDIR%\imagick-%ver_imagick%.zip" -o"%ODIR%\imagick" -y > nul
 )
@@ -152,7 +164,7 @@ if not exist "%TMPDIR%\ioncube-vc15.zip" (
   %CURL% -L# "https://downloads.ioncube.com/loader_downloads/ioncube_loaders_win_vc15_x86-64.zip" -o "%TMPDIR%\ioncube-vc15.zip"
 )
 if exist "%TMPDIR%\ioncube-vc15.zip" (
-  echo. && echo Extracting ionCube loader ...
+  echo. && echo ^> Extracting ionCube loader ...
   if exist "%TMPDIR%\ioncube" RD /S /Q "%TMPDIR%\ioncube"
   %UNZIP% x "%TMPDIR%\ioncube-vc15.zip" -o"%TMPDIR%" -y > nul
   copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.2.dll" "%ODIR%\php\php-7.2-ts\ext\php_ioncube.dll" > nul
@@ -176,7 +188,7 @@ if not exist "%TMPDIR%\mailhog.exe" (
   %CURL% -L# "https://github.com/mailhog/mhsendmail/releases/download/v%ver_mhsendmail%/mhsendmail_windows_amd64.exe" -o "%TMPDIR%\mhsendmail.exe"
 )
 if exist "%TMPDIR%\mailhog.exe" (
-  echo. && echo Extracting Mailhog v%ver_mailhog% ...
+  echo. && echo ^> Extracting Mailhog v%ver_mailhog% ...
   if not exist "%ODIR%\mailhog" mkdir "%ODIR%\mailhog" 2> NUL
   copy /Y "%TMPDIR%\mailhog.exe" "%ODIR%\mailhog\mailhog.exe" > nul
   copy /Y "%TMPDIR%\mhsendmail.exe" "%ODIR%\mailhog\mhsendmail.exe" > nul
@@ -207,13 +219,22 @@ if not exist "%TMPDIR%\mkcert.exe" (
 )
 if exist "%TMPDIR%\mkcert.exe" ( copy /Y "%TMPDIR%\mkcert.exe" "%ODIR%\utils\mkcert.exe" > nul )
 
+echo. && echo Include extra utilities ...
+copy /Y "%~dp0utils\7za.dll" "%ODIR%\utils\7za.dll" > nul
+copy /Y "%~dp0utils\7za.exe" "%ODIR%\utils\7za.exe" > nul
+copy /Y "%~dp0utils\7zxa.dll" "%ODIR%\utils\7zxa.dll" > nul
+copy /Y "%~dp0utils\curl.exel" "%ODIR%\utils\curl.exe" > nul
+copy /Y "%~dp0utils\curl-ca-bundle.crtll" "%ODIR%\utils\curl-ca-bundle.crt" > nul
+copy /Y "%~dp0utils\libcurl-x64.dll" "%ODIR%\utils\libcurl-x64.dll" > nul
+
 :: Cleanup unused files
 echo. && echo Cleanup unused files ...
 forfiles /p "%ODIR%" /s /m *.pdb /d -1 /c "cmd /c del /F @file"
+goto :choice
 
 :: ---------------------------------------------------------------------------------------------------------------------
-
-echo. && echo Compiling Varlet App ...
+:compile_app
+echo. && echo ^> Compiling Varlet App ...
 if not exist "%~dp0source\packages" (
   echo. && echo Installing Nuget packages ... && echo.
   "%~dp0utils\nuget.exe" install "%~dp0source\VarletCli\packages.config" -OutputDirectory "%~dp0source\packages" > nul
@@ -227,30 +248,15 @@ if exist "%programfiles%\JetBrains\JetBrains Rider 2019.2.3\tools\MSBuild\Curren
 )
 copy /Y "%~dp0source\_release\varlet.exe" "%ODIR%\utils\varlet.exe" > nul
 copy /Y "%~dp0source\_release\VarletUi.exe" "%ODIR%\VarletUi.exe" > nul
-
-echo. && echo Include extra utilities ...
-copy /Y "%~dp0utils\7za.dll" "%ODIR%\utils\7za.dll" > nul
-copy /Y "%~dp0utils\7za.exe" "%ODIR%\utils\7za.exe" > nul
-copy /Y "%~dp0utils\7zxa.dll" "%ODIR%\utils\7zxa.dll" > nul
-copy /Y "%~dp0utils\curl.exel" "%ODIR%\utils\curl.exe" > nul
-copy /Y "%~dp0utils\curl-ca-bundle.crtll" "%ODIR%\utils\curl-ca-bundle.crt" > nul
-copy /Y "%~dp0utils\libcurl-x64.dll" "%ODIR%\utils\libcurl-x64.dll" > nul
+echo. && goto :choice
 
 :: ---------------------------------------------------------------------------------------------------------------------
-
-:choice_inno
-set /P c="Do you want to compile installer script? [y/N] : "
-if /I "%c%" EQU "Y" goto :compile_inno
-if /I "%c%" EQU "N" goto :quit
-goto :choice_inno
-
 :compile_inno
-echo. && echo Compiling installer files ...
+echo. && ^> Compiling installer files ...
 "%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
 echo. && echo Setup file has been created! && echo.
-pause
-exit
+echo. && goto :choice
 
+:: ---------------------------------------------------------------------------------------------------------------------
 :quit
-echo. && echo All files already downloaded! && echo.
-pause
+echo. && echo Done, good bye! && echo.
