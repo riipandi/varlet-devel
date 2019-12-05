@@ -27,21 +27,21 @@ Varlet is made for you, the developers who like to work in the terminal, like me
 To install Varlet you need [dotNet Framework](https://dotnet.microsoft.com/download/dotnet-framework) >= 4.5.2,
 then download [latest release](https://github.com/riipandi/varlet/releases) and run installation file.
 
-Varlet doesn't have `park` command like Laravel Valet does. Your project files can stored at:
+Varlet doesn't have `park` command like Laravel Valet does, your project files can stored at:
 `installation_path\htdocs`.
 
 Or, you can use the `varlet link` command and place your project files in any directory you want.
 
 ## Building Packages
 
-If you want to build by yourself you will need:
+I'm using Rider from JetBrains, but you can use [Visual Studio Build Tools](https://visualstudio.microsoft.com/downloads/#vstool-2019-family) too.
 
-```
-Build Tools for Visual Studio 2019  : https://visualstudio.microsoft.com/downloads/#vstool-2019-family
-Inno Setup (creating the installer) : http://www.jrsoftware.org/isdl.php
-```
+In summary, to compile without the need to have Visual Studio or Rider installed:
 
-Then execute `setup.bat` and enjoy a cup of coffee.
+1. Download [JetBrains MSBuild](https://jb.gg/msbuild), extract to `C:\SDK\JetMSBuild`
+2. Download and install Microsoft [.NET Framework Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework) 4.5.2 or later
+3. Download and install [Inno Setup](http://www.jrsoftware.org/isdl.php) (for creating the installer file)
+4. Finally, run `setup.bat` and enjoy a cup of coffee.
 
 <!-- ## Varlet Commands
 

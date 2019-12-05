@@ -220,10 +220,10 @@ if not exist "%~dp0source\packages" (
   "%~dp0utils\nuget.exe" install "%~dp0source\VarletUi\packages.config" -OutputDirectory "%~dp0source\packages" > nul
 )
 
-if exist "%programfiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\amd64\MSBuild.exe" (
-  "%programfiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\amd64\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
+if exist "%programfiles%\JetBrains\JetBrains Rider 2019.2.3\tools\MSBuild\Current\Bin\MSBuild.exe" (
+  "%programfiles%\JetBrains\JetBrains Rider 2019.2.3\tools\MSBuild\Current\Bin\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
 ) else (
-  "%WINDIR%\Microsoft.NET\FrameWork64\v4.0.30319\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
+  "%HOMEDRIVE%\SDK\JetMSBuild\MSBuild\15.0\Bin\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
 )
 copy /Y "%~dp0source\_release\varlet.exe" "%ODIR%\utils\varlet.exe" > nul
 copy /Y "%~dp0source\_release\VarletUi.exe" "%ODIR%\VarletUi.exe" > nul
