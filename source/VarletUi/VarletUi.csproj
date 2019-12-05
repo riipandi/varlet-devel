@@ -33,7 +33,7 @@
     <OutputPath>..\_release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>0</WarningLevel>
+    <WarningLevel>1</WarningLevel>
     <Prefer32bit>false</Prefer32bit>
   </PropertyGroup>
   <ItemGroup>

@@ -12,7 +12,7 @@ namespace VarletUi
         [STAThread]
         static void Main()
         {
-            using (Mutex mtex = new Mutex(true, "VarletUi", out bool instanceCountOne))
+            using (var mtx = new Mutex(true, "VarletUi", out var instanceCountOne))
             {
                 if (instanceCountOne)
                 {
@@ -20,7 +20,7 @@ namespace VarletUi
                     Application.SetCompatibleTextRenderingDefault(false);
                     // _ = new TrayContext();
                     Application.Run(new FormMain());
-                    mtex.ReleaseMutex();
+                    mtx.ReleaseMutex();
                 }
                 else
                 {
