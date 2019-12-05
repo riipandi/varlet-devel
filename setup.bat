@@ -5,7 +5,7 @@ REM color 08
 set CURL=%~dp0utils\curl.exe
 set UNZIP=%~dp0utils\7za.exe
 set TMPDIR=%~dp0_temp
-set ODIR=%~dp0_output
+set ODIR=%~dp0_dstdir
 set STUB=%~dp0stubs
 
 :: ---------------------------------------------------------------------------------------------------------------------

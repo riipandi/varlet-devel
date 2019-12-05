@@ -1,9 +1,11 @@
 # project files
 *test.bat
+*test.iss
 .notes.txt
 [Tt]temp/
 [Oo]utput/
 _output/
+_dstdir/
 _temp/
 
 # windows files

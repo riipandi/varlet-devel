@@ -1,15 +1,15 @@
 ; by Aris Ripandi - 2019
 
 #define BasePath      ""
-#define AppVersion    "1.0"
 #define AppName       "Varlet"
 #define AppSlug       "varlet"
-#define AppPublisher  "Aris Ripandi"
 #define AppWebsite    "varlet.dev"
+#define AppPublisher  "Aris Ripandi"
+#define GetAppVersion GetFileVersion('_dstdir\VarletUi.exe')
 
 [Setup]
 AppName                    = {#AppName}
-AppVersion                 = {#AppVersion}
+AppVersion                 = {#GetAppVersion}
 AppPublisher               = {#AppPublisher}
 AppPublisherURL            = {#AppWebsite}
 AppSupportURL              = {#AppWebsite}
@@ -31,7 +31,7 @@ AlwaysShowComponentsList   = no
 FlatComponentsList         = yes
 
 OutputDir             = {#BasePath}_temp
-OutputBaseFilename    = {#AppSlug}-{#AppVersion}-x64
+OutputBaseFilename    = {#AppSlug}-{#GetAppVersion}-x64
 SetupIconFile         = "{#BasePath}include\setup-icon.ico"
 LicenseFile           = "{#BasePath}include\varlet-license.txt"
 WizardImageFile       = "{#BasePath}include\setup-img-side.bmp"
@@ -47,33 +47,26 @@ AlwaysRestart         = no
 Root: HKLM; Subkey: "Software\{#AppPublisher}"; Flags: uninsdeletekeyifempty;
 Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}";
-Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "AppVersion"; ValueData: "{#AppVersion}";
+Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "AppVersion"; ValueData: "{#GetAppVersion}";
 
 [Tasks]
 Name: task_add_path_envars; Description: "Add PATH environment variables";
-Name: task_install_mailhog; Description: "Install Mailhog SMTP Testing"; Flags: unchecked
-Name: task_install_vcredis; Description: "Install Visual C++ Redistributable"; Flags: unchecked
 Name: task_autorun_service; Description: "Run services when Windows starts"; Flags: unchecked
+Name: task_install_mailhog; Description: "Install Mailhog SMTP Testing"; Flags: unchecked
 
 [Files]
 ; ----------------------------------------------------------------------------------------------------------------------
-Source: "{#BasePath}include\varlet-license.txt"; DestDir: {app}; DestName: "license.txt"; Flags: ignoreversion
+Source: "{#BasePath}credits.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BasePath}include\varlet-license.txt"; DestDir: "{app}"; DestName: "license.txt"; Flags: ignoreversion
+Source: "{#BasePath}source\_release\VarletUi.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; ----------------------------------------------------------------------------------------------------------------------
-Source: "{#BasePath}_output\php\php-7.2-ts\*"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}_output\php\php-7.3-ts\*"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion recursesubdirs
+Source: "{#BasePath}_dstdir\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}stubs\config\php.ini"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion
 Source: "{#BasePath}stubs\config\php.ini"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion
-; ----------------------------------------------------------------------------------------------------------------------
-Source: "{#BasePath}_output\mailhog\*"; DestDir: {app}\mailhog; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}_output\opt\*"; DestDir: {app}\opt; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}stubs\opt\*"; DestDir: {app}\opt; Flags: ignoreversion recursesubdirs
+Source: "{#BasePath}stubs\htdocs\*"; DestDir: "{app}\htdocs"; Flags: ignoreversion recursesubdirs
+Source: "{#BasePath}stubs\opt\*"; DestDir: "{app}\opt"; Flags: ignoreversion recursesubdirs
 ; ----------------------------------------------------------------------------------------------------------------------
 Source: "{#BasePath}_temp\vcredis\*"; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
-Source: "{#BasePath}stubs\htdocs\*"; DestDir: {app}\htdocs; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}_output\httpd\*"; DestDir: {app}\httpd; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}_output\utils\*"; DestDir: {app}\utils; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}_output\imagick\*"; DestDir: {app}\imagick; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}_output\VarletUi.exe"; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\VarletUi"; Filename: "{app}\VarletUi.exe"
@@ -84,9 +77,8 @@ Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
 Type: filesandordirs; Name: {app}
 
 [Run]
-; Install external packages --------------------------------------------------------------------------
-Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
-Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Tasks: task_install_vcredis
+Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /passive /norestart"; Flags: waituntilterminated; Check: VCRedist2012NotInstalled
+Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /passive /norestart"; Flags: waituntilterminated; Check: VCRedist2015NotInstalled
 Filename: "{app}\VarletUi.exe"; Description: "Run {#AppName}"; Flags: postinstall shellexec skipifsilent unchecked; BeforeInstall: StartAppServices
 
 [Dirs]
@@ -100,15 +92,40 @@ Name: {app}\httpd\conf\certs; Flags: uninsalwaysuninstall
 #include 'include\setup-helpers.iss'
 
 [Code]
-var
-  BaseDir : String;
-  Str : String;
+function InitializeSetup: Boolean;
+begin
+  Result := True;
+  if RegKeyExists(HKLM, 'Software\{#AppPublisher}\{#AppName}') then begin
+    Result := MsgBox('This process will update current installation.' #13#13 'Do you want to start the process?', mbConfirmation, MB_YESNO) = idYes;
+    if Result = False then begin
+      MsgBox('Installation cancelled!', mbInformation, MB_OK);
+      Abort;
+    end else begin
+      if IsAppRunning('VarletUi.exe') then TaskKillByPid('VarletUi.exe');
+      if IsAppRunning('varlet.exe') then TaskKillByPid('varlet.exe');
+      if IsServiceRunning('VarletHttpd') then KillService('VarletHttpd');
+      if IsServiceRunning('VarletMailhog') then KillService('VarletMailhog');
+    end;
+  end;
+end;
 
 procedure InitializeWizard;
 begin
   CustomLicensePage;
-  //CreateFooterText(#169 + ' 2019 - {#AppPublisher}');
+  // CreateFooterText(#169 + ' 2019 - {#AppPublisher}');
   CreateFooterText('{#AppWebsite}');
+end;
+
+function VCRedist2012NotInstalled: Boolean;
+begin
+  // Result := not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\WOW6432Node\Microsoft\VisualStudio\12.0');
+  Result := True;
+end;
+
+function VCRedist2015NotInstalled: Boolean;
+begin
+  // Result := not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0');
+  Result := True;
 end;
 
 procedure ConfigureApplication;

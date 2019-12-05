@@ -20,3 +20,8 @@ D: Inspiring me to provides flexible web development environment
 N: Jordan Russell’s Software
 W: http://www.jrsoftware.org/isinfo.php
 D: Inno setup is simple and robust installer platform
+
+N: Bubuh Bukhori
+W: https://www.bubuh.id
+D: Thank you for the outstanding artwork
+T: b_bubuh
