@@ -2,7 +2,8 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
-using System.Windows.Forms.VisualStyles;
+using System.Reflection;
+using Semver;
 using Variety;
 
 namespace VarletUi
@@ -49,7 +50,11 @@ namespace VarletUi
 
         private void InitiateWindow()
         {
-            this.Text = Application.ProductName + " v" + Application.ProductVersion;
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            // var buildDate = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
+            // var displayableVersion = $"{version} ({buildDate})";
+            // var displayableVersion = SemVersion.Parse(version);
+            this.Text = Application.ProductName + " v" + version;
         }
 
         private void btnServices_Click(object sender, EventArgs e)
