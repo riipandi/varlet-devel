@@ -18,7 +18,7 @@ namespace VarletUi
                 {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    // _ = new TrayContext();
+                    _ = new TrayContext();
                     Application.Run(new FormMain());
                     mtx.ReleaseMutex();
                 }

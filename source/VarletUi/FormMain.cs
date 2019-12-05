@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
+using System.Windows.Forms.VisualStyles;
 using Variety;
 
 namespace VarletUi
@@ -14,8 +16,9 @@ namespace VarletUi
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            InitiateForm();
-            
+            InitiateWindow();
+            CheckAvailablePHP();
+
             var cf = Config.Load();
             cf.PhpVersion = Globals.DefaultPhpVersion;
             cf.InstallHttpService = true;
@@ -31,7 +34,20 @@ namespace VarletUi
             this.pictStatusHttpd.BackColor = Color.DarkSlateGray;
         }
 
-        private void InitiateForm()
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            e.Cancel = true;
+            Hide();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            (new TrayContext()).ExitApplication();
+        }
+
+        private void InitiateWindow()
         {
             this.Text = Application.ProductName + " v" + Application.ProductVersion;
         }
@@ -48,9 +64,44 @@ namespace VarletUi
             }
         }
 
-        private void btnSettings_Click(object sender, EventArgs e)
+        public void btnSettings_Click(object sender, EventArgs e)
         {
+            /*
+            var fs = new FormSetting();
+
+            px = (this.Location.X + this.Width / 4) - (fs.Width / 2);
+            py = (this.Location.Y + this.Height / 2) - (fs.Height / 2);
+
+            // fs.StartPosition = FormStartPosition.Manual;
+            fs.StartPosition = FormStartPosition.CenterParent;
+            fs.Location = new Point(px, py);
+            fs.ShowDialog(this);
+             */
+
             (new FormSettings()).ShowDialog();
+        }
+
+        private void CheckAvailablePHP()
+        {
+            string selectedVersion, path;
+            selectedVersion = "php-7.3-ts";
+            path = "C:\\Varlet\\php";
+
+            var arr = Directory.GetDirectories(path);
+
+            try
+            {
+                foreach (var t in arr)
+                {
+                    comboPhpVersion.Items.Add(Path.GetFileName(t));
+                }
+
+                comboPhpVersion.SelectedIndex = comboPhpVersion.FindStringExact(selectedVersion);
+            }
+            catch (FormatException)
+            {
+                // do something here
+            }
         }
     }
 }
