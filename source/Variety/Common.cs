@@ -76,12 +76,17 @@ namespace Variety
              }
          }
 
-         public static void OpenWithNotepad(string file, bool asAdmin)
+         public static void OpenWithNotepad(string file, bool runas = false)
          {
              try {
-                 var p = new Process {StartInfo = new ProcessStartInfo() {UseShellExecute = true, FileName = file}};
-                 p.Start();
-                 p.WaitForExit();
+                 var proc = new Process {StartInfo =
+                 {
+                     FileName = "notepad.exe",
+                     Arguments = file,
+                     UseShellExecute = true
+                 }};
+                 if (runas == true) proc.StartInfo.Verb = "runas";
+                 proc.Start();
              } catch (FormatException) {
                  // do something here
              }

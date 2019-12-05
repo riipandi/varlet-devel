@@ -56,6 +56,9 @@ namespace VarletUi
             // var displayableVersion = $"{version} ({buildDate})";
             // var displayableVersion = SemVersion.Parse(version);
             this.Text = Application.ProductName + " v" + version;
+            this.Activate();
+            this.BringToFront();
+            this.Focus();
         }
 
         private void btnServices_Click(object sender, EventArgs e)
@@ -117,9 +120,12 @@ namespace VarletUi
 
         private void lblHostFile_Click(object sender, EventArgs e)
         {
-            // Common.OpenWithNotepad("https://github.com/riipandi/varlet");
-            var path = Environment.SystemDirectory + "\\drivers\\etc\\hosts";
-            MessageBox.Show("SystemDirectory: " + path);
+            try {
+                var file = Environment.SystemDirectory + @"\drivers\etc\hosts";
+                Common.OpenWithNotepad(file, true);
+            } catch (FormatException) {
+                // do something here
+            }
         }
     }
 }
