@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Variety;
+﻿using System.Collections.Generic;
 using CommandLine;
 
 namespace VarletCli
@@ -23,9 +21,9 @@ namespace VarletCli
     [Verb("clone", HelpText = "Clone a repository into a new directory.")]
     class CloneOptions {}
 
-    class Program
+    static class Program
     {
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             return CommandLine.Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions>(args)
                 .MapResult(

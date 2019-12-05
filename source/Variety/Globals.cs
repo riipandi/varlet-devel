@@ -5,7 +5,7 @@
         public static string DefaultPhpVersion { get; set; }
 
         public static string ServiceNameHttp { get; }
-        public static int LastUpdateCheck { get; set; }
+        private static int LastUpdateCheck { get; set; }
 
         static Globals()
         {
