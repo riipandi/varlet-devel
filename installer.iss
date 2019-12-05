@@ -30,7 +30,7 @@ AppendDefaultDirName       = yes
 AlwaysShowComponentsList   = no
 FlatComponentsList         = yes
 
-OutputDir             = {#BasePath}_output
+OutputDir             = {#BasePath}_temp
 OutputBaseFilename    = {#AppSlug}-{#AppVersion}-x64
 SetupIconFile         = "{#BasePath}include\setup-icon.ico"
 LicenseFile           = "{#BasePath}include\varlet-license.txt"
