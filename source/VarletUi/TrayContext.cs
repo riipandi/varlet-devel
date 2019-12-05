@@ -50,7 +50,7 @@ namespace VarletUi
             TrayContextMenu.Items.Add(TrayMenuItemExit);
         }
 
-        private void TrayMenuItemOptions_Click(object sender, EventArgs e)
+        private static void TrayMenuItemOptions_Click(object sender, EventArgs e)
         {
             try
             {
@@ -68,12 +68,12 @@ namespace VarletUi
             }
         }
 
-        private void TrayIcon_DoubleClick(object Sender, EventArgs e)
+        private static void TrayIcon_DoubleClick(object Sender, EventArgs e)
         {
             ShowMainForm();
         }
 
-        public void TrayMenuItemDisplayForm_Click(object sender, EventArgs e)
+        private static void TrayMenuItemDisplayForm_Click(object sender, EventArgs e)
         {
             ShowMainForm();
         }
