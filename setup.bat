@@ -64,7 +64,7 @@ del "%~2" > nul
 goto :eof
 
 :choice
-echo. && set /P c="What do you want to do ? "
+echo. && set /P c="What do you want to do?: "
 if /I "%c%" EQU "1" goto :build_setup
 if /I "%c%" EQU "2" goto :compile_app
 if /I "%c%" EQU "3" goto :compile_inno
@@ -234,7 +234,7 @@ if not exist "%TMPDIR%\mkcert.exe" (
 )
 if exist "%TMPDIR%\mkcert.exe" ( copy /Y "%TMPDIR%\mkcert.exe" "%ODIR%\utils\mkcert.exe" > nul )
 
-echo. && echo Include extra utilities ...
+echo. && echo ^> Include extra utilities ...
 copy /Y "%~dp0utils\7za.dll" "%ODIR%\utils\7za.dll" > nul
 copy /Y "%~dp0utils\7za.exe" "%ODIR%\utils\7za.exe" > nul
 copy /Y "%~dp0utils\7zxa.dll" "%ODIR%\utils\7zxa.dll" > nul
@@ -243,13 +243,13 @@ copy /Y "%~dp0utils\curl-ca-bundle.crtll" "%ODIR%\utils\curl-ca-bundle.crt" > nu
 copy /Y "%~dp0utils\libcurl-x64.dll" "%ODIR%\utils\libcurl-x64.dll" > nul
 
 :: Cleanup unused files
-echo. && echo Cleanup unused files ...
+echo. && echo ^> Cleanup unused files ...
 forfiles /p "%ODIR%" /s /m *.pdb /d -1 /c "cmd /c del /F @file"
 goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
 :compile_app
-echo. && echo ^> Compiling Varlet App ...
+echo. && echo ^> Compiling Varlet App ... && echo.
 if not exist "%~dp0source\packages" (
   echo. && echo Installing Nuget packages ... && echo.
   "%~dp0utils\nuget.exe" install "%~dp0source\VarletCli\packages.config" -OutputDirectory "%~dp0source\packages" > nul
@@ -267,14 +267,14 @@ echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
 :compile_inno
-echo. && ^> Compiling installer files ...
+echo. && echo ^> Compiling installer files ...
 "%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
 echo. && echo Setup file has been created! && echo.
 echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
 :clean_packages
-echo. && ^> Removing old packages ...
+echo. && echo ^> Removing old packages ...
 if exist "%TMPDIR%" RD /S /Q "%TMPDIR%"
 if exist "%ODIR%" RD /S /Q "%ODIR%"
 echo. && goto :menu
