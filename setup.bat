@@ -270,7 +270,7 @@ echo. && goto :menu
 :compile_inno
 echo. && echo ^> Compiling installer files ...
 "%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
-echo. && echo Setup file has been created! && echo.
+echo. && echo. && echo Setup file has been created!
 echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
