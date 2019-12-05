@@ -188,10 +188,10 @@
             // 
             // pictureBoxIcon
             // 
-            this.pictureBoxIcon.Image = global::VarletUi.Properties.Resources.varlet;
-            this.pictureBoxIcon.Location = new System.Drawing.Point(22, 22);
+            this.pictureBoxIcon.Image = ((System.Drawing.Image) (resources.GetObject("pictureBoxIcon.Image")));
+            this.pictureBoxIcon.Location = new System.Drawing.Point(22, 20);
             this.pictureBoxIcon.Name = "pictureBoxIcon";
-            this.pictureBoxIcon.Size = new System.Drawing.Size(76, 69);
+            this.pictureBoxIcon.Size = new System.Drawing.Size(184, 65);
             this.pictureBoxIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxIcon.TabIndex = 3;
             this.pictureBoxIcon.TabStop = false;
