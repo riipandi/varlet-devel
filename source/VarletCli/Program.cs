@@ -23,6 +23,7 @@ namespace VarletCli
         private static int CommandAddHandler(CommandAddOptions opts)
         {
             Console.WriteLine("CommandAddHandler " + opts.InputFiles);
+
             Task.Delay(TimeSpan.FromSeconds(1));
             return 1;
         }
@@ -31,8 +32,10 @@ namespace VarletCli
         {
             var dirPath = Environment.CurrentDirectory;
             var dirName = Path.GetFileName(dirPath);
-            Console.WriteLine("You are here: " + dirName.ToLower());
+            Console.WriteLine("\nYou are here: " + dirName.ToLower());
             Console.WriteLine("Full path is: " + dirPath.Replace("\\", "/"));
+
+            Task.Delay(TimeSpan.FromSeconds(1));
             return 1;
         }
 
@@ -40,7 +43,7 @@ namespace VarletCli
         {
             var version = SemVersion.Parse("1.1.0");
 
-            Console.WriteLine("You are using version {0}", version);
+            Console.WriteLine("\nYou are using version {0}", version);
 
             if (version >= "1.0.0")
             {
@@ -51,7 +54,7 @@ namespace VarletCli
                 Console.WriteLine("Too old!");
             }
 
-
+            Task.Delay(TimeSpan.FromSeconds(1));
             return 1;
         }
 
@@ -66,6 +69,8 @@ namespace VarletCli
             Console.WriteLine("\nFORMAT: Alternative:\n");
             table.Write(Format.Alternative);
             Console.WriteLine();
+
+            Task.Delay(TimeSpan.FromSeconds(1));
             return 1;
         }
     }
