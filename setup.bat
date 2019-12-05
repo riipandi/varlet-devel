@@ -8,7 +8,7 @@ set TMPDIR=%~dp0_temp
 set ODIR=%~dp0_output
 set STUB=%~dp0stubs
 
-:: Packages version
+:: ---------------------------------------------------------------------------------------------------------------------
 set "ver_composer=1.9.1"
 set "ver_httpd=2.4.41"
 set "ver_nginx=1.17.6"
@@ -47,10 +47,6 @@ set "url_xdebug_php73=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.3-vc15-
 set "url_xdebug_php74=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.4-vc15-x86_64.dll"
 
 :: ---------------------------------------------------------------------------------------------------------------------
-if not exist "%TMPDIR%" mkdir "%TMPDIR%" 2> NUL
-if not exist "%ODIR%" mkdir "%ODIR%" 2> NUL
-
-:: ---------------------------------------------------------------------------------------------------------------------
 :menu
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (set "DEL=%%a")
 <nul set /p=""
@@ -79,6 +75,8 @@ goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
 :build_setup
+if not exist "%ODIR%" mkdir "%ODIR%" 2> NUL
+if not exist "%TMPDIR%" mkdir "%TMPDIR%" 2> NUL
 if not exist "%ODIR%\utils" mkdir "%ODIR%\utils" 2> NUL
 
 :: PHP v7.3
