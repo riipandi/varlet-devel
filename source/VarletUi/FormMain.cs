@@ -2,8 +2,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
-using System.Reflection;
-using Semver;
 using Variety;
 
 namespace VarletUi
@@ -32,7 +30,7 @@ namespace VarletUi
             var checkRunning = Services.IsServiceRunning(svcName);
             var msg = ((checkInstall == true) && (checkRunning == true)) ? "Installed" : "Not installed!";
             */
-            this.pictStatusHttpd.BackColor = Color.DarkSlateGray;
+            pictStatusHttpd.BackColor = Color.DarkSlateGray;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -51,14 +49,11 @@ namespace VarletUi
 
         private void InitiateWindow()
         {
-            var version = Assembly.GetExecutingAssembly().GetName().Version;
-            // var buildDate = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
-            // var displayableVersion = $"{version} ({buildDate})";
-            // var displayableVersion = SemVersion.Parse(version);
-            this.Text = Application.ProductName + " v" + version;
-            this.Activate();
-            this.BringToFront();
-            this.Focus();
+            Text = Application.ProductName + " v" + Globals.Version;
+
+            Activate();
+            BringToFront();
+            Focus();
         }
 
         private void btnServices_Click(object sender, EventArgs e)
