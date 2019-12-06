@@ -74,18 +74,18 @@ Name: "{group}\VarletUi"; Filename: "{app}\VarletUi.exe"
 Name: "{commondesktop}\VarletUi"; Filename: "{app}\VarletUi.exe"
 Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
 
-[UninstallDelete]
-Type: filesandordirs; Name: {app}
-
 [Run]
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Check: VCRedist2012NotInstalled
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Check: VCRedist2015NotInstalled
-Filename: "{app}\VarletUi.exe"; Description: "Run {#AppName}"; Flags: postinstall shellexec skipifsilent ; BeforeInstall: StartAppServices
+;Filename: "{app}\VarletUi.exe"; Description: "Run Varlet Controller"; Flags: postinstall shellexec skipifsilent ; BeforeInstall: StartAppServices
 
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
 Name: {app}\httpd; Flags: uninsalwaysuninstall
 Name: {app}\httpd\conf\certs; Flags: uninsalwaysuninstall
+
+[UninstallDelete]
+Type: filesandordirs; Name: {app}
 
 ; ----------------------------------------------------------------------------------------------------
 ; Programmatic section -------------------------------------------------------------------------------
@@ -137,14 +137,12 @@ end;
 
 function VCRedist2012NotInstalled: Boolean;
 begin
-  // Result := not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\WOW6432Node\Microsoft\VisualStudio\12.0');
-  Result := True;
+  Result := not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\WOW6432Node\Microsoft\VisualStudio\12.0');
 end;
 
 function VCRedist2015NotInstalled: Boolean;
 begin
-  // Result := not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0');
-  Result := True;
+  Result := not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0');
 end;
 
 procedure ConfigureApplication;
@@ -248,9 +246,9 @@ begin
     end;
   end;
 
-  if (CurStep=ssDone) then
-  begin
-    // do something
+  if (CurStep=ssDone) then begin
+    StartAppServices;
+    ShellExec('open', ExpandConstant('{app}\VarletUi.exe'), '', '', SW_SHOW, ewNoWait, ResultCode);
   end;
 end;
 
