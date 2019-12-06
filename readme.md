@@ -1,6 +1,6 @@
-<!-- <p align="center"><img src="./include/varlet.png" height="80px"></p> -->
+<p align="center"><img src="./sources/Resources/varlet_wide.png" height="96px"></p>
 
-# Varlet
+## Introduction
 
 Varlet is a a web development environment for minimalists, inspired from [Laravel Valet](https://laravel.com/docs/valet)
 and [Laragon](https://laragon.org). Varlet only includes PHP, Composer, and HTTP web server. If you want to use databases
