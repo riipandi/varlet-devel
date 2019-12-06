@@ -1,4 +1,4 @@
-<p align="center"><img src="./source/Resources/varlet_wide.png" height="96px"></p>
+<p align="center"><img src="./source/Resources/varlet_wide.png" height="128px"></p>
 
 ## Introduction
 
