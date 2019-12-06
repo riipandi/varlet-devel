@@ -24,13 +24,11 @@ namespace VarletUi
             cf.InstalMailhogService = true;
             cf.Save(Globals.ConfigFileName());
 
-            /*
             var svcName = Globals.ServiceNameHttp;
             var checkInstall = Services.IsServiceInstalled(svcName);
             var checkRunning = Services.IsServiceRunning(svcName);
-            var msg = ((checkInstall == true) && (checkRunning == true)) ? "Installed" : "Not installed!";
-            */
-            pictStatusHttpd.BackColor = Color.DarkSlateGray;
+            if (checkInstall) pictStatusHttpd.BackColor = Color.OrangeRed;
+            if (checkRunning) pictStatusHttpd.BackColor = Color.Green;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
