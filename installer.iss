@@ -75,8 +75,8 @@ Name: "{commondesktop}\VarletUi"; Filename: "{app}\VarletUi.exe"
 Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
 
 [Run]
-Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis2012x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Check: VCRedist2012NotInstalled
-Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\vcredis1519x64.exe"" /quiet /norestart"; Flags: waituntilterminated; Check: VCRedist2015NotInstalled
+Filename: "{tmp}\vcredis2012x64.exe"; Parameters: "/install /passive /norestart"; Description: "Installing VCRedist 2012"; Flags: waituntilterminated; Check: VCRedist2012NotInstalled
+Filename: "{tmp}\vcredis1519x64.exe"; Parameters: "/install /passive /norestart"; Description: "Installing VCRedist 2015"; Flags: waituntilterminated; Check: VCRedist2015NotInstalled
 ;Filename: "{app}\VarletUi.exe"; Description: "Run Varlet Controller"; Flags: postinstall shellexec skipifsilent ; BeforeInstall: StartAppServices
 
 [Dirs]
