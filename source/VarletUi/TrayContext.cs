@@ -61,7 +61,7 @@ namespace VarletUi
                     if (fc.Name == fs.Name) fc.Dispose();
                 }
 
-                (new FormMain()).btnSettings_Click(sender, e);
+                (new FormMain()).lblSettings_Click(sender, e);
             }
             catch (FormatException)
             {

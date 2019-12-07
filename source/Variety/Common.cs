@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using static System.String;
 
 namespace Variety
 {
@@ -90,6 +92,28 @@ namespace Variety
              } catch (FormatException) {
                  // do something here
              }
+         }
+
+         public static string GetAppPath()
+         {
+            return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+         }
+         
+         public static string DirProgramFiles(string path)
+         {
+             if( 8 == IntPtr.Size  || (!IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432"))))  {
+                 return Environment.GetEnvironmentVariable("ProgramFiles(x86)");
+             }
+
+             if (string.IsNullOrEmpty(path))
+             {
+                 return Environment.GetEnvironmentVariable("ProgramFiles") + @path;
+             }
+             else
+             {
+                 return Environment.GetEnvironmentVariable("ProgramFiles");
+             }
+
          }
     }
 }

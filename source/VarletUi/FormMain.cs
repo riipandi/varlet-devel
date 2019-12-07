@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
@@ -28,7 +29,12 @@ namespace VarletUi
             var checkInstall = Services.IsServiceInstalled(svcName);
             var checkRunning = Services.IsServiceRunning(svcName);
             if (checkInstall) pictStatusHttpd.BackColor = Color.OrangeRed;
-            if (checkRunning) pictStatusHttpd.BackColor = Color.Green;
+            if (checkRunning)
+            {
+                pictStatusHttpd.BackColor = Color.Green;
+                btnServices.Text = "&Stop Services";
+                comboPhpVersion.Enabled = false;
+            }
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -48,6 +54,7 @@ namespace VarletUi
         private void InitiateWindow()
         {
             Text = Application.ProductName + " v" + Globals.Version;
+
             Activate();
             BringToFront();
             Focus();
@@ -55,25 +62,39 @@ namespace VarletUi
 
         private void btnServices_Click(object sender, EventArgs e)
         {
-            if (Services.IsServiceInstalled(Globals.ServiceNameHttp))
-            {
-                MessageBox.Show("Service installed!");
-            }
-            else
-            {
-                MessageBox.Show("Not yet implemented!");
-            }
+            // do something
         }
 
-        public void btnSettings_Click(object sender, EventArgs e)
+        public void btnTerminal_Click(object sender, EventArgs e)
         {
-            (new FormSettings()).ShowDialog();
+            var wwwDir = Common.GetAppPath() + @"\www";
+            try
+            {
+                if (Directory.Exists(Common.DirProgramFiles(@"\PowerShell"))) {
+                    var proc = new Process {StartInfo =
+                    {
+                        FileName = "pwsh.exe",
+                        Arguments = "-NoLogo -WorkingDirectory " + wwwDir,
+                        UseShellExecute = true
+                    }};
+                    proc.Start();
+                } else  {
+                    var proc = new Process {StartInfo =
+                    {
+                        FileName = "cmd.exe",
+                        Arguments = "/k \"cd /d " + wwwDir + "\"",
+                        UseShellExecute = true
+                    }};
+                    proc.Start();
+                }
+            } catch (FormatException) {
+                // do something here
+            }
         }
 
         private void CheckAvailablePHP()
         {
-            var appPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            var pkgPhp = appPath + @"\pkg\php";
+            var pkgPhp = Common.GetAppPath() + @"\pkg\php";
 
             try
             {
@@ -102,6 +123,11 @@ namespace VarletUi
             } catch (FormatException) {
                 // do something here
             }
+        }
+
+        public void lblSettings_Click(object sender, EventArgs e)
+        {
+            new FormSettings().ShowDialog();
         }
     }
 }

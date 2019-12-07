@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources =
                 new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.btnServices = new System.Windows.Forms.Button();
-            this.btnSettings = new System.Windows.Forms.Button();
+            this.btnTerminal = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblLogfileSmtp = new System.Windows.Forms.Label();
             this.lblReloadSmtp = new System.Windows.Forms.Label();
@@ -47,6 +47,7 @@
             this.lblHostFile = new System.Windows.Forms.Label();
             this.comboPhpVersion = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.lblSettings = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize) (this.pictStatusSmtp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize) (this.pictStatusHttpd)).BeginInit();
@@ -57,7 +58,7 @@
             // 
             this.btnServices.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.btnServices.Location = new System.Drawing.Point(22, 350);
+            this.btnServices.Location = new System.Drawing.Point(22, 363);
             this.btnServices.Name = "btnServices";
             this.btnServices.Size = new System.Drawing.Size(157, 39);
             this.btnServices.TabIndex = 0;
@@ -65,17 +66,17 @@
             this.btnServices.UseVisualStyleBackColor = true;
             this.btnServices.Click += new System.EventHandler(this.btnServices_Click);
             // 
-            // btnSettings
+            // btnTerminal
             // 
-            this.btnSettings.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
+            this.btnTerminal.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.btnSettings.Location = new System.Drawing.Point(197, 350);
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(157, 39);
-            this.btnSettings.TabIndex = 1;
-            this.btnSettings.Text = "&Preferences";
-            this.btnSettings.UseVisualStyleBackColor = true;
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            this.btnTerminal.Location = new System.Drawing.Point(197, 363);
+            this.btnTerminal.Name = "btnTerminal";
+            this.btnTerminal.Size = new System.Drawing.Size(157, 39);
+            this.btnTerminal.TabIndex = 1;
+            this.btnTerminal.Text = "&Terminal";
+            this.btnTerminal.UseVisualStyleBackColor = true;
+            this.btnTerminal.Click += new System.EventHandler(this.btnTerminal_Click);
             // 
             // groupBox1
             // 
@@ -87,7 +88,7 @@
             this.groupBox1.Controls.Add(this.pictStatusSmtp);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.pictStatusHttpd);
-            this.groupBox1.Location = new System.Drawing.Point(22, 165);
+            this.groupBox1.Location = new System.Drawing.Point(22, 178);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(332, 165);
             this.groupBox1.TabIndex = 2;
@@ -191,7 +192,7 @@
             this.pictureBoxIcon.Image = ((System.Drawing.Image) (resources.GetObject("pictureBoxIcon.Image")));
             this.pictureBoxIcon.Location = new System.Drawing.Point(22, 20);
             this.pictureBoxIcon.Name = "pictureBoxIcon";
-            this.pictureBoxIcon.Size = new System.Drawing.Size(184, 65);
+            this.pictureBoxIcon.Size = new System.Drawing.Size(212, 87);
             this.pictureBoxIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxIcon.TabIndex = 3;
             this.pictureBoxIcon.TabStop = false;
@@ -202,11 +203,11 @@
             this.lblAbout.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.lblAbout.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblAbout.Location = new System.Drawing.Point(254, 22);
+            this.lblAbout.Location = new System.Drawing.Point(254, 20);
             this.lblAbout.Name = "lblAbout";
             this.lblAbout.Size = new System.Drawing.Size(100, 23);
             this.lblAbout.TabIndex = 10;
-            this.lblAbout.Text = "About";
+            this.lblAbout.Text = "&About";
             this.lblAbout.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblAbout.Click += new System.EventHandler(this.lblAbout_Click);
             // 
@@ -216,11 +217,11 @@
             this.lblHostFile.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.lblHostFile.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblHostFile.Location = new System.Drawing.Point(254, 54);
+            this.lblHostFile.Location = new System.Drawing.Point(254, 47);
             this.lblHostFile.Name = "lblHostFile";
             this.lblHostFile.Size = new System.Drawing.Size(100, 23);
             this.lblHostFile.TabIndex = 11;
-            this.lblHostFile.Text = "Hosts File";
+            this.lblHostFile.Text = "&Hosts File";
             this.lblHostFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblHostFile.Click += new System.EventHandler(this.lblHostFile_Click);
             // 
@@ -228,7 +229,7 @@
             // 
             this.comboPhpVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboPhpVersion.FormattingEnabled = true;
-            this.comboPhpVersion.Location = new System.Drawing.Point(209, 118);
+            this.comboPhpVersion.Location = new System.Drawing.Point(209, 132);
             this.comboPhpVersion.Name = "comboPhpVersion";
             this.comboPhpVersion.Size = new System.Drawing.Size(145, 23);
             this.comboPhpVersion.TabIndex = 12;
@@ -237,25 +238,40 @@
             // 
             this.label9.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.label9.Location = new System.Drawing.Point(22, 118);
+            this.label9.Location = new System.Drawing.Point(22, 132);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(157, 23);
             this.label9.TabIndex = 13;
             this.label9.Text = "Switch PHP Version";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lblSettings
+            // 
+            this.lblSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblSettings.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic,
+                System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSettings.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.lblSettings.Location = new System.Drawing.Point(254, 76);
+            this.lblSettings.Name = "lblSettings";
+            this.lblSettings.Size = new System.Drawing.Size(100, 23);
+            this.lblSettings.TabIndex = 14;
+            this.lblSettings.Text = "&Preferences";
+            this.lblSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblSettings.Click += new System.EventHandler(this.lblSettings_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 408);
+            this.ClientSize = new System.Drawing.Size(377, 427);
+            this.Controls.Add(this.lblSettings);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.comboPhpVersion);
             this.Controls.Add(this.lblHostFile);
             this.Controls.Add(this.lblAbout);
             this.Controls.Add(this.pictureBoxIcon);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnSettings);
+            this.Controls.Add(this.btnTerminal);
             this.Controls.Add(this.btnServices);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
@@ -273,7 +289,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnSettings;
+        private System.Windows.Forms.Button btnTerminal;
         private System.Windows.Forms.Button btnServices;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
@@ -289,5 +305,6 @@
         private System.Windows.Forms.Label lblAbout;
         private System.Windows.Forms.PictureBox pictureBoxIcon;
         private System.Windows.Forms.PictureBox pictStatusHttpd;
+        private System.Windows.Forms.Label lblSettings;
     }
 }
