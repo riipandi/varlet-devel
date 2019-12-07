@@ -256,6 +256,8 @@ copy /Y "%~dp0utils\libcurl-x64.dll" "%ODIR%\utils\libcurl-x64.dll" > nul
 echo. && echo ^> Include the stubs ...
 copy /Y "%STUB%\config\php.ini" "%ODIR%\pkg\php\php-7.2-ts\php.ini" > nul
 copy /Y "%STUB%\config\php.ini" "%ODIR%\pkg\php\php-7.3-ts\php.ini" > nul
+copy /Y "%~dp0include\varlet-license.txt" "%ODIR%\license.txt" > nul
+copy /Y "%~dp0credits.txt" "%ODIR%\credits.txt" > nul
 xcopy "%STUB%\htdocs" "%ODIR%\www" /E /I /Y > nul
 xcopy "%STUB%\opt" "%ODIR%\opt" /E /I /Y > nul
 

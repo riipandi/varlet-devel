@@ -56,8 +56,6 @@ Name: task_autorun_service; Description: "Run services when Windows starts"; Fla
 Name: task_install_mailhog; Description: "Install Mailhog SMTP Testing"; Flags: unchecked
 
 [Files]
-Source: "{#BasePath}credits.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BasePath}include\varlet-license.txt"; DestDir: "{app}"; DestName: "license.txt"; Flags: ignoreversion
 Source: "{#BasePath}_dstdir\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
 Source: "{#BasePath}_temp\vcredis\*"; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
 

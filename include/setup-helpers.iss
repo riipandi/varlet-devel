@@ -48,9 +48,6 @@ const
 var
   ResultCode: Integer;
   InstallPath : string;
-  Parameter : String;
-  CheckResult: Boolean;
-  IsInstalled: Boolean;
   BaseDir : String;
   Str : String;
 
