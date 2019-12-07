@@ -90,13 +90,12 @@ namespace VarletUi
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
-            if (e.CloseReason.Equals(CloseReason.WindowsShutDown)) {
-                Application.Exit();
+            if (!e.CloseReason.Equals(CloseReason.WindowsShutDown)) {
+                base.OnFormClosing(e);
+                e.Cancel = true;
+                (new TrayContext()).ShowTrayIconNotification();
+                Hide();
             }
-            e.Cancel = true;
-            (new TrayContext()).ShowTrayIconNotification();
-            Hide();
         }
 
         protected override void OnClosed(EventArgs e)
