@@ -25,15 +25,48 @@ namespace VarletUi
             cf.InstalMailhogService = true;
             cf.Save(Globals.ConfigFileName());
 
-            var svcName = Globals.ServiceNameHttp;
-            var checkInstall = Services.IsServiceInstalled(svcName);
-            var checkRunning = Services.IsServiceRunning(svcName);
-            if (checkInstall) pictStatusHttpd.BackColor = Color.OrangeRed;
-            if (checkRunning)
-            {
-                pictStatusHttpd.BackColor = Color.Green;
-                btnServices.Text = "&Stop Services";
-                comboPhpVersion.Enabled = false;
+            var httpSvcName = Globals.ServiceNameHttp;
+            if (Services.IsServiceInstalled(httpSvcName)) {
+                pictStatusHttpd.BackColor = Color.OrangeRed;
+                if (Services.IsServiceRunning(httpSvcName))
+                {
+                    pictStatusHttpd.BackColor = Color.Green;
+                    btnServices.Text = "&Stop Services";
+                    comboPhpVersion.Enabled = false;
+                    lblReloadHttpd.Enabled = true;
+                    lblLogfileHttpd.Enabled = true;
+                    lblReloadSmtp.Enabled = true;
+                    lblLogfileSmtp.Enabled = true;
+                } else {
+                    pictStatusHttpd.BackColor = Color.OrangeRed;
+                    btnServices.Text = "&Start Services";
+                    comboPhpVersion.Enabled = true;
+                }
+            } else {
+                pictStatusHttpd.BackColor = Color.SlateGray;
+            }
+
+            var smtpSvcName = Globals.ServiceNameSmtp;
+            if (Services.IsServiceInstalled(smtpSvcName)) {
+                pictStatusSmtp.BackColor = Color.OrangeRed;
+                if (Services.IsServiceRunning(smtpSvcName))
+                {
+                    pictStatusSmtp.BackColor = Color.Green;
+                    btnServices.Text = "&Stop Services";
+                    lblReloadHttpd.Enabled = true;
+                    lblLogfileHttpd.Enabled = true;
+                    lblReloadSmtp.Enabled = true;
+                    lblLogfileSmtp.Enabled = true;
+                } else {
+                    pictStatusSmtp.BackColor = Color.OrangeRed;
+                    btnServices.Text = "&Start Services";
+                }
+            } else {
+                pictStatusSmtp.BackColor = Color.SlateGray;
+                lblReloadHttpd.Enabled = false;
+                lblLogfileHttpd.Enabled = false;
+                lblReloadSmtp.Enabled = false;
+                lblLogfileSmtp.Enabled = false;
             }
         }
 

@@ -53,9 +53,9 @@
             ((System.ComponentModel.ISupportInitialize) (this.pictStatusHttpd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize) (this.pictureBoxIcon)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // btnServices
-            // 
+            //
             this.btnServices.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.btnServices.Location = new System.Drawing.Point(22, 363);
@@ -65,9 +65,9 @@
             this.btnServices.Text = "&Start Services";
             this.btnServices.UseVisualStyleBackColor = true;
             this.btnServices.Click += new System.EventHandler(this.btnServices_Click);
-            // 
+            //
             // btnTerminal
-            // 
+            //
             this.btnTerminal.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.btnTerminal.Location = new System.Drawing.Point(197, 363);
@@ -77,9 +77,9 @@
             this.btnTerminal.Text = "&Terminal";
             this.btnTerminal.UseVisualStyleBackColor = true;
             this.btnTerminal.Click += new System.EventHandler(this.btnTerminal_Click);
-            // 
+            //
             // groupBox1
-            // 
+            //
             this.groupBox1.Controls.Add(this.lblLogfileSmtp);
             this.groupBox1.Controls.Add(this.lblReloadSmtp);
             this.groupBox1.Controls.Add(this.lblLogfileHttpd);
@@ -94,9 +94,9 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Services Status";
-            // 
+            //
             // lblLogfileSmtp
-            // 
+            //
             this.lblLogfileSmtp.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblLogfileSmtp.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -107,9 +107,9 @@
             this.lblLogfileSmtp.TabIndex = 15;
             this.lblLogfileSmtp.Text = "Log file";
             this.lblLogfileSmtp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // lblReloadSmtp
-            // 
+            //
             this.lblReloadSmtp.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblReloadSmtp.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -120,9 +120,9 @@
             this.lblReloadSmtp.TabIndex = 14;
             this.lblReloadSmtp.Text = "Reload";
             this.lblReloadSmtp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // lblLogfileHttpd
-            // 
+            //
             this.lblLogfileHttpd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblLogfileHttpd.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -133,9 +133,9 @@
             this.lblLogfileHttpd.TabIndex = 13;
             this.lblLogfileHttpd.Text = "Log file";
             this.lblLogfileHttpd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // lblReloadHttpd
-            // 
+            //
             this.lblReloadHttpd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblReloadHttpd.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -146,9 +146,9 @@
             this.lblReloadHttpd.TabIndex = 12;
             this.lblReloadHttpd.Text = "Reload";
             this.lblReloadHttpd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // label2
-            // 
+            //
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label2.Location = new System.Drawing.Point(12, 97);
@@ -157,18 +157,18 @@
             this.label2.TabIndex = 11;
             this.label2.Text = "SMTP Server";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
+            //
             // pictStatusSmtp
-            // 
-            this.pictStatusSmtp.BackColor = System.Drawing.Color.OrangeRed;
+            //
+            this.pictStatusSmtp.BackColor = System.Drawing.Color.SlateGray;
             this.pictStatusSmtp.Location = new System.Drawing.Point(131, 97);
             this.pictStatusSmtp.Name = "pictStatusSmtp";
             this.pictStatusSmtp.Size = new System.Drawing.Size(27, 23);
             this.pictStatusSmtp.TabIndex = 10;
             this.pictStatusSmtp.TabStop = false;
-            // 
+            //
             // label1
-            // 
+            //
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label1.Location = new System.Drawing.Point(12, 51);
@@ -177,18 +177,18 @@
             this.label1.TabIndex = 9;
             this.label1.Text = "Web Server";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
+            //
             // pictStatusHttpd
-            // 
+            //
             this.pictStatusHttpd.BackColor = System.Drawing.Color.LimeGreen;
             this.pictStatusHttpd.Location = new System.Drawing.Point(131, 51);
             this.pictStatusHttpd.Name = "pictStatusHttpd";
             this.pictStatusHttpd.Size = new System.Drawing.Size(27, 23);
             this.pictStatusHttpd.TabIndex = 8;
             this.pictStatusHttpd.TabStop = false;
-            // 
+            //
             // pictureBoxIcon
-            // 
+            //
             this.pictureBoxIcon.Image = ((System.Drawing.Image) (resources.GetObject("pictureBoxIcon.Image")));
             this.pictureBoxIcon.Location = new System.Drawing.Point(22, 20);
             this.pictureBoxIcon.Name = "pictureBoxIcon";
@@ -196,9 +196,9 @@
             this.pictureBoxIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxIcon.TabIndex = 3;
             this.pictureBoxIcon.TabStop = false;
-            // 
+            //
             // lblAbout
-            // 
+            //
             this.lblAbout.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblAbout.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -210,9 +210,9 @@
             this.lblAbout.Text = "&About";
             this.lblAbout.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblAbout.Click += new System.EventHandler(this.lblAbout_Click);
-            // 
+            //
             // lblHostFile
-            // 
+            //
             this.lblHostFile.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblHostFile.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -224,18 +224,18 @@
             this.lblHostFile.Text = "&Hosts File";
             this.lblHostFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblHostFile.Click += new System.EventHandler(this.lblHostFile_Click);
-            // 
+            //
             // comboPhpVersion
-            // 
+            //
             this.comboPhpVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboPhpVersion.FormattingEnabled = true;
             this.comboPhpVersion.Location = new System.Drawing.Point(209, 132);
             this.comboPhpVersion.Name = "comboPhpVersion";
             this.comboPhpVersion.Size = new System.Drawing.Size(145, 23);
             this.comboPhpVersion.TabIndex = 12;
-            // 
+            //
             // label9
-            // 
+            //
             this.label9.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label9.Location = new System.Drawing.Point(22, 132);
@@ -244,9 +244,9 @@
             this.label9.TabIndex = 13;
             this.label9.Text = "Switch PHP Version";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // lblSettings
-            // 
+            //
             this.lblSettings.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblSettings.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -258,9 +258,9 @@
             this.lblSettings.Text = "&Preferences";
             this.lblSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblSettings.Click += new System.EventHandler(this.lblSettings_Click);
-            // 
+            //
             // FormMain
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(377, 427);

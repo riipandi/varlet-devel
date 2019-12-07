@@ -8,12 +8,14 @@ namespace Variety
         public static string DefaultPhpVersion { get; set; }
 
         public static string ServiceNameHttp { get; }
+        public static string ServiceNameSmtp { get; }
         private static int LastUpdateCheck { get; set; }
 
         static Globals()
         {
             DefaultPhpVersion = "php-7.3-ts";
             ServiceNameHttp = "VarletHttpd";
+            ServiceNameSmtp = "VarletMailhog";
             LastUpdateCheck = 5;
         }
 
