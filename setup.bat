@@ -276,6 +276,7 @@ if not exist "%~dp0source\packages" (
 )
 
 echo. && echo ^> Compiling Varlet App ... && echo.
+for %%i in ("VarletUi.exe", "varlet.exe") do ( taskkill /f /im %%i>NUL 2>&1 )
 "%TMPDIR%\JetMSBuild\MSBuild\15.0\Bin\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
 echo. && goto :menu
 
