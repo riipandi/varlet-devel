@@ -289,7 +289,7 @@ for /R "%ODIR%" %%G in (CommandLine*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (Newtonsoft*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (Semver*.xml) do "cmd /c del /F %%G"
 
-echo. && echo ^> Compiling installer files ...
+echo. && echo ^> Compiling installer files ... && echo.
 "%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
 
 echo. && echo ^> Compressing varlet portable ...
