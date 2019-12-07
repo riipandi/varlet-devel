@@ -56,7 +56,7 @@ namespace VarletUi
             cf.InstallHttpService = true;
             cf.InstalMailhogService = true;
             cf.Save(Globals.AppConfigFile());
-            Text = Application.ProductName + " v" + Globals.Version;
+            Text = "Varlet v" + Globals.Version;
         }
 
         private void CheckServiceStatus() {
