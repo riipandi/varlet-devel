@@ -48,7 +48,6 @@ namespace VarletUi
         private void InitiateWindow()
         {
             Text = Application.ProductName + " v" + Globals.Version;
-
             Activate();
             BringToFront();
             Focus();
@@ -68,37 +67,21 @@ namespace VarletUi
 
         public void btnSettings_Click(object sender, EventArgs e)
         {
-            /*
-            var fs = new FormSetting();
-
-            px = (this.Location.X + this.Width / 4) - (fs.Width / 2);
-            py = (this.Location.Y + this.Height / 2) - (fs.Height / 2);
-
-            // fs.StartPosition = FormStartPosition.Manual;
-            fs.StartPosition = FormStartPosition.CenterParent;
-            fs.Location = new Point(px, py);
-            fs.ShowDialog(this);
-             */
-
             (new FormSettings()).ShowDialog();
         }
 
         private void CheckAvailablePHP()
         {
-            string selectedVersion, path;
-            selectedVersion = "php-7.3-ts";
-            path = "C:\\Varlet\\php";
-
-            var arr = Directory.GetDirectories(path);
+            var appPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var pkgPhp = appPath + @"\pkg\php";
 
             try
             {
-                foreach (var t in arr)
-                {
+                if (!Directory.Exists(pkgPhp)) return;
+                foreach (var t in Directory.GetDirectories(pkgPhp))  {
                     comboPhpVersion.Items.Add(Path.GetFileName(t));
                 }
-
-                comboPhpVersion.SelectedIndex = comboPhpVersion.FindStringExact(selectedVersion);
+                comboPhpVersion.SelectedIndex = comboPhpVersion.FindStringExact(Globals.DefaultPhpVersion);
             }
             catch (FormatException)
             {

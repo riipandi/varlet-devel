@@ -30,7 +30,7 @@ AppendDefaultDirName       = yes
 AlwaysShowComponentsList   = no
 FlatComponentsList         = yes
 
-OutputDir             = {#BasePath}_temp
+OutputDir             = {#BasePath}_output
 OutputBaseFilename    = {#AppSlug}-{#GetAppVersion}-x64
 SetupIconFile         = "{#BasePath}include\setup-icon.ico"
 LicenseFile           = "{#BasePath}include\varlet-license.txt"
@@ -56,17 +56,9 @@ Name: task_autorun_service; Description: "Run services when Windows starts"; Fla
 Name: task_install_mailhog; Description: "Install Mailhog SMTP Testing"; Flags: unchecked
 
 [Files]
-; ----------------------------------------------------------------------------------------------------------------------
 Source: "{#BasePath}credits.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BasePath}include\varlet-license.txt"; DestDir: "{app}"; DestName: "license.txt"; Flags: ignoreversion
-Source: "{#BasePath}source\_release\VarletUi.exe"; DestDir: "{app}"; Flags: ignoreversion
-; ----------------------------------------------------------------------------------------------------------------------
 Source: "{#BasePath}_dstdir\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}stubs\config\php.ini"; DestDir: "{app}\php\php-7.2-ts"; Flags: ignoreversion
-Source: "{#BasePath}stubs\config\php.ini"; DestDir: "{app}\php\php-7.3-ts"; Flags: ignoreversion
-Source: "{#BasePath}stubs\htdocs\*"; DestDir: "{app}\htdocs"; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}stubs\opt\*"; DestDir: "{app}\opt"; Flags: ignoreversion recursesubdirs
-; ----------------------------------------------------------------------------------------------------------------------
 Source: "{#BasePath}_temp\vcredis\*"; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
 
 [Icons]
@@ -81,11 +73,14 @@ Filename: "{tmp}\vcredis1519x64.exe"; Parameters: "/install /quiet /norestart"; 
 
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
-Name: {app}\httpd; Flags: uninsalwaysuninstall
-Name: {app}\httpd\conf\certs; Flags: uninsalwaysuninstall
+Name: {app}\pkg\httpd\conf\certs; Flags: uninsalwaysuninstall
 
 [UninstallDelete]
-Type: filesandordirs; Name: {app}
+Type: filesandordirs; Name: "{app}\opt"
+Type: filesandordirs; Name: "{app}\pkg"
+Type: filesandordirs; Name: "{app}\tmp"
+Type: filesandordirs; Name: "{app}\utils"
+Type: filesandordirs; Name: "{app}\varlet.json"
 
 ; ----------------------------------------------------------------------------------------------------
 ; Programmatic section -------------------------------------------------------------------------------
@@ -149,43 +144,43 @@ procedure ConfigureApplication;
 var CertDir : String;
 begin
   BaseDir := ExpandConstant('{app}');
-  CertDir := BaseDir + '\httpd\conf\certs';
+  CertDir := BaseDir + '\pkg\httpd\conf\certs';
 
   // httpd with ssl
   Str := '-key-file ' + CertDir + '\localhost.key -cert-file ' + CertDir + '\localhost.pem localhost';
   Exec(BaseDir + '\utils\mkcert.exe', Str, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   Exec(BaseDir + '\utils\mkcert.exe', '-install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-  FileReplaceString(BaseDir + '\httpd\conf\httpd.conf', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
+  FileReplaceString(BaseDir + '\pkg\httpd\conf\httpd.conf', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
 
   // PHP 7.2
-  FileReplaceString(BaseDir + '\php\php-7.2-ts\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
-  FileReplaceString(BaseDir + '\php\php-7.2-ts\php.ini', '<<PHP_BASEDIR>>', PathWithSlashes(BaseDir + '\php\php-7.2-ts'));
+  FileReplaceString(BaseDir + '\pkg\php\php-7.2-ts\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
+  FileReplaceString(BaseDir + '\pkg\php\php-7.2-ts\php.ini', '<<PHP_BASEDIR>>', PathWithSlashes(BaseDir + '\pkg\php\php-7.2-ts'));
 
   // PHP 7.3
-  FileReplaceString(BaseDir + '\php\php-7.3-ts\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
-  FileReplaceString(BaseDir + '\php\php-7.3-ts\php.ini', '<<PHP_BASEDIR>>', PathWithSlashes(BaseDir + '\php\php-7.3-ts'));
+  FileReplaceString(BaseDir + '\pkg\php\php-7.3-ts\php.ini', '<<INSTALL_DIR>>', PathWithSlashes(ExpandConstant('{app}')));
+  FileReplaceString(BaseDir + '\pkg\php\php-7.3-ts\php.ini', '<<PHP_BASEDIR>>', PathWithSlashes(BaseDir + '\pkg\php\php-7.3-ts'));
 
   // Create composer.bat
-  Str := '@echo off' + #13#10#13#10 + '"'+BaseDir+'\php\php-7.3-ts\php.exe" "'+ExpandConstant('{app}\utils\composer.phar')+'" %*';
+  Str := '@echo off' + #13#10#13#10 + '"'+BaseDir+'\pkg\php\php-7.3-ts\php.exe" "'+ExpandConstant('{app}\utils\composer.phar')+'" %*';
   SaveStringToFile(BaseDir + '\utils\composer.bat', Str, False);
 end;
 
 procedure CreatePathEnvironment();
 begin
   EnvAddPath(ExpandConstant('{app}\utils'));
-  EnvAddPath(ExpandConstant('{app}\httpd\bin'));
-  EnvAddPath(ExpandConstant('{app}\imagick\bin'));
-  EnvAddPath(ExpandConstant('{app}\php\php-7.3-ts'));
+  EnvAddPath(ExpandConstant('{app}\pkg\httpd\bin'));
+  EnvAddPath(ExpandConstant('{app}\pkg\imagick\bin'));
+  EnvAddPath(ExpandConstant('{app}\pkg\php\php-7.3-ts'));
   EnvAddPath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
-  CreateEnvironmentVariable('OPENSSL_CONF', ExpandConstant('{app}\httpd\conf\openssl.cnf'));
+  CreateEnvironmentVariable('OPENSSL_CONF', ExpandConstant('{app}\pkg\httpd\conf\openssl.cnf'));
 end;
 
 procedure RemovePathEnvironment;
 begin
   EnvRemovePath(ExpandConstant('{app}\utils'));
-  EnvRemovePath(ExpandConstant('{app}\httpd\bin'));
-  EnvRemovePath(ExpandConstant('{app}\imagick\bin'));
-  EnvRemovePath(ExpandConstant('{app}\php\php-7.3-ts'));
+  EnvRemovePath(ExpandConstant('{app}\pkg\httpd\bin'));
+  EnvRemovePath(ExpandConstant('{app}\pkg\imagick\bin'));
+  EnvRemovePath(ExpandConstant('{app}\pkg\php\php-7.3-ts'));
   EnvRemovePath(ExpandConstant('{userappdata}\Composer\vendor\bin'));
   RemoveEnvironmentVariable('OPENSSL_CONF');
 end;
@@ -208,7 +203,7 @@ procedure CurStepChanged(CurStep: TSetupStep);
 var HttpdBin : String;
 begin
   BaseDir := ExpandConstant('{app}');
-  HttpdBin := BaseDir + '\httpd\bin\httpd.exe';
+  HttpdBin := BaseDir + '\pkg\httpd\bin\httpd.exe';
 
   if CurStep = ssPostInstall then begin
 
@@ -222,7 +217,7 @@ begin
 
     // Apache Web Server
     WizardForm.StatusLabel.Caption := 'Installing Apache Web Server ...';
-    Str := '-k install -n "VarletHttpd" -f '+BaseDir+'"\httpd\conf\httpd.conf"';
+    Str := '-k install -n "VarletHttpd" -f '+BaseDir+'"\pkg\httpd\conf\httpd.conf"';
     Exec(HttpdBin, Str, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
     if WizardIsTaskSelected('task_autorun_service') then begin
       Exec(ExpandConstant('sc.exe'), 'config VarletHttpd start=auto', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
@@ -235,13 +230,13 @@ begin
     // Mailhog service
     if WizardIsTaskSelected('task_install_mailhog') then begin
       WizardForm.StatusLabel.Caption := 'Installing Mailhog services ...';
-      FileReplaceString(BaseDir + '\mailhog\mailhogservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
+      FileReplaceString(BaseDir + '\pkg\mailhog\mailhogservice.xml', '<<INSTALL_DIR>>', ExpandConstant('{app}'));
       if WizardIsTaskSelected('task_autorun_service') then begin
-        FileReplaceString(BaseDir + '\mailhog\mailhogservice.xml', '<<SERVICE_MODE>>', 'Automatic');
+        FileReplaceString(BaseDir + '\pkg\mailhog\mailhogservice.xml', '<<SERVICE_MODE>>', 'Automatic');
       end else begin
-        FileReplaceString(BaseDir + '\mailhog\mailhogservice.xml', '<<SERVICE_MODE>>', 'Manual');
+        FileReplaceString(BaseDir + '\pkg\mailhog\mailhogservice.xml', '<<SERVICE_MODE>>', 'Manual');
       end;
-      Exec(BaseDir + '\mailhog\mailhogservice.exe', 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+      Exec(BaseDir + '\pkg\mailhog\mailhogservice.exe', 'install', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
       Exec(ExpandConstant('net.exe'), 'stop VarletMailhog', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
     end;
   end;
@@ -257,15 +252,15 @@ begin
   case CurUninstallStep of
     usUninstall:
       begin
-        RemovePathEnvironment;
         KillService('VarletHttpd');
         KillService('VarletMailhog');
         TaskKillByPid('VarletUi.exe');
         TaskKillByPid('varlet.exe');
+        RemovePathEnvironment;
       end;
     usPostUninstall:
       begin
-        // MsgBox(ExpandConstant('{#AppName}') + ' uninstalled, but some files are not removed!', mbInformation, MB_OK);
+        // MsgBox(ExpandConstant('{#AppName}') + ' has been uninstalled!', mbInformation, MB_OK);
       end;
   end;
 end;

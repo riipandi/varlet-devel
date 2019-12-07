@@ -1,6 +1,6 @@
 @echo off
-setlocal EnableDelayedExpansion
-REM color 08
+setlocal enabledelayedexpansion
+color 08
 
 set CURL=%~dp0utils\curl.exe
 set UNZIP=%~dp0utils\7za.exe
@@ -51,9 +51,9 @@ set "url_xdebug_php74=https://xdebug.org/files/php_xdebug-%ver_xdebug%-7.4-vc15-
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (set "DEL=%%a")
 <nul set /p=""
 call :PainText 02 "=====================================================" && echo. &
-call :PainText 02 "=  1 - Build setup files       s - Install MSBuild   " && echo. &
-call :PainText 02 "=  2 - Compile Varlet app      c - Clean packages    " && echo. &
-call :PainText 02 "=  3 - Compile installer       x - Exit              " && echo. &
+call :PainText 02 "=  1 - Build setup files       c - Clean packages    " && echo. &
+call :PainText 02 "=  2 - Compile varlet app      x - Exit              " && echo. &
+call :PainText 02 "=  3 - Compile installer                             " && echo. &
 call :PainText 02 "====================================================="
 goto :choice
 
@@ -68,7 +68,6 @@ echo. && set /P c="What do you want to do?: "
 if /I "%c%" EQU "1" goto :build_setup
 if /I "%c%" EQU "2" goto :compile_app
 if /I "%c%" EQU "3" goto :compile_inno
-if /I "%c%" EQU "s" goto :install_msbuild
 if /I "%c%" EQU "c" goto :clean_packages
 if /I "%c%" EQU "x" goto :quit
 goto :choice
@@ -90,25 +89,25 @@ if not exist "%TMPDIR%\php-%ver_php73%.zip" (
 )
 if exist "%TMPDIR%\php-%ver_php73%.zip" (
   echo. && echo ^> Extracting PHP v%ver_php73% ...
-  if exist "%ODIR%\php\php-7.3-ts" RD /S /Q "%ODIR%\php\php-7.3-ts"
-  %UNZIP% x "%TMPDIR%\php-%ver_php73%.zip" -o"%ODIR%\php\php-7.3-ts" -y > nul
-  copy /Y "%TMPDIR%\php73_xdebug.dll" "%ODIR%\php\php-7.3-ts\ext\php_xdebug.dll" > nul
+  if exist "%ODIR%\pkg\php\php-7.3-ts" RD /S /Q "%ODIR%\pkg\php\php-7.3-ts"
+  %UNZIP% x "%TMPDIR%\php-%ver_php73%.zip" -o"%ODIR%\pkg\php\php-7.3-ts" -y > nul
+  copy /Y "%TMPDIR%\php73_xdebug.dll" "%ODIR%\pkg\php\php-7.3-ts\ext\php_xdebug.dll" > nul
 
   %UNZIP% x "%TMPDIR%\phalcon-%ver_php73%-php73.zip" -o"%TMPDIR%\phalcon73" -y > nul
-  copy /Y "%TMPDIR%\phalcon73\php_phalcon.dll" "%ODIR%\php\php-7.3-ts\ext\php_phalcon.dll" > nul
+  copy /Y "%TMPDIR%\phalcon73\php_phalcon.dll" "%ODIR%\pkg\php\php-7.3-ts\ext\php_phalcon.dll" > nul
 
   %UNZIP% x "%TMPDIR%\php73_redis.zip" -o"%TMPDIR%" -y > nul
-  copy /Y "%TMPDIR%\php_redis.dll" "%ODIR%\php\php-7.3-ts\ext\php_redis.dll" > nul
+  copy /Y "%TMPDIR%\php_redis.dll" "%ODIR%\pkg\php\php-7.3-ts\ext\php_redis.dll" > nul
   del /F "%TMPDIR%\php_redis.dll"
 
-  %UNZIP% x "%TMPDIR%\imagick-%ver_php_imagick%-php73.zip" -o"%ODIR%\php\php-7.3-ts" -y > nul
-  copy /Y "%ODIR%\php\php-7.3-ts\php_imagick.dll" "%ODIR%\php\php-7.3-ts\ext\php_imagick.dll" > nul
-  del /F "%ODIR%\php\php-7.3-ts\php_imagick.dll"
+  %UNZIP% x "%TMPDIR%\imagick-%ver_php_imagick%-php73.zip" -o"%ODIR%\pkg\php\php-7.3-ts" -y > nul
+  copy /Y "%ODIR%\pkg\php\php-7.3-ts\php_imagick.dll" "%ODIR%\pkg\php\php-7.3-ts\ext\php_imagick.dll" > nul
+  del /F "%ODIR%\pkg\php\php-7.3-ts\php_imagick.dll"
 )
 
 :: PHP v7.2
 if not exist "%TMPDIR%\php-%ver_php72%.zip" (
-  echo. && echo Downloading PHP v%ver_php72% ...
+  echo. && echo ^> Downloading PHP v%ver_php72% ...
   %CURL% -L# %url_php72% -o "%TMPDIR%\php-%ver_php72%.zip"
   %CURL% -L# %url_xdebug_php72% -o "%TMPDIR%\php72_xdebug.dll"
   %CURL% -L# %url_phpredis_php72% -o "%TMPDIR%\php72_redis.zip"
@@ -117,81 +116,81 @@ if not exist "%TMPDIR%\php-%ver_php72%.zip" (
 )
 if exist "%TMPDIR%\php-%ver_php72%.zip" (
   echo. && echo ^> Extracting PHP v%ver_php72% ...
-  if exist "%ODIR%\php\php-7.2-ts" RD /S /Q "%ODIR%\php\php-7.2-ts"
-  %UNZIP% x "%TMPDIR%\php-%ver_php72%.zip" -o"%ODIR%\php\php-7.2-ts" -y > nul
-  copy /Y "%TMPDIR%\php72_xdebug.dll" "%ODIR%\php\php-7.2-ts\ext\php_xdebug.dll" > nul
+  if exist "%ODIR%\pkg\php\php-7.2-ts" RD /S /Q "%ODIR%\pkg\php\php-7.2-ts"
+  %UNZIP% x "%TMPDIR%\php-%ver_php72%.zip" -o"%ODIR%\pkg\php\php-7.2-ts" -y > nul
+  copy /Y "%TMPDIR%\php72_xdebug.dll" "%ODIR%\pkg\php\php-7.2-ts\ext\php_xdebug.dll" > nul
 
   %UNZIP% x "%TMPDIR%\phalcon-%ver_php72%-php72.zip" -o"%TMPDIR%\phalcon72" -y > nul
-  copy /Y "%TMPDIR%\phalcon72\php_phalcon.dll" "%ODIR%\php\php-7.2-ts\ext\php_phalcon.dll" > nul
+  copy /Y "%TMPDIR%\phalcon72\php_phalcon.dll" "%ODIR%\pkg\php\php-7.2-ts\ext\php_phalcon.dll" > nul
 
   %UNZIP% x "%TMPDIR%\php72_redis.zip" -o"%TMPDIR%" -y > nul
-  copy /Y "%TMPDIR%\php_redis.dll" "%ODIR%\php\php-7.2-ts\ext\php_redis.dll" > nul
+  copy /Y "%TMPDIR%\php_redis.dll" "%ODIR%\pkg\php\php-7.2-ts\ext\php_redis.dll" > nul
   del /F "%TMPDIR%\php_redis.dll"
 
-  %UNZIP% x "%TMPDIR%\imagick-%ver_php_imagick%-php72.zip" -o"%ODIR%\php\php-7.2-ts" -y > nul
-  copy /Y "%ODIR%\php\php-7.2-ts\php_imagick.dll" "%ODIR%\php\php-7.2-ts\ext\php_imagick.dll" > nul
-  del /F "%ODIR%\php\php-7.2-ts\php_imagick.dll"
+  %UNZIP% x "%TMPDIR%\imagick-%ver_php_imagick%-php72.zip" -o"%ODIR%\pkg\php\php-7.2-ts" -y > nul
+  copy /Y "%ODIR%\pkg\php\php-7.2-ts\php_imagick.dll" "%ODIR%\pkg\php\php-7.2-ts\ext\php_imagick.dll" > nul
+  del /F "%ODIR%\pkg\php\php-7.2-ts\php_imagick.dll"
 )
 
 :: Apache HTTP Server
 if not exist "%TMPDIR%\httpd-%ver_httpd%.zip" (
-  echo. && echo Downloading Apache HTTP Server v%ver_httpd% ...
+  echo. && echo ^> Downloading Apache HTTP Server v%ver_httpd% ...
   %CURL% -L# "https://home.apache.org/~steffenal/VC15/binaries/httpd-%ver_httpd%-win64-VC15.zip" -o "%TMPDIR%\httpd-%ver_httpd%.zip"
 )
 if exist "%TMPDIR%\httpd-%ver_httpd%.zip" (
   echo. && echo ^> Extracting Apache HTTP Server v%ver_httpd% ...
-  if exist "%ODIR%\httpd" RD /S /Q "%ODIR%\httpd"
+  if exist "%ODIR%\pkg\httpd" RD /S /Q "%ODIR%\pkg\httpd"
   if exist "%TMPDIR%\Apache24" RD /S /Q "%TMPDIR%\Apache24"
   %UNZIP% x "%TMPDIR%\httpd-%ver_httpd%.zip" -o"%TMPDIR%" -y > nul
-  xcopy %TMPDIR%\Apache24 %ODIR%\httpd /E /I /Y > nul
-  RD /S /Q "%ODIR%\httpd\bin\iconv"
-  RD /S /Q "%ODIR%\httpd\conf"
-  RD /S /Q "%ODIR%\httpd\error"
-  RD /S /Q "%ODIR%\httpd\htdocs"
-  RD /S /Q "%ODIR%\httpd\icons"
-  RD /S /Q "%ODIR%\httpd\include"
-  RD /S /Q "%ODIR%\httpd\logs"
-  RD /S /Q "%ODIR%\httpd\lib"
-  RD /S /Q "%ODIR%\httpd\manual"
-  xcopy %STUB%\httpd\conf %ODIR%\httpd\conf /E /I /Y > nul
+  xcopy %TMPDIR%\Apache24 %ODIR%\pkg\httpd /E /I /Y > nul
+  RD /S /Q "%ODIR%\pkg\httpd\bin\iconv"
+  RD /S /Q "%ODIR%\pkg\httpd\conf"
+  RD /S /Q "%ODIR%\pkg\httpd\error"
+  RD /S /Q "%ODIR%\pkg\httpd\htdocs"
+  RD /S /Q "%ODIR%\pkg\httpd\icons"
+  RD /S /Q "%ODIR%\pkg\httpd\include"
+  RD /S /Q "%ODIR%\pkg\httpd\logs"
+  RD /S /Q "%ODIR%\pkg\httpd\lib"
+  RD /S /Q "%ODIR%\pkg\httpd\manual"
+  xcopy %STUB%\httpd\conf %ODIR%\pkg\httpd\conf /E /I /Y > nul
 )
 
 :: ImageMagick
 if not exist "%TMPDIR%\imagick-%ver_imagick%.zip" (
-  echo. && echo Downloading ImageMagick v%ver_imagick% ...
+  echo. && echo ^> Downloading ImageMagick v%ver_imagick% ...
   %CURL% -L# "http://windows.php.net/downloads/pecl/deps/ImageMagick-%ver_imagick%-vc15-x64.zip" -o "%TMPDIR%\imagick-%ver_imagick%.zip"
 )
 if exist "%TMPDIR%\imagick-%ver_imagick%.zip" (
   echo. && echo ^> Extracting ImageMagick v%ver_imagick% ...
-  if exist "%ODIR%\imagick" RD /S /Q "%ODIR%\imagick"
-  %UNZIP% x "%TMPDIR%\imagick-%ver_imagick%.zip" -o"%ODIR%\imagick" -y > nul
+  if exist "%ODIR%\pkg\imagick" RD /S /Q "%ODIR%\pkg\imagick"
+  %UNZIP% x "%TMPDIR%\imagick-%ver_imagick%.zip" -o"%ODIR%\pkg\imagick" -y > nul
 )
 
 :: Composer
 if not exist "%TMPDIR%\composer.phar" (
-  echo. && echo Downloading Composer v%ver_composer% ...
+  echo. && echo ^> Downloading Composer v%ver_composer% ...
   %CURL% -L# "https://getcomposer.org/download/%ver_composer%/composer.phar" -o "%TMPDIR%\composer.phar"
 )
 if exist "%TMPDIR%\composer.phar" ( copy /Y "%TMPDIR%\composer.phar" "%ODIR%\utils\composer.phar" > nul )
 
 :: ionCube Loader VC15
 if not exist "%TMPDIR%\ioncube-vc15.zip" (
-  echo. && echo Downloading ionCube loader ...
+  echo. && echo ^> Downloading ionCube loader ...
   %CURL% -L# "https://downloads.ioncube.com/loader_downloads/ioncube_loaders_win_vc15_x86-64.zip" -o "%TMPDIR%\ioncube-vc15.zip"
 )
 if exist "%TMPDIR%\ioncube-vc15.zip" (
   echo. && echo ^> Extracting ionCube loader ...
   if exist "%TMPDIR%\ioncube" RD /S /Q "%TMPDIR%\ioncube"
   %UNZIP% x "%TMPDIR%\ioncube-vc15.zip" -o"%TMPDIR%" -y > nul
-  copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.2.dll" "%ODIR%\php\php-7.2-ts\ext\php_ioncube.dll" > nul
-  copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.3.dll" "%ODIR%\php\php-7.3-ts\ext\php_ioncube.dll" > nul
+  copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.2.dll" "%ODIR%\pkg\php\php-7.2-ts\ext\php_ioncube.dll" > nul
+  copy /Y "%TMPDIR%\ioncube\ioncube_loader_win_7.3.dll" "%ODIR%\pkg\php\php-7.3-ts\ext\php_ioncube.dll" > nul
 )
 
 :: VCRedist 2012 + 2015-2019
 set "URL_VCREDIST_1519=https://aka.ms/vs/16/release/VC_redist.x64.exe"
 set "URL_VCREDIST_2012=https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe"
 if not exist "%TMPDIR%\vcredis\" (
-  echo. && echo Downloading Visual C++ Redistributable ...
+  echo. && echo ^> Downloading Visual C++ Redistributable ...
   if not exist "%TMPDIR%\vcredis" mkdir "%TMPDIR%\vcredis" 2> NUL
   %CURL% -L# %URL_VCREDIST_2012% -o "%TMPDIR%\vcredis\vcredis2012x64.exe"
   %CURL% -L# %URL_VCREDIST_1519% -o "%TMPDIR%\vcredis\vcredis1519x64.exe"
@@ -199,23 +198,23 @@ if not exist "%TMPDIR%\vcredis\" (
 
 :: Mailhog + mhsendmail
 if not exist "%TMPDIR%\mailhog.exe" (
-  echo. && echo Downloading Mailhog v%ver_mailhog% ...
+  echo. && echo ^> Downloading Mailhog v%ver_mailhog% ...
   %CURL% -L# "https://github.com/mailhog/MailHog/releases/download/v%ver_mailhog%/MailHog_windows_amd64.exe" -o "%TMPDIR%\mailhog.exe"
   %CURL% -L# "https://github.com/mailhog/mhsendmail/releases/download/v%ver_mhsendmail%/mhsendmail_windows_amd64.exe" -o "%TMPDIR%\mhsendmail.exe"
 )
 if exist "%TMPDIR%\mailhog.exe" (
   echo. && echo ^> Extracting Mailhog v%ver_mailhog% ...
-  if not exist "%ODIR%\mailhog" mkdir "%ODIR%\mailhog" 2> NUL
-  copy /Y "%TMPDIR%\mailhog.exe" "%ODIR%\mailhog\mailhog.exe" > nul
-  copy /Y "%TMPDIR%\mhsendmail.exe" "%ODIR%\mailhog\mhsendmail.exe" > nul
-  copy /Y "%STUB%\config\mailhogservice.xml" "%ODIR%\mailhog\mailhogservice.xml" > nul
-  copy /Y "%~dp0utils\winsw.exe" "%ODIR%\mailhog\mailhogservice.exe" > nul
+  if not exist "%ODIR%\pkg\mailhog" mkdir "%ODIR%\pkg\mailhog" 2> NUL
+  copy /Y "%TMPDIR%\mailhog.exe" "%ODIR%\pkg\mailhog\mailhog.exe" > nul
+  copy /Y "%TMPDIR%\mhsendmail.exe" "%ODIR%\pkg\mailhog\mhsendmail.exe" > nul
+  copy /Y "%STUB%\config\mailhogservice.xml" "%ODIR%\pkg\mailhog\mailhogservice.xml" > nul
+  copy /Y "%~dp0utils\winsw.exe" "%ODIR%\pkg\mailhog\mailhogservice.exe" > nul
 )
 
 :: Adminer
 if not exist "%ODIR%\opt\adminer" (
   mkdir "%ODIR%\opt\adminer" 2> NUL
-  echo. && echo Downloading Adminer v%ver_adminer% ...
+  echo. && echo ^> Downloading Adminer v%ver_adminer% ...
   copy /Y "%STUB%\opt\adminer\index.php" "%ODIR%\opt\adminer\index.php" > nul
   %CURL% -Ls "https://github.com/vrana/adminer/releases/download/v%ver_adminer%/adminer-%ver_adminer%-en.php" -o "%ODIR%\opt\adminer\adminer.php"
   %CURL% -Ls "https://raw.githubusercontent.com/vrana/adminer/master/designs/rmsoft/adminer.css" -o "%ODIR%\opt\adminer\adminer.css"
@@ -230,54 +229,74 @@ if not exist "%ODIR%\opt\adminer" (
 
 :: mkcert
 if not exist "%TMPDIR%\mkcert.exe" (
-  echo. && echo Downloading mkcert v%ver_mkcert% ...
+  echo. && echo ^> Downloading mkcert v%ver_mkcert% ...
   %CURL% -L# "https://github.com/FiloSottile/mkcert/releases/download/v%ver_mkcert%/mkcert-v%ver_mkcert%-windows-amd64.exe" -o "%TMPDIR%\mkcert.exe"
 )
 if exist "%TMPDIR%\mkcert.exe" ( copy /Y "%TMPDIR%\mkcert.exe" "%ODIR%\utils\mkcert.exe" > nul )
+
+:: mkcert
+if not exist "%TMPDIR%\ngrok-amd64.zip" (
+  echo. && echo ^> Downloading Ngrok ...
+  %CURL% -L# "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip" -o "%TMPDIR%\ngrok-amd64.zip"
+)
+if exist "%TMPDIR%\ngrok-amd64.zip" (
+  echo. && echo ^> Extracting Ngrok ...
+  %UNZIP% x "%TMPDIR%\ngrok-amd64.zip" -o"%TMPDIR%" -y > nul
+  copy /Y "%TMPDIR%\ngrok.exe" "%ODIR%\utils\ngrok.exe" > nul
+)
 
 echo. && echo ^> Include extra utilities ...
 copy /Y "%~dp0utils\7za.dll" "%ODIR%\utils\7za.dll" > nul
 copy /Y "%~dp0utils\7za.exe" "%ODIR%\utils\7za.exe" > nul
 copy /Y "%~dp0utils\7zxa.dll" "%ODIR%\utils\7zxa.dll" > nul
-copy /Y "%~dp0utils\curl.exel" "%ODIR%\utils\curl.exe" > nul
-copy /Y "%~dp0utils\curl-ca-bundle.crtll" "%ODIR%\utils\curl-ca-bundle.crt" > nul
+copy /Y "%~dp0utils\curl.exe" "%ODIR%\utils\curl.exe" > nul
+copy /Y "%~dp0utils\curl-ca-bundle.crt" "%ODIR%\utils\curl-ca-bundle.crt" > nul
 copy /Y "%~dp0utils\libcurl-x64.dll" "%ODIR%\utils\libcurl-x64.dll" > nul
 
-:: Cleanup unused files
-echo. && echo ^> Cleanup unused files ...
-forfiles /p "%ODIR%" /s /m *.pdb /d -1 /c "cmd /c del /F @file"
-goto :menu
+echo. && echo ^> Include the stubs ...
+copy /Y "%STUB%\config\php.ini" "%ODIR%\pkg\php\php-7.2-ts\php.ini" > nul
+copy /Y "%STUB%\config\php.ini" "%ODIR%\pkg\php\php-7.3-ts\php.ini" > nul
+xcopy "%STUB%\htdocs" "%ODIR%\www" /E /I /Y > nul
+xcopy "%STUB%\opt" "%ODIR%\opt" /E /I /Y > nul
 
-:: ---------------------------------------------------------------------------------------------------------------------
-:install_msbuild
-echo. && echo ^> Installing JetBrains MSBuild ...
-if not exist "%TMP%\JetMSBuild.zip" ( %CURL% -L# "https://jb.gg/msbuild" -o "%TMP%\JetMSBuild.zip" )
-if exist "%TMP%\JetMSBuild.zip" ( %UNZIP% x "%TMP%\JetMSBuild.zip" -o"%HOMEDRIVE%\SDK\JetMSBuild" -y > nul )
-echo. && echo ^> JetBrains MSBuild has been installed!
 echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
 :compile_app
-echo. && echo ^> Compiling Varlet App ... && echo.
+if not exist "%HOMEDRIVE%\SDK\JetMSBuild" (
+  echo. && echo ^> Installing JetBrains MSBuild ...
+  if not exist "%TMP%\JetMSBuild.zip" ( %CURL% -L# "https://jb.gg/msbuild" -o "%TMP%\JetMSBuild.zip" )
+  if exist "%TMP%\JetMSBuild.zip" ( %UNZIP% x "%TMP%\JetMSBuild.zip" -o"%HOMEDRIVE%\SDK\JetMSBuild" -y > nul )
+)
+
 if not exist "%~dp0source\packages" (
-  echo. && echo Installing Nuget packages ... && echo.
+  echo. && echo ^> Installing Nuget packages ...
   "%~dp0utils\nuget.exe" install "%~dp0source\VarletCli\packages.config" -OutputDirectory "%~dp0source\packages" > nul
   "%~dp0utils\nuget.exe" install "%~dp0source\VarletUi\packages.config" -OutputDirectory "%~dp0source\packages" > nul
 )
 
-if exist "%programfiles%\JetBrains\JetBrains Rider 2019.2.3\tools\MSBuild\Current\Bin\MSBuild.exe" (
-  "%programfiles%\JetBrains\JetBrains Rider 2019.2.3\tools\MSBuild\Current\Bin\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
-) else (
-  "%HOMEDRIVE%\SDK\JetMSBuild\MSBuild\15.0\Bin\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
-)
-copy /Y "%~dp0source\_release\varlet.exe" "%ODIR%\utils\varlet.exe" > nul
-copy /Y "%~dp0source\_release\VarletUi.exe" "%ODIR%\VarletUi.exe" > nul
+echo. && echo ^> Compiling Varlet App ... && echo.
+"%HOMEDRIVE%\SDK\JetMSBuild\MSBuild\15.0\Bin\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
 echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
 :compile_inno
+echo. && echo ^> Cleanup unused files ...
+for /R "%ODIR%" %%G in (*.pdb) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (*.exe.config) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (CommandLine*.xml) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (Newtonsoft*.xml) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (Semver*.xml) do "cmd /c del /F %%G"
+
 echo. && echo ^> Compiling installer files ...
 "%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
+
+echo. && echo ^> Compressing varlet portable ...
+for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dstdir\VarletUi.exe') do set ver_varlet=%%i
+if exist "%~dp0_output\varlet-%ver_varlet%-x64.7z" ( del /F "%~dp0_output\varlet-%ver_varlet%-x64.7z" )
+%UNZIP% a -r -bsp1 -t7z "%~dp0_output\varlet-%ver_varlet%-x64.7z" "%~dp0_dstdir"
+%UNZIP% rn "%~dp0_output\varlet-%ver_varlet%-x64.7z" _dstdir varlet
+
 echo. && echo. && echo Setup file has been created!
 echo. && goto :menu
 

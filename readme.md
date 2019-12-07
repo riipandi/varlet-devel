@@ -28,7 +28,7 @@ To install Varlet you need [dotNet Framework](https://dotnet.microsoft.com/downl
 then download [latest release](https://github.com/riipandi/varlet/releases) and run installation file.
 
 Varlet doesn't have `park` command like Laravel Valet does, your project files can stored at:
-`installation_path\htdocs`.
+`installation_path\www`.
 
 Or, you can use the `varlet link` command and place your project files in any directory you want.
 

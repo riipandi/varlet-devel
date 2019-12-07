@@ -12,7 +12,7 @@ namespace Variety
 
         static Globals()
         {
-            DefaultPhpVersion = "7.2";
+            DefaultPhpVersion = "php-7.3-ts";
             ServiceNameHttp = "VarletHttpd";
             LastUpdateCheck = 5;
         }
