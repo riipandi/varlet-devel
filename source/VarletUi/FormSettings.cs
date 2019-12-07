@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
+using Variety;
 
 namespace VarletUi
 {
@@ -7,6 +9,11 @@ namespace VarletUi
         public FormSettings()
         {
             InitializeComponent();
+        }
+
+        private void FormSettings_Load(object sender, EventArgs e)
+        {
+            // do something
         }
     }
 }

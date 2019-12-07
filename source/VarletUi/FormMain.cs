@@ -3,33 +3,15 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
-using System.Threading;
 using Variety;
+using static System.String;
 using static System.Windows.Forms.Application;
-// using System.Security.Principal;
 
 namespace VarletUi
 {
     public partial class FormMain : Form
     {
         private static bool RunMinimized { get; set; }
-
-        /*
-        private static bool IsUserAdministrator()
-        {
-            bool isAdmin;
-            try {
-                var user = WindowsIdentity.GetCurrent();
-                var principal = new WindowsPrincipal(user);
-                isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
-            } catch (UnauthorizedAccessException ex) {
-                isAdmin = false;
-            } catch (Exception ex) {
-                isAdmin = false;
-            }
-            return isAdmin;
-        }
-        */
 
         public FormMain(string parameter = "normal")
         {
@@ -52,11 +34,6 @@ namespace VarletUi
 
         private void InitializeWindow()
         {
-            var cf = Config.Load();
-            cf.PhpVersion = Globals.PhpVersion;
-            cf.InstallHttpService = true;
-            cf.InstalMailhogService = true;
-            cf.Save(Globals.AppConfigFile);
             Text = "Varlet v" + Globals.AppVersion + " build " + Globals.AppBuildNumber;
             btnServices.Text = "Start Services";
             comboPhpVersion.Enabled = true;
@@ -150,7 +127,8 @@ namespace VarletUi
                 foreach (var t in Directory.GetDirectories(pkgPhp))  {
                     comboPhpVersion.Items.Add(Path.GetFileName(t));
                 }
-                comboPhpVersion.SelectedIndex = comboPhpVersion.FindStringExact(Globals.PhpVersion);
+                comboPhpVersion.SelectedIndex = !IsNullOrEmpty(Config.Get("Services", "PhpVersion")) ?
+                        comboPhpVersion.FindStringExact(Config.Get("Services", "PhpVersion")) : 0;
             }
             catch (FormatException)
             {
@@ -216,6 +194,11 @@ namespace VarletUi
         private void lblReloadSmtp_Click(object sender, EventArgs e)
         {
             Services.Restart(Globals.SmtpServiceName);
+        }
+
+        private void comboPhpVersion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Config.Update("Services", comboPhpVersion.Text);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Variety
 {
@@ -15,19 +16,25 @@ namespace Variety
             File.WriteAllText(configFile, json);
         }
 
-        public void Update(string configFile)
+        public static void Update(string channel, string key)
         {
-            var json = JsonConvert.SerializeObject(this, Formatting.Indented);
-            File.WriteAllText(configFile, json);
+            var f = File.ReadAllText(Globals.AppConfigFile);
+            var o = JObject.Parse(f);
+            var c = (JObject)o[channel];
+            c[key] = ((string)c[key]).ToUpper();
+        }
+
+        public static string Get(string channel, string key)
+        {
+            var f = File.ReadAllText(Globals.AppConfigFile);
+            var o = JObject.Parse(f);
+            var c = (JObject)o[channel];
+            return (string)c[key];
         }
 
         public static Config Load()
         {
-            string jsonValue;
-
-            // var jsonValue = File.ReadAllText(configFile);
-
-            jsonValue = @"{
+            const string jsonValue = @"{
                 PhpVersion: '7.3',
                 InstallHttpService: true,
                 InstalMailhogService: false,
