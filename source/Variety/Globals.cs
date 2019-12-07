@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 
 namespace Variety
@@ -29,9 +31,10 @@ namespace Variety
             }
         }
 
-        public static string ConfigFileName()
+        public static string AppConfigFile()
         {
-            return "varlet.json";
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            return path + @"\varlet.json";
         }
     }
 }

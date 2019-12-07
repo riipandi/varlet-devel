@@ -98,7 +98,7 @@ namespace Variety
          {
             return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
          }
-         
+
          public static string DirProgramFiles(string path)
          {
              if( 8 == IntPtr.Size  || (!IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432"))))  {

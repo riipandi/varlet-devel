@@ -24,9 +24,9 @@ namespace Variety
         public static Config Load()
         {
             string jsonValue;
-            
-            // var jsonValue = File.ReadAllText(configFileName);
-            
+
+            // var jsonValue = File.ReadAllText(configFile);
+
             jsonValue = @"{
                 PhpVersion: '7.3',
                 InstallHttpService: true,

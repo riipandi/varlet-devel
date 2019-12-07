@@ -10,7 +10,7 @@ namespace VarletUi
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        private static void Main()
+        static void Main(string[] args)
         {
             using (var mtx = new Mutex(true, "VarletUi", out var instanceCountOne))
             {
@@ -19,7 +19,7 @@ namespace VarletUi
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     _ = new TrayContext();
-                    Application.Run(new FormMain());
+                    Application.Run(args.Length != 0 ? new FormMain(args[0]) : new FormMain());
                     mtx.ReleaseMutex();
                 }
                 else

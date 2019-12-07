@@ -71,7 +71,7 @@ namespace VarletUi
 
         public void ShowTrayIconNotification()
         {
-            TrayIcon.ShowBalloonTip(5000);
+            TrayIcon.ShowBalloonTip(3000);
             TrayIcon.Dispose();
         }
 

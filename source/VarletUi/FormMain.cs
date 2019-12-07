@@ -9,21 +9,33 @@ namespace VarletUi
 {
     public partial class FormMain : Form
     {
-        public FormMain()
+        private static bool RunMinimized { get; set; }
+
+        public FormMain(string parameter = "normal")
         {
             InitializeComponent();
+            if (parameter != "/minimized") return;
+            RunMinimized = true;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            InitiateWindow();
-            CheckAvailablePHP();
+            InitializeWindow();
+            CheckAvailablePhp();
+            if (!RunMinimized) return;
+            WindowState = FormWindowState.Minimized;
+            ShowInTaskbar = false;
+            BeginInvoke(new MethodInvoker(Close));
+            RunMinimized = false;
+        }
 
+        private void InitializeWindow()
+        {
             var cf = Config.Load();
             cf.PhpVersion = Globals.DefaultPhpVersion;
             cf.InstallHttpService = true;
             cf.InstalMailhogService = true;
-            cf.Save(Globals.ConfigFileName());
+            cf.Save(Globals.AppConfigFile());
 
             var httpSvcName = Globals.ServiceNameHttp;
             if (Services.IsServiceInstalled(httpSvcName)) {
@@ -68,6 +80,12 @@ namespace VarletUi
                 lblReloadSmtp.Enabled = false;
                 lblLogfileSmtp.Enabled = false;
             }
+
+            Text = Application.ProductName + " v" + Globals.Version;
+        }
+
+        private void FormMain_FormClosing(Object sender, FormClosingEventArgs e) {
+            // do something
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -82,15 +100,6 @@ namespace VarletUi
         {
             base.OnClosed(e);
             (new TrayContext()).ExitApplication();
-        }
-
-        private void InitiateWindow()
-        {
-            Text = Application.ProductName + " v" + Globals.Version;
-
-            Activate();
-            BringToFront();
-            Focus();
         }
 
         private void btnServices_Click(object sender, EventArgs e)
@@ -125,7 +134,7 @@ namespace VarletUi
             }
         }
 
-        private void CheckAvailablePHP()
+        private void CheckAvailablePhp()
         {
             var pkgPhp = Common.GetAppPath() + @"\pkg\php";
 
