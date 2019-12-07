@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.IO;
 using Variety;
 using static System.Windows.Forms.Application;
+// using System.Security.Principal;
 
 namespace VarletUi
 {
@@ -12,9 +13,27 @@ namespace VarletUi
     {
         private static bool RunMinimized { get; set; }
 
+        /*
+        private static bool IsUserAdministrator()
+        {
+            bool isAdmin;
+            try {
+                var user = WindowsIdentity.GetCurrent();
+                var principal = new WindowsPrincipal(user);
+                isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            } catch (UnauthorizedAccessException ex) {
+                isAdmin = false;
+            } catch (Exception ex) {
+                isAdmin = false;
+            }
+            return isAdmin;
+        }
+        */
+
         public FormMain(string parameter = "normal")
         {
             InitializeComponent();
+            CheckServiceStatus();
             if (parameter != "/minimized") return;
             RunMinimized = true;
         }
@@ -37,56 +56,34 @@ namespace VarletUi
             cf.InstallHttpService = true;
             cf.InstalMailhogService = true;
             cf.Save(Globals.AppConfigFile());
-
-            var httpSvcName = Globals.ServiceNameHttp;
-            if (Services.IsServiceInstalled(httpSvcName)) {
-                pictStatusHttpd.BackColor = Color.OrangeRed;
-                if (Services.IsServiceRunning(httpSvcName))
-                {
-                    pictStatusHttpd.BackColor = Color.Green;
-                    btnServices.Text = "&Stop Services";
-                    comboPhpVersion.Enabled = false;
-                    lblReloadHttpd.Enabled = true;
-                    lblLogfileHttpd.Enabled = true;
-                    lblReloadSmtp.Enabled = true;
-                    lblLogfileSmtp.Enabled = true;
-                } else {
-                    pictStatusHttpd.BackColor = Color.OrangeRed;
-                    btnServices.Text = "&Start Services";
-                    comboPhpVersion.Enabled = true;
-                }
-            } else {
-                pictStatusHttpd.BackColor = Color.SlateGray;
-            }
-
-            var smtpSvcName = Globals.ServiceNameSmtp;
-            if (Services.IsServiceInstalled(smtpSvcName)) {
-                pictStatusSmtp.BackColor = Color.OrangeRed;
-                if (Services.IsServiceRunning(smtpSvcName))
-                {
-                    pictStatusSmtp.BackColor = Color.Green;
-                    btnServices.Text = "&Stop Services";
-                    lblReloadHttpd.Enabled = true;
-                    lblLogfileHttpd.Enabled = true;
-                    lblReloadSmtp.Enabled = true;
-                    lblLogfileSmtp.Enabled = true;
-                } else {
-                    pictStatusSmtp.BackColor = Color.OrangeRed;
-                    btnServices.Text = "&Start Services";
-                }
-            } else {
-                pictStatusSmtp.BackColor = Color.SlateGray;
-                lblReloadHttpd.Enabled = false;
-                lblLogfileHttpd.Enabled = false;
-                lblReloadSmtp.Enabled = false;
-                lblLogfileSmtp.Enabled = false;
-            }
-
             Text = Application.ProductName + " v" + Globals.Version;
+
+            if (Services.IsHttpServiceRun == true)
+            {
+                pictStatusHttpd.BackColor = Color.Green;
+                btnServices.Text = "Stop Services";
+                comboPhpVersion.Enabled = false;
+                lblReloadHttpd.Enabled = true;
+                lblLogfileHttpd.Enabled = true;
+            }
+
+            if (Services.IsSmtpServiceRun == true)
+            {
+                pictStatusSmtp.BackColor = Color.Green;
+                btnServices.Text = "Stop Services";
+                lblReloadSmtp.Enabled = true;
+                lblLogfileSmtp.Enabled = true;
+            }
         }
 
-        private void FormMain_FormClosing(Object sender, FormClosingEventArgs e) {
-            // do something
+        private static void CheckServiceStatus() {
+            if (Services.IsServiceInstalled(Globals.ServiceNameHttp) && Services.IsServiceRunning(Globals.ServiceNameHttp))  {
+                Services.IsHttpServiceRun = true;
+            }
+
+            if (Services.IsServiceInstalled(Globals.ServiceNameSmtp) && Services.IsServiceRunning(Globals.ServiceNameSmtp))  {
+                Services.IsSmtpServiceRun = true;
+            }
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -109,10 +106,37 @@ namespace VarletUi
 
         private void btnServices_Click(object sender, EventArgs e)
         {
-            // do something
+            if (btnServices.Text == "Start Services")  {
+                StartingService();
+            } else {
+                StoppingService();
+            }
+            CheckServiceStatus();
         }
 
-        public void btnTerminal_Click(object sender, EventArgs e)
+        private void StartingService()
+        {
+            pictStatusHttpd.BackColor = Color.Green;
+            btnServices.Text = "Stop Services";
+            comboPhpVersion.Enabled = false;
+            lblReloadHttpd.Enabled = true;
+            lblLogfileHttpd.Enabled = true;
+            lblReloadSmtp.Enabled = true;
+            lblLogfileSmtp.Enabled = true;
+        }
+
+        private void StoppingService()
+        {
+            pictStatusHttpd.BackColor = Color.Red;
+            btnServices.Text = "Start Services";
+            comboPhpVersion.Enabled = true;
+            lblReloadHttpd.Enabled = false;
+            lblLogfileHttpd.Enabled = false;
+            lblReloadSmtp.Enabled = false;
+            lblLogfileSmtp.Enabled = false;
+        }
+
+        private void btnTerminal_Click(object sender, EventArgs e)
         {
             var wwwDir = Common.GetAppPath() + @"\www";
             try
@@ -175,6 +199,36 @@ namespace VarletUi
         public void lblSettings_Click(object sender, EventArgs e)
         {
             new FormSettings().ShowDialog();
+        }
+
+        private void lblLogfileHttpd_Click(object sender, EventArgs e)
+        {
+            var file = Common.GetAppPath() + @"\tmp\httpd_error.log";
+            if (!File.Exists(file))  {
+                MessageBox.Show("File "+file+" not found!");
+            } else  {
+                Common.OpenWithNotepad(file);
+            }
+        }
+
+        private void lblLogfileSmtp_Click(object sender, EventArgs e)
+        {
+            var file = Common.GetAppPath() + @"\tmp\mailhogservice.err.log";
+            if (!File.Exists(file))  {
+                MessageBox.Show("File "+file+" not found!");
+            } else  {
+                Common.OpenWithNotepad(file);
+            }
+        }
+
+        private void lblPhpIni_Click(object sender, EventArgs e)
+        {
+            var file = Common.GetAppPath() + @"\pkg\php\"+comboPhpVersion.Text+@"\php.ini";
+            if (!File.Exists(file))  {
+                MessageBox.Show("File "+file+" not found!");
+            } else  {
+                Common.OpenWithNotepad(file);
+            }
         }
     }
 }

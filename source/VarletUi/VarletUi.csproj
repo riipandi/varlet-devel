@@ -16,6 +16,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>false</Deterministic>
     <ApplicationIcon>..\Resources\varlet_icon.ico</ApplicationIcon>
+    <!-- <ApplicationManifest>Properties\app.manifest</ApplicationManifest> -->
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

@@ -8,72 +8,129 @@ namespace Variety
 {
     internal static class Services
     {
-        public static bool IsServiceInstalled(string serviceName)
-        {
-            var services = ServiceController.GetServices();
+        public static bool IsHttpServiceRun { get; set; }
+        public static bool IsSmtpServiceRun { get; set; }
 
-            return services.Any(service => service.ServiceName == serviceName);
+        static Services()
+        {
+            IsHttpServiceRun = false;
+            IsSmtpServiceRun = false;
+        }
+        public static bool IsServiceInstalled(string ServiceName)
+        {
+            return ServiceController.GetServices().Any(serviceController => serviceController.ServiceName.Equals(ServiceName));
         }
 
-        public static bool IsServiceRunning(string serviceName)
+        /// <summary>
+        /// Start a service by it's name
+        /// </summary>
+        /// <param name="ServiceName"></param>
+        public static void StartService(string ServiceName)
         {
-            var services = ServiceController.GetServices();
+            ServiceController sc = new ServiceController();
+            sc.ServiceName = ServiceName;
 
-            return services.Any(service => (service.ServiceName == serviceName) && (service.Status == ServiceControllerStatus.Running));
-        }
+            Console.WriteLine("The {0} service status is currently set to {1}", ServiceName, sc.Status.ToString());
 
-        public static void StartService(string serviceName, int timeoutMilliseconds = 200)
-        {
-            try
+            if (sc.Status == ServiceControllerStatus.Stopped)
             {
-                var service = new ServiceController(serviceName);
-                var timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds);
-                service.Start();
-                service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+                // Start the service if the current status is stopped.
+                Console.WriteLine("Starting the {0} service ...", ServiceName);
+                try
+                {
+                    // Start the service, and wait until its status is "Running".
+                    sc.Start();
+                    sc.WaitForStatus(ServiceControllerStatus.Running);
+
+                    // Display the current service status.
+                    Console.WriteLine("The {0} service status is now set to {1}.", ServiceName , sc.Status.ToString());
+                }
+                catch (InvalidOperationException e)
+                {
+                    Console.WriteLine("Could not start the {0} service.", ServiceName);
+                    Console.WriteLine(e.Message);
+                }
             }
-            catch (FormatException)
+            else
             {
-                // do something
-            }
-        }
-
-        public static void RestartService(string serviceName, int timeoutMilliseconds)
-        {
-            var service = new ServiceController(serviceName);
-            
-            try
-            {
-                var millisec1 = Environment.TickCount;
-                var timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds);
-
-                service.Stop();
-                service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
-
-                // count the rest of the timeout
-                var millisec2 = Environment.TickCount;
-                timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds - (millisec2 - millisec1));
-
-                service.Start();
-                service.WaitForStatus(ServiceControllerStatus.Running, timeout);
-            }
-            catch (FormatException)
-            {
-                // do something
+                Console.WriteLine("Service {0} already running.", ServiceName);
             }
         }
 
-        public static void StopService(string serviceName, int timeoutMilliseconds)
+        /// <summary>
+        /// Stop a service that is active
+        /// </summary>
+        /// <param name="ServiceName"></param>
+        public static void StopService(string ServiceName)
         {
-            try
+            ServiceController sc = new ServiceController();
+            sc.ServiceName = ServiceName;
+
+            Console.WriteLine("The {0} service status is currently set to {1}", ServiceName , sc.Status.ToString());
+
+            if (sc.Status == ServiceControllerStatus.Running)
             {
-                var service = new ServiceController(serviceName);
-                var timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds);
-                service.Stop();
-                service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+                // Start the service if the current status is stopped.
+                Console.WriteLine("Stopping the {0} service ...", ServiceName);
+                try
+                {
+                    // Start the service, and wait until its status is "Running".
+                    sc.Stop();
+                    sc.WaitForStatus(ServiceControllerStatus.Stopped);
+
+                    // Display the current service status.
+                    Console.WriteLine("The {0} service status is now set to {1}.", ServiceName, sc.Status.ToString());
+                }
+                catch (InvalidOperationException e)
+                {
+                    Console.WriteLine("Could not stop the {0} service.", ServiceName);
+                    Console.WriteLine(e.Message);
+                }
             }
-            catch (FormatException)
+            else
             {
-                // do something
+                Console.WriteLine("Cannot stop service {0} because it's already inactive.", ServiceName);
+            }
+        }
+
+        /// <summary>
+        ///  Verify if a service is running.
+        /// </summary>
+        /// <param name="ServiceName"></param>
+        public static bool IsServiceRunning(string ServiceName)
+        {
+            var sc = new ServiceController();
+            sc.ServiceName = ServiceName;
+
+            if (sc.Status == ServiceControllerStatus.Running)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Reboots a service
+        /// </summary>
+        /// <param name="ServiceName"></param>
+        public static void RestartService(string ServiceName)
+        {
+            if (IsServiceInstalled(ServiceName))
+            {
+                if (IsServiceRunning(ServiceName))
+                {
+                    StopService(ServiceName);
+                }
+                else
+                {
+                    StartService(ServiceName);
+                }
+            }else
+            {
+                Console.WriteLine("The given service {0} doesn't exists", ServiceName);
             }
         }
     }
