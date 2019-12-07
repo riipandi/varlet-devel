@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using Variety;
+using static System.Windows.Forms.Application;
 
 namespace VarletUi
 {
@@ -90,11 +91,13 @@ namespace VarletUi
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (!e.CloseReason.Equals(CloseReason.WindowsShutDown)) {
+            if (e.CloseReason.Equals(CloseReason.UserClosing)) {
                 base.OnFormClosing(e);
                 e.Cancel = true;
                 (new TrayContext()).ShowTrayIconNotification();
                 Hide();
+            } else  {
+                ExitThread();
             }
         }
 

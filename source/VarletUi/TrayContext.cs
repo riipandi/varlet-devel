@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading;
+using static System.Windows.Forms.Application;
 
 namespace VarletUi
 {
@@ -25,8 +26,8 @@ namespace VarletUi
             {
                 Visible = true,
                 Icon = ((System.Drawing.Icon)(res.GetObject("$this.Icon"))),
-                BalloonTipText = Application.ProductName + " minimized to tray.",
-                Text = Application.ProductName + "v" + Application.ProductVersion,
+                BalloonTipText = ProductName + " minimized to tray.",
+                Text = ProductName + "v" + ProductVersion,
             };
             TrayIcon.DoubleClick += new System.EventHandler(TrayIcon_DoubleClick);
 
@@ -35,7 +36,7 @@ namespace VarletUi
             TrayIcon.ContextMenuStrip = TrayContextMenu;
 
             // Context menu item
-            TrayMenuItemDisplayForm = new ToolStripMenuItem() { Text = "Open " + Application.ProductName };
+            TrayMenuItemDisplayForm = new ToolStripMenuItem() { Text = "Open " + ProductName };
             TrayMenuItemDisplayForm.Click += new EventHandler(TrayMenuItemDisplayForm_Click);
 
             TrayMenuItemOptions = new ToolStripMenuItem() { Text = "&Options" };
@@ -57,7 +58,7 @@ namespace VarletUi
             {
                 ShowMainForm();
                 var fs = new FormSettings();
-                foreach (Form fc in Application.OpenForms) {
+                foreach (Form fc in OpenForms) {
                     if (fc.Name == fs.Name) fc.Dispose();
                 }
 
@@ -98,7 +99,7 @@ namespace VarletUi
         protected override void ExitThreadCore()
         {
             base.ExitThreadCore();
-            if (MessageBox.Show("Exit Varlet Controller?", Application.ProductName, MessageBoxButtons.YesNo) !=  DialogResult.Yes) return;
+            if (MessageBox.Show("Exit Varlet Controller?", ProductName, MessageBoxButtons.YesNo) !=  DialogResult.Yes) return;
             TrayIcon.Dispose();
             Application.ExitThread();
         }
@@ -107,7 +108,7 @@ namespace VarletUi
         {
             try {
                 var fm = new FormMain();
-                foreach (Form fc in Application.OpenForms) {
+                foreach (Form fc in OpenForms) {
                     if (fc.Name == fm.Name) fc.Hide();
                 }
                 fm.Show();
