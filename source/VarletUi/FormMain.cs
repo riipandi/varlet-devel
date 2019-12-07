@@ -91,6 +91,9 @@ namespace VarletUi
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
+            if (e.CloseReason.Equals(CloseReason.WindowsShutDown)) {
+                Application.Exit();
+            }
             e.Cancel = true;
             (new TrayContext()).ShowTrayIconNotification();
             Hide();
