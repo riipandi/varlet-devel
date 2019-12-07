@@ -57,32 +57,38 @@ namespace VarletUi
             cf.InstalMailhogService = true;
             cf.Save(Globals.AppConfigFile());
             Text = Application.ProductName + " v" + Globals.Version;
-
-            if (Services.IsHttpServiceRun == true)
-            {
-                pictStatusHttpd.BackColor = Color.Green;
-                btnServices.Text = "Stop Services";
-                comboPhpVersion.Enabled = false;
-                lblReloadHttpd.Enabled = true;
-                lblLogfileHttpd.Enabled = true;
-            }
-
-            if (Services.IsSmtpServiceRun == true)
-            {
-                pictStatusSmtp.BackColor = Color.Green;
-                btnServices.Text = "Stop Services";
-                lblReloadSmtp.Enabled = true;
-                lblLogfileSmtp.Enabled = true;
-            }
         }
 
-        private static void CheckServiceStatus() {
-            if (Services.IsServiceInstalled(Globals.ServiceNameHttp) && Services.IsServiceRunning(Globals.ServiceNameHttp))  {
-                Services.IsHttpServiceRun = true;
+        private void CheckServiceStatus() {
+            btnServices.Text = "Start Services";
+            comboPhpVersion.Enabled = true;
+            lblReloadHttpd.Enabled = false;
+            lblLogfileHttpd.Enabled = false;
+            lblReloadSmtp.Enabled = false;
+            lblLogfileSmtp.Enabled = false;
+
+            if (Services.IsServiceInstalled(Globals.ServiceNameHttp))  {
+                pictStatusHttpd.BackColor = Color.Red;
+                if (Services.IsServiceRunning(Globals.ServiceNameHttp))
+                {
+                    pictStatusHttpd.BackColor = Color.Green;
+                    btnServices.Text = "Stop Services";
+                    comboPhpVersion.Enabled = false;
+                    lblReloadHttpd.Enabled = true;
+                    lblLogfileHttpd.Enabled = true;
+                    Services.IsHttpServiceRun = true;
+                }
             }
 
-            if (Services.IsServiceInstalled(Globals.ServiceNameSmtp) && Services.IsServiceRunning(Globals.ServiceNameSmtp))  {
-                Services.IsSmtpServiceRun = true;
+            if (Services.IsServiceInstalled(Globals.ServiceNameSmtp))  {
+                pictStatusSmtp.BackColor = Color.Red;
+                if (Services.IsServiceRunning(Globals.ServiceNameSmtp))  {
+                    pictStatusSmtp.BackColor = Color.Green;
+                    btnServices.Text = "Stop Services";
+                    lblReloadSmtp.Enabled = true;
+                    lblLogfileSmtp.Enabled = true;
+                    Services.IsSmtpServiceRun = true;
+                }
             }
         }
 
@@ -106,10 +112,14 @@ namespace VarletUi
 
         private void btnServices_Click(object sender, EventArgs e)
         {
-            if (btnServices.Text == "Start Services")  {
-                StartingService();
-            } else {
+            if ((Services.IsHttpServiceRun == true) || (Services.IsSmtpServiceRun == true))  {
                 StoppingService();
+                Services.IsHttpServiceRun = false;
+                Services.IsSmtpServiceRun = false;
+            } else {
+                StartingService();
+                Services.IsHttpServiceRun = true;
+                Services.IsSmtpServiceRun = true;
             }
             CheckServiceStatus();
         }
@@ -229,6 +239,18 @@ namespace VarletUi
             } else  {
                 Common.OpenWithNotepad(file);
             }
+        }
+
+        private void lblReloadHttpd_Click(object sender, EventArgs e)
+        {
+            Services.RestartService(Globals.ServiceNameHttp);
+            CheckServiceStatus();
+        }
+
+        private void lblReloadSmtp_Click(object sender, EventArgs e)
+        {
+            Services.RestartService(Globals.ServiceNameSmtp);
+            CheckServiceStatus();
         }
     }
 }
