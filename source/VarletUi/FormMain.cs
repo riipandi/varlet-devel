@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 using Variety;
 using static System.Windows.Forms.Application;
 // using System.Security.Principal;
@@ -52,44 +53,19 @@ namespace VarletUi
         private void InitializeWindow()
         {
             var cf = Config.Load();
-            cf.PhpVersion = Globals.DefaultPhpVersion;
+            cf.PhpVersion = Globals.PhpVersion;
             cf.InstallHttpService = true;
             cf.InstalMailhogService = true;
-            cf.Save(Globals.AppConfigFile());
-            Text = "Varlet v" + Globals.Version;
-        }
-
-        private void CheckServiceStatus() {
+            cf.Save(Globals.AppConfigFile);
+            Text = "Varlet v" + Globals.AppVersion + " build " + Globals.AppBuildNumber;
             btnServices.Text = "Start Services";
             comboPhpVersion.Enabled = true;
             lblReloadHttpd.Enabled = false;
-            lblLogfileHttpd.Enabled = false;
             lblReloadSmtp.Enabled = false;
-            lblLogfileSmtp.Enabled = false;
+        }
 
-            if (Services.IsServiceInstalled(Globals.ServiceNameHttp))  {
-                pictStatusHttpd.BackColor = Color.Red;
-                if (Services.IsServiceRunning(Globals.ServiceNameHttp))
-                {
-                    pictStatusHttpd.BackColor = Color.Green;
-                    btnServices.Text = "Stop Services";
-                    comboPhpVersion.Enabled = false;
-                    lblReloadHttpd.Enabled = true;
-                    lblLogfileHttpd.Enabled = true;
-                    Services.IsHttpServiceRun = true;
-                }
-            }
-
-            if (Services.IsServiceInstalled(Globals.ServiceNameSmtp))  {
-                pictStatusSmtp.BackColor = Color.Red;
-                if (Services.IsServiceRunning(Globals.ServiceNameSmtp))  {
-                    pictStatusSmtp.BackColor = Color.Green;
-                    btnServices.Text = "Stop Services";
-                    lblReloadSmtp.Enabled = true;
-                    lblLogfileSmtp.Enabled = true;
-                    Services.IsSmtpServiceRun = true;
-                }
-            }
+        private void CheckServiceStatus() {
+            // do something
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -112,16 +88,11 @@ namespace VarletUi
 
         private void btnServices_Click(object sender, EventArgs e)
         {
-            if ((Services.IsHttpServiceRun == true) || (Services.IsSmtpServiceRun == true))  {
-                StoppingService();
+            if (Services.IsHttpServiceRun == false) {
+                Services.Start(Globals.HttpServiceName);
                 Services.IsHttpServiceRun = false;
                 Services.IsSmtpServiceRun = false;
-            } else {
-                StartingService();
-                Services.IsHttpServiceRun = true;
-                Services.IsSmtpServiceRun = true;
             }
-            CheckServiceStatus();
         }
 
         private void StartingService()
@@ -130,20 +101,16 @@ namespace VarletUi
             btnServices.Text = "Stop Services";
             comboPhpVersion.Enabled = false;
             lblReloadHttpd.Enabled = true;
-            lblLogfileHttpd.Enabled = true;
             lblReloadSmtp.Enabled = true;
-            lblLogfileSmtp.Enabled = true;
         }
 
         private void StoppingService()
         {
-            pictStatusHttpd.BackColor = Color.Red;
-            btnServices.Text = "Start Services";
-            comboPhpVersion.Enabled = true;
-            lblReloadHttpd.Enabled = false;
-            lblLogfileHttpd.Enabled = false;
-            lblReloadSmtp.Enabled = false;
-            lblLogfileSmtp.Enabled = false;
+            for (int I = 0; I <= 10; I++) {
+                btnServices.Text = "Stopping Services";
+                pictStatusHttpd.BackColor = Color.Red;
+                pictStatusSmtp.BackColor = Color.Red;
+            }
         }
 
         private void btnTerminal_Click(object sender, EventArgs e)
@@ -183,7 +150,7 @@ namespace VarletUi
                 foreach (var t in Directory.GetDirectories(pkgPhp))  {
                     comboPhpVersion.Items.Add(Path.GetFileName(t));
                 }
-                comboPhpVersion.SelectedIndex = comboPhpVersion.FindStringExact(Globals.DefaultPhpVersion);
+                comboPhpVersion.SelectedIndex = comboPhpVersion.FindStringExact(Globals.PhpVersion);
             }
             catch (FormatException)
             {
@@ -243,14 +210,12 @@ namespace VarletUi
 
         private void lblReloadHttpd_Click(object sender, EventArgs e)
         {
-            Services.RestartService(Globals.ServiceNameHttp);
-            CheckServiceStatus();
+            Services.Restart(Globals.HttpServiceName);
         }
 
         private void lblReloadSmtp_Click(object sender, EventArgs e)
         {
-            Services.RestartService(Globals.ServiceNameSmtp);
-            CheckServiceStatus();
+            Services.Restart(Globals.SmtpServiceName);
         }
     }
 }

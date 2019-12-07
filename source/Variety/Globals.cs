@@ -7,34 +7,41 @@ namespace Variety
 {
     public static class Globals
     {
-        public static string DefaultPhpVersion { get; set; }
-
-        public static string ServiceNameHttp { get; }
-        public static string ServiceNameSmtp { get; }
-        private static int LastUpdateCheck { get; set; }
+        public static string PhpVersion { get; set; }
+        public static string HttpServiceName { get; }
+        public static string SmtpServiceName { get; }
 
         static Globals()
         {
-            DefaultPhpVersion = "php-7.3-ts";
-            ServiceNameHttp = "VarletHttpd";
-            ServiceNameSmtp = "VarletMailhog";
-            LastUpdateCheck = 5;
+            PhpVersion = "php-7.3-ts";
+            HttpServiceName = "VarletHttpd";
+            SmtpServiceName = "VarletMailhog";
         }
 
-        public static string Version
+        public static string AppVersion
         {
-            get
-            {
+            get {
                 var asm = Assembly.GetExecutingAssembly();
                 var fvi = FileVersionInfo.GetVersionInfo(asm.Location);
                 return $"{fvi.ProductMajorPart}.{fvi.ProductMinorPart}.{fvi.ProductBuildPart}";
             }
         }
 
-        public static string AppConfigFile()
+        public static string AppBuildNumber
         {
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            return path + @"\varlet.json";
+            get {
+                var asm = Assembly.GetExecutingAssembly();
+                var fvi = FileVersionInfo.GetVersionInfo(asm.Location);
+                return $"{fvi.ProductPrivatePart}";
+            }
+        }
+
+        public static string AppConfigFile
+        {
+            get {
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                return path + @"\varlet.json";
+            }
         }
     }
 }
