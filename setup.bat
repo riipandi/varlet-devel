@@ -263,10 +263,10 @@ echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
 :compile_app
-if not exist "%HOMEDRIVE%\SDK\JetMSBuild" (
+if not exist "%TMPDIR%\JetMSBuild" (
   echo. && echo ^> Installing JetBrains MSBuild ...
   if not exist "%TMP%\JetMSBuild.zip" ( %CURL% -L# "https://jb.gg/msbuild" -o "%TMP%\JetMSBuild.zip" )
-  if exist "%TMP%\JetMSBuild.zip" ( %UNZIP% x "%TMP%\JetMSBuild.zip" -o"%HOMEDRIVE%\SDK\JetMSBuild" -y > nul )
+  if exist "%TMP%\JetMSBuild.zip" ( %UNZIP% x "%TMP%\JetMSBuild.zip" -o"%TMPDIR%\JetMSBuild" -y > nul )
 )
 
 if not exist "%~dp0source\packages" (
@@ -276,7 +276,7 @@ if not exist "%~dp0source\packages" (
 )
 
 echo. && echo ^> Compiling Varlet App ... && echo.
-"%HOMEDRIVE%\SDK\JetMSBuild\MSBuild\15.0\Bin\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
+"%TMPDIR%\JetMSBuild\MSBuild\15.0\Bin\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
 echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
