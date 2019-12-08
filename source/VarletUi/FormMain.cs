@@ -35,6 +35,24 @@ namespace VarletUi
             RunMinimized = false;
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            if (e.CloseReason.Equals(CloseReason.UserClosing)) {
+                base.OnFormClosing(e);
+                e.Cancel = true;
+                (new TrayContext()).ShowTrayIconNotification();
+                Hide();
+            } else  {
+                ExitThread();
+            }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            (new TrayContext()).ExitApplication();
+        }
+
         private void InitializeWindow()
         {
             Text = "Varlet v" + Globals.AppVersion + " build " + Globals.AppBuildNumber;
@@ -66,51 +84,35 @@ namespace VarletUi
             }
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            if (e.CloseReason.Equals(CloseReason.UserClosing)) {
-                base.OnFormClosing(e);
-                e.Cancel = true;
-                (new TrayContext()).ShowTrayIconNotification();
-                Hide();
-            } else  {
-                ExitThread();
-            }
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-            (new TrayContext()).ExitApplication();
-        }
-
         private void btnServices_Click(object sender, EventArgs e)
         {
             if ((Services.IsHttpServiceRun == true) || (Services.IsSmtpServiceRun == true)) {
-                var threadStart = new ThreadStart(StoppingService);
-                var newThread = new Thread(threadStart);
-                newThread.Start();
+                var thread = new Thread(() => {
+                    try {
+                        btnServices.Text = "Stopping Services";
+                        btnServices.Enabled = false;
+                        Services.Start(Globals.HttpServiceName);
+                        Services.Start(Globals.SmtpServiceName);
+                    } finally {
+                        Services.IsSmtpServiceRun = false;
+                        CheckServiceStatus();
+                    }
+                });
+                thread.Start();
             } else  {
-                var threadStart = new ThreadStart(StartingService);
-                var newThread = new Thread(threadStart);
-                newThread.Start();
+                var thread = new Thread(() => {
+                    try {
+                        btnServices.Text = "Starting Services";
+                        btnServices.Enabled = false;
+                        Services.Stop(Globals.HttpServiceName);
+                        Services.Stop(Globals.SmtpServiceName);
+                    } finally {
+                        Services.IsSmtpServiceRun = true;
+                        CheckServiceStatus();
+                    }
+                });
+                thread.Start();
             }
-        }
-
-        private void StartingService()
-        {
-            btnServices.Enabled = false;
-            btnServices.Text = "Starting Services";
-            pictStatusHttpd.BackColor = Color.DarkSeaGreen;
-            pictStatusSmtp.BackColor = Color.DarkSeaGreen;
-        }
-
-        private void StoppingService()
-        {
-            btnServices.Enabled = false;
-            btnServices.Text = "Stopping Services";
-            pictStatusHttpd.BackColor = Color.Firebrick;
-            pictStatusSmtp.BackColor = Color.Firebrick;
         }
 
         private void btnTerminal_Click(object sender, EventArgs e)
@@ -175,7 +177,8 @@ namespace VarletUi
 
         public void lblSettings_Click(object sender, EventArgs e)
         {
-            new FormSettings().ShowDialog();
+            // new FormSettings().ShowDialog();
+            MessageBox.Show("Not yet implemented!");
         }
 
         private void lblLogfileHttpd_Click(object sender, EventArgs e)
