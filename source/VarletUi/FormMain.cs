@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Text.RegularExpressions;
 using Variety;
 using static System.String;
 using static System.Windows.Forms.Application;
@@ -104,6 +105,7 @@ namespace VarletUi
                 case "Start Services":
                     btnServices.Enabled = false;
                     btnServices.Text = "Starting Services";
+                    ChangePhpVersion();
                     StartingServices();
                     Refresh();
                     break;
@@ -173,29 +175,28 @@ namespace VarletUi
 
         private void btnTerminal_Click(object sender, EventArgs e)
         {
-            ChangePhpVersion();
-            // if (Directory.Exists(Common.DirProgramFiles(@"\PowerShell"))) {
-            //     var proc = new Process {StartInfo = {
-            //         FileName = "pwsh.exe",
-            //         Arguments = "-NoLogo -WorkingDirectory \"" + Globals.WwwDirectory + "\"",
-            //         UseShellExecute = false
-            //     }};
-            //     proc.Start();
-            // } else  {
-            //     var proc = new Process {StartInfo = {
-            //         FileName = "cmd.exe",
-            //         Arguments = "/k \"cd /d " + Globals.WwwDirectory + "\"",
-            //         UseShellExecute = false
-            //     }};
-            //     proc.Start();
-            // }
+            if (Directory.Exists(Common.DirProgramFiles(@"\PowerShell"))) {
+                var proc = new Process {StartInfo = {
+                    FileName = "pwsh.exe",
+                    Arguments = "-NoLogo -WorkingDirectory \"" + Globals.WwwDirectory + "\"",
+                    UseShellExecute = false
+                }};
+                proc.Start();
+            } else  {
+                var proc = new Process {StartInfo = {
+                    FileName = "cmd.exe",
+                    Arguments = "/k \"cd /d " + Globals.WwwDirectory + "\"",
+                    UseShellExecute = false
+                }};
+                proc.Start();
+            }
         }
 
         private void ChangePhpVersion()
         {
             var file = Common.GetAppPath(@"\pkg\httpd\conf\httpd.conf");
             const string keyword = "PHPVERSION";
-            var newVersion = comboPhpVersion.Text;
+            var oldVersion = Config.Get("SelectedPhpVersion");
 
             var sr = new StreamReader(file);
             string currentLine;
@@ -208,13 +209,33 @@ namespace VarletUi
                 }
             }  while(currentLine != null && !foundText);
 
-            if (foundText)  {
-                var stringResult = currentLine.Substring(currentLine.IndexOf(keyword) + keyword.Length);
-                var oldVersion = stringResult.Replace(@"""", "");
+            if (foundText)
+            {
+                var result = currentLine.Substring(currentLine.IndexOf(keyword) + keyword.Length);
+                oldVersion = result;
                 sr.Close();
-                MessageBox.Show(oldVersion);
-                File.WriteAllText(file, File.ReadAllText(file).Replace(oldVersion, newVersion));
             }
+
+            var newVersion = " \"" + comboPhpVersion.Text + "\"";
+            ReplaceStringInFile(file, oldVersion, newVersion);
+        }
+
+        private static void ReplaceStringInFile(string filename, string search, string replace)
+        {
+            var sr = new StreamReader(filename);
+            var rows = Regex.Split(sr.ReadToEnd(), "\r\n");
+            sr.Close();
+
+            var sw = new StreamWriter(filename);
+            for (var i = 0; i < rows.Length; i++)
+            {
+                if (rows[i].Contains(search))
+                {
+                    rows[i] = rows[i].Replace(search, replace);
+                }
+                sw.WriteLine(rows[i]);
+            }
+            sw.Close();
         }
 
         private void CheckAvailablePhp()
