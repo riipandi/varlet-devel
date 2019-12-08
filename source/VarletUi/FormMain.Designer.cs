@@ -94,6 +94,7 @@
             this.lblLogfileSmtp.Name = "lblLogfileSmtp";
             this.lblLogfileSmtp.Size = new System.Drawing.Size(58, 23);
             this.lblLogfileSmtp.TabIndex = 15;
+            this.lblLogfileSmtp.Enabled = false;
             this.lblLogfileSmtp.Text = "Log file";
             this.lblLogfileSmtp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblLogfileSmtp.Click += new System.EventHandler(this.lblLogfileSmtp_Click);

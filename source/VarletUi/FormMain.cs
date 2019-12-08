@@ -81,6 +81,7 @@ namespace VarletUi
                 pictStatusSmtp.BackColor = Color.Red;
                 if (Services.IsRunning(Globals.ServiceNameSmtp)) {
                     pictStatusSmtp.BackColor = Color.Green;
+                    lblLogfileSmtp.Enabled = true;
                     lblConfigSmtp.Enabled = true;
                     btnServices.Text = "Stop Services";
                 }
@@ -109,52 +110,61 @@ namespace VarletUi
 
         private void StartingServices()
         {
-            while (!Services.IsRunning(Globals.ServiceNameHttp))  {
-                Services.Start(Globals.ServiceNameHttp);
-                if (Services.IsRunning(Globals.ServiceNameHttp)) {
-                    pictStatusHttpd.BackColor = Color.Green;
-                    btnServices.Text = "Stop Services";
-                    comboPhpVersion.Enabled = false;
-                    lblConfigHttpd.Enabled = false;
-                    lblPhpIni.Enabled = false;
-                    CheckServiceStatus();
-                    break;
+            if (Services.IsInstalled(Globals.ServiceNameHttp)) {
+                while (!Services.IsRunning(Globals.ServiceNameHttp))  {
+                    Services.Start(Globals.ServiceNameHttp);
+                    if (Services.IsRunning(Globals.ServiceNameHttp)) {
+                        pictStatusHttpd.BackColor = Color.Green;
+                        btnServices.Text = "Stop Services";
+                        comboPhpVersion.Enabled = false;
+                        lblConfigHttpd.Enabled = false;
+                        lblPhpIni.Enabled = false;
+                        CheckServiceStatus();
+                        break;
+                    }
                 }
             }
-            while (!Services.IsRunning(Globals.ServiceNameSmtp))  {
-                Services.Start(Globals.ServiceNameSmtp);
-                if (Services.IsRunning(Globals.ServiceNameSmtp)) {
-                    pictStatusSmtp.BackColor = Color.Green;
-                    lblConfigSmtp.Enabled = true;
-                    btnServices.Text = "Stop Services";
-                    CheckServiceStatus();
-                    break;
+
+            if (Services.IsInstalled(Globals.ServiceNameSmtp)) {
+                while (!Services.IsRunning(Globals.ServiceNameSmtp))  {
+                    Services.Start(Globals.ServiceNameSmtp);
+                    if (Services.IsRunning(Globals.ServiceNameSmtp)) {
+                        pictStatusSmtp.BackColor = Color.Green;
+                        lblConfigSmtp.Enabled = true;
+                        btnServices.Text = "Stop Services";
+                        CheckServiceStatus();
+                        break;
+                    }
                 }
             }
         }
 
         private void StoppingServices()
         {
-            while (Services.IsRunning(Globals.ServiceNameHttp))  {
-                Services.Stop(Globals.ServiceNameHttp);
-                if (!Services.IsRunning(Globals.ServiceNameHttp)) {
-                    pictStatusHttpd.BackColor = Color.Red;
-                    btnServices.Text = "Start Services";
-                    comboPhpVersion.Enabled = true;
-                    lblConfigHttpd.Enabled = true;
-                    lblPhpIni.Enabled = true;
-                    CheckServiceStatus();
-                    break;
+            if (Services.IsInstalled(Globals.ServiceNameHttp)) {
+                while (Services.IsRunning(Globals.ServiceNameHttp))  {
+                    Services.Stop(Globals.ServiceNameHttp);
+                    if (!Services.IsRunning(Globals.ServiceNameHttp)) {
+                        pictStatusHttpd.BackColor = Color.Red;
+                        btnServices.Text = "Start Services";
+                        comboPhpVersion.Enabled = true;
+                        lblConfigHttpd.Enabled = true;
+                        lblPhpIni.Enabled = true;
+                        CheckServiceStatus();
+                        break;
+                    }
                 }
             }
-            while (Services.IsRunning(Globals.ServiceNameSmtp))  {
-                Services.Stop(Globals.ServiceNameSmtp);
-                if (!Services.IsRunning(Globals.ServiceNameSmtp)) {
-                    pictStatusSmtp.BackColor = Color.Red;
-                    lblConfigSmtp.Enabled = false;
-                    btnServices.Text = "Start Services";
-                    CheckServiceStatus();
-                    break;
+            if (Services.IsInstalled(Globals.ServiceNameSmtp)) {
+                while (Services.IsRunning(Globals.ServiceNameSmtp))  {
+                    Services.Stop(Globals.ServiceNameSmtp);
+                    if (!Services.IsRunning(Globals.ServiceNameSmtp)) {
+                        pictStatusSmtp.BackColor = Color.Red;
+                        lblConfigSmtp.Enabled = false;
+                        btnServices.Text = "Start Services";
+                        CheckServiceStatus();
+                        break;
+                    }
                 }
             }
         }
