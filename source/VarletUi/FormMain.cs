@@ -50,6 +50,8 @@ namespace VarletUi
                 if (Services.IsRunning(Globals.HttpServiceName)) {
                     pictStatusHttpd.BackColor = Color.Green;
                     btnServices.Text = "Stop Services";
+                    comboPhpVersion.Enabled = false;
+                    lblReloadHttpd.Enabled = true;
                     Services.IsHttpServiceRun = true;
                 }
             }
@@ -57,6 +59,7 @@ namespace VarletUi
                 pictStatusSmtp.BackColor = Color.Red;
                 if (Services.IsRunning(Globals.SmtpServiceName)) {
                     pictStatusSmtp.BackColor = Color.Green;
+                    lblReloadSmtp.Enabled = true;
                     btnServices.Text = "Stop Services";
                     Services.IsSmtpServiceRun = true;
                 }
@@ -83,22 +86,14 @@ namespace VarletUi
 
         private void btnServices_Click(object sender, EventArgs e)
         {
-            switch (Services.IsHttpServiceRun)
-            {
-                case true:
-                {
-                    var threadStart = new ThreadStart(StoppingService);
-                    var newThread = new Thread(threadStart);
-                    newThread.Start();
-                    break;
-                }
-                case false:
-                {
-                    var threadStart = new ThreadStart(StartingService);
-                    var newThread = new Thread(threadStart);
-                    newThread.Start();
-                    break;
-                }
+            if ((Services.IsHttpServiceRun == true) || (Services.IsSmtpServiceRun == true)) {
+                var threadStart = new ThreadStart(StoppingService);
+                var newThread = new Thread(threadStart);
+                newThread.Start();
+            } else  {
+                var threadStart = new ThreadStart(StartingService);
+                var newThread = new Thread(threadStart);
+                newThread.Start();
             }
         }
 
