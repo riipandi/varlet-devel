@@ -16,7 +16,7 @@ namespace VarletUi
         public FormMain(string parameter = "normal")
         {
             InitializeComponent();
-            CheckServiceStatus();
+            Config.Initialize();
             if (parameter != "/minimized") return;
             RunMinimized = true;
         }
@@ -25,6 +25,7 @@ namespace VarletUi
         {
             InitializeWindow();
             CheckAvailablePhp();
+            CheckServiceStatus();
             if (!RunMinimized) return;
             WindowState = FormWindowState.Minimized;
             ShowInTaskbar = false;
@@ -41,7 +42,7 @@ namespace VarletUi
             lblReloadSmtp.Enabled = false;
         }
 
-        private void CheckServiceStatus() {
+        private static void CheckServiceStatus() {
             // do something
         }
 
@@ -120,7 +121,6 @@ namespace VarletUi
         private void CheckAvailablePhp()
         {
             var pkgPhp = Common.GetAppPath() + @"\pkg\php";
-
             try
             {
                 if (!Directory.Exists(pkgPhp)) return;
@@ -198,7 +198,7 @@ namespace VarletUi
 
         private void comboPhpVersion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Config.Update("Services", comboPhpVersion.Text);
+            Config.Set("Services", "PhpVersion", comboPhpVersion.Text);
         }
     }
 }
