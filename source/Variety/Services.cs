@@ -6,15 +6,6 @@ namespace Variety
 {
     internal static class Services
     {
-        public static bool IsHttpServiceRun { get; set; }
-        public static bool IsSmtpServiceRun { get; set; }
-
-        static Services()
-        {
-            IsHttpServiceRun = false;
-            IsSmtpServiceRun = false;
-        }
-
         public static bool IsInstalled(string serviceName)
         {
             return ServiceController.GetServices().Any(serviceController => serviceController.ServiceName.Equals(serviceName));
@@ -26,23 +17,28 @@ namespace Variety
             return sc.Status == ServiceControllerStatus.Running;
         }
 
-        public static bool Start(string serviceName)
-        {
-            while (IsRunning(serviceName) == false)
-            {
-                var service = new ServiceController(serviceName);
-                service.Start();
-                service.WaitForStatus(ServiceControllerStatus.Stopped, new TimeSpan(3000));
-            }
-            return true;
-        }
-
-        public static bool Stop(string serviceName)
+        public static void Start(string serviceName)
         {
             var service = new ServiceController(serviceName);
-            service.Stop();
-            service.WaitForStatus(ServiceControllerStatus.Stopped, new TimeSpan(3000));
-            return true;
+            try {
+                if (IsRunning(serviceName)) return;
+                service.Start();
+                service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMilliseconds(20000));
+            } catch (FormatException) {
+                // do something here
+            }
+        }
+
+        public static void Stop(string serviceName)
+        {
+            var service = new ServiceController(serviceName);
+            try {
+                if (!IsRunning(serviceName)) return;
+                service.Stop();
+                service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMilliseconds(20000));
+            } catch (FormatException) {
+                // do something here
+            }
         }
 
         public static void Restart(string serviceName)

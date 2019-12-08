@@ -3,12 +3,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
-using System.Threading;
-using Newtonsoft.Json.Linq;
 using Variety;
 using static System.String;
 using static System.Windows.Forms.Application;
-using Timer = System.Threading.Timer;
 
 namespace VarletUi
 {
@@ -69,58 +66,97 @@ namespace VarletUi
 
         private void CheckServiceStatus() {
             btnServices.Enabled = true;
-            if (Services.IsInstalled((Globals.HttpServiceName))) {
+            if (Services.IsInstalled(Globals.ServiceNameHttp)) {
                 pictStatusHttpd.BackColor = Color.Red;
-                if (Services.IsRunning(Globals.HttpServiceName)) {
+                if (Services.IsRunning(Globals.ServiceNameHttp)) {
                     pictStatusHttpd.BackColor = Color.Green;
                     btnServices.Text = "Stop Services";
                     comboPhpVersion.Enabled = false;
                     lblReloadHttpd.Enabled = true;
-                    Services.IsHttpServiceRun = true;
                 }
             }
-            if (Services.IsInstalled((Globals.SmtpServiceName))) {
+            if (Services.IsInstalled(Globals.ServiceNameSmtp)) {
                 pictStatusSmtp.BackColor = Color.Red;
-                if (Services.IsRunning(Globals.SmtpServiceName)) {
+                if (Services.IsRunning(Globals.ServiceNameSmtp)) {
                     pictStatusSmtp.BackColor = Color.Green;
                     lblReloadSmtp.Enabled = true;
                     btnServices.Text = "Stop Services";
-                    Services.IsSmtpServiceRun = true;
                 }
-            }
-        }
-
-        private void SwitchServiceStatus()
-        {
-            if ((Services.IsHttpServiceRun == true) || (Services.IsSmtpServiceRun == true))
-            {
-                btnServices.Text = "Stopping Services";
-                btnServices.Enabled = false;
-            } else  {
-                btnServices.Text = "Starting Services";
-                btnServices.Enabled = false;
             }
         }
 
         private void btnServices_Click(object sender, EventArgs e)
         {
-            SwitchServiceStatus();
+            btnServices.Enabled = false;
             switch (btnServices.Text)
             {
                 case "Stop Services":
-                    Services.Stop(Globals.HttpServiceName);
-                    Services.Stop(Globals.SmtpServiceName);
-                    Services.IsHttpServiceRun = false;
-                    Services.IsSmtpServiceRun = false;
+                    StoppingServices();
+                    Refresh();
                     break;
                 case "Start Services":
-                    Services.Start(Globals.HttpServiceName);
-                    Services.Start(Globals.SmtpServiceName);
-                    Services.IsHttpServiceRun = false;
-                    Services.IsSmtpServiceRun = false;
+                    StartingServices();
+                    Refresh();
                     break;
             }
-            Refresh();
+        }
+
+        private void StartingServices()
+        {
+            while (!Services.IsRunning(Globals.ServiceNameHttp))  {
+                btnServices.Enabled = false;
+                btnServices.Text = "Starting Services";
+                Services.Start(Globals.ServiceNameHttp);
+                if (Services.IsRunning(Globals.ServiceNameHttp)) {
+                    pictStatusHttpd.BackColor = Color.Green;
+                    btnServices.Text = "Stop Services";
+                    comboPhpVersion.Enabled = false;
+                    lblReloadHttpd.Enabled = true;
+                    CheckServiceStatus();
+                    break;
+                }
+            }
+            while (!Services.IsRunning(Globals.ServiceNameSmtp))  {
+                btnServices.Enabled = false;
+                btnServices.Text = "Starting Services";
+                Services.Start(Globals.ServiceNameSmtp);
+                if (Services.IsRunning(Globals.ServiceNameSmtp)) {
+                    pictStatusSmtp.BackColor = Color.Green;
+                    lblReloadSmtp.Enabled = true;
+                    btnServices.Text = "Stop Services";
+                    CheckServiceStatus();
+                    break;
+                }
+            }
+        }
+
+        private void StoppingServices()
+        {
+            while (Services.IsRunning(Globals.ServiceNameHttp))  {
+                btnServices.Enabled = false;
+                btnServices.Text = "Stopping Services";
+                Services.Stop(Globals.ServiceNameHttp);
+                if (!Services.IsRunning(Globals.ServiceNameHttp)) {
+                    pictStatusHttpd.BackColor = Color.Red;
+                    btnServices.Text = "Start Services";
+                    comboPhpVersion.Enabled = true;
+                    lblReloadHttpd.Enabled = false;
+                    CheckServiceStatus();
+                    break;
+                }
+            }
+            while (Services.IsRunning(Globals.ServiceNameSmtp))  {
+                btnServices.Enabled = false;
+                btnServices.Text = "Stopping Services";
+                Services.Stop(Globals.ServiceNameSmtp);
+                if (!Services.IsRunning(Globals.ServiceNameSmtp)) {
+                    pictStatusSmtp.BackColor = Color.Red;
+                    lblReloadSmtp.Enabled = false;
+                    btnServices.Text = "Start Services";
+                    CheckServiceStatus();
+                    break;
+                }
+            }
         }
 
         private void btnTerminal_Click(object sender, EventArgs e)
@@ -160,18 +196,13 @@ namespace VarletUi
 
         private void lblHostFile_Click(object sender, EventArgs e)
         {
-            try {
-                var file = Environment.SystemDirectory + @"\drivers\etc\hosts";
-                Common.OpenWithNotepad(file, true);
-            } catch (FormatException) {
-                // do something here
-            }
+            var file = Environment.SystemDirectory + @"\drivers\etc\hosts";
+            Common.OpenWithNotepad(file, true);
         }
 
         public void lblSettings_Click(object sender, EventArgs e)
         {
-            // new FormSettings().ShowDialog();
-            MessageBox.Show("Not yet implemented!");
+            new FormSettings().ShowDialog();
         }
 
         private void lblLogfileHttpd_Click(object sender, EventArgs e)
@@ -188,7 +219,7 @@ namespace VarletUi
         {
             var file = Common.GetAppPath() + @"\tmp\mailhogservice.err.log";
             if (!File.Exists(file))  {
-                MessageBox.Show("File "+file+" not found!");
+                MessageBox.Show("File " + file + " not found!");
             } else  {
                 Common.OpenWithNotepad(file);
             }
@@ -206,14 +237,15 @@ namespace VarletUi
 
         private void lblReloadHttpd_Click(object sender, EventArgs e)
         {
-            Services.Restart(Globals.HttpServiceName);
+            Services.Restart(Globals.ServiceNameHttp);
         }
 
         private void lblReloadSmtp_Click(object sender, EventArgs e)
         {
-            Services.Restart(Globals.SmtpServiceName);
+            Services.Restart(Globals.ServiceNameSmtp);
         }
 
+        // TODO: Make it work!
         private void comboPhpVersion_SelectedIndexChanged(object sender, EventArgs e)
         {
             Config.Set("SelectedPhpVersion", comboPhpVersion.Text);

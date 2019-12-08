@@ -105,12 +105,9 @@ namespace Variety
                  return Environment.GetEnvironmentVariable("ProgramFiles(x86)");
              }
 
-             if (string.IsNullOrEmpty(path))
-             {
+             if (string.IsNullOrEmpty(path)) {
                  return Environment.GetEnvironmentVariable("ProgramFiles") + @path;
-             }
-             else
-             {
+             } else {
                  return Environment.GetEnvironmentVariable("ProgramFiles");
              }
 

@@ -7,13 +7,13 @@ namespace Variety
 {
     public static class Globals
     {
-        public static string HttpServiceName { get; }
-        public static string SmtpServiceName { get; }
+        public static string ServiceNameHttp { get; }
+        public static string ServiceNameSmtp { get; }
 
         static Globals()
         {
-            HttpServiceName = "VarletHttpd";
-            SmtpServiceName = "VarletMailhog";
+            ServiceNameHttp = "VarletHttpd";
+            ServiceNameSmtp = "VarletMailhog";
         }
 
         public static string AppVersion
