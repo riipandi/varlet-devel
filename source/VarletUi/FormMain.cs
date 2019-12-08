@@ -60,8 +60,9 @@ namespace VarletUi
             Text = "Varlet v" + Globals.AppVersion + " build " + Globals.AppBuildNumber;
             btnServices.Text = "Start Services";
             comboPhpVersion.Enabled = true;
-            lblConfigHttpd.Enabled = false;
-            lblConfigSmtp.Enabled = false;
+            lblConfigHttpd.Enabled = true;
+            lblConfigSmtp.Enabled = true;
+            lblPhpIni.Enabled = true;
         }
 
         private void CheckServiceStatus() {
@@ -72,7 +73,8 @@ namespace VarletUi
                     pictStatusHttpd.BackColor = Color.Green;
                     btnServices.Text = "Stop Services";
                     comboPhpVersion.Enabled = false;
-                    lblConfigHttpd.Enabled = true;
+                    lblConfigHttpd.Enabled = false;
+                    lblPhpIni.Enabled = false;
                 }
             }
             if (Services.IsInstalled(Globals.ServiceNameSmtp)) {
@@ -113,7 +115,8 @@ namespace VarletUi
                     pictStatusHttpd.BackColor = Color.Green;
                     btnServices.Text = "Stop Services";
                     comboPhpVersion.Enabled = false;
-                    lblConfigHttpd.Enabled = true;
+                    lblConfigHttpd.Enabled = false;
+                    lblPhpIni.Enabled = false;
                     CheckServiceStatus();
                     break;
                 }
@@ -138,7 +141,8 @@ namespace VarletUi
                     pictStatusHttpd.BackColor = Color.Red;
                     btnServices.Text = "Start Services";
                     comboPhpVersion.Enabled = true;
-                    lblConfigHttpd.Enabled = false;
+                    lblConfigHttpd.Enabled = true;
+                    lblPhpIni.Enabled = true;
                     CheckServiceStatus();
                     break;
                 }
