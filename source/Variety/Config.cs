@@ -7,9 +7,18 @@ namespace Variety
 {
     public class Config
     {
-        public string PhpVersion { get; set; }
-        public bool InstallHttpService { get; set; }
-        public bool InstalMailhogService { get; set; }
+        public static string SelectedPhpVersion { get; set; }
+        public static bool InstallHttpService { get; set; }
+        public static bool InstallSmtpService { get; set; }
+        public static bool CloseMinimizeToTray { get; set; }
+
+        static Config()
+        {
+            SelectedPhpVersion = "php-7.3-ts";
+            InstallHttpService = true;
+            InstallSmtpService = true;
+            CloseMinimizeToTray = true;
+        }
 
         public static void Initialize()
         {

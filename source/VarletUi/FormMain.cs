@@ -119,46 +119,32 @@ namespace VarletUi
 
         private void btnTerminal_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (Directory.Exists(Common.DirProgramFiles(@"\PowerShell"))) {
-                    var proc = new Process {StartInfo =
-                    {
-                        FileName = "pwsh.exe",
-                        Arguments = "-NoLogo -WorkingDirectory " + Globals.WwwDirectory,
-                        UseShellExecute = false
-                    }};
-                    proc.Start();
-                } else  {
-                    var proc = new Process {StartInfo =
-                    {
-                        FileName = "cmd.exe",
-                        Arguments = "/k \"cd /d " + Globals.WwwDirectory + "\"",
-                        UseShellExecute = false
-                    }};
-                    proc.Start();
-                }
-            } catch (FormatException) {
-                // do something here
+            if (Directory.Exists(Common.DirProgramFiles(@"\PowerShell"))) {
+                var proc = new Process {StartInfo = {
+                    FileName = "pwsh.exe",
+                    Arguments = "-NoLogo -WorkingDirectory \"" + Globals.WwwDirectory + "\"",
+                    UseShellExecute = false
+                }};
+                proc.Start();
+            } else  {
+                var proc = new Process {StartInfo = {
+                    FileName = "cmd.exe",
+                    Arguments = "/k \"cd /d " + Globals.WwwDirectory + "\"",
+                    UseShellExecute = false
+                }};
+                proc.Start();
             }
         }
 
         private void CheckAvailablePhp()
         {
             var pkgPhp = Common.GetAppPath() + @"\pkg\php";
-            try
-            {
-                if (!Directory.Exists(pkgPhp)) return;
-                foreach (var t in Directory.GetDirectories(pkgPhp))  {
-                    comboPhpVersion.Items.Add(Path.GetFileName(t));
-                }
-                comboPhpVersion.SelectedIndex = !IsNullOrEmpty(Config.Get("Services", "PhpVersion")) ?
-                        comboPhpVersion.FindStringExact(Config.Get("Services", "PhpVersion")) : 0;
+            if (!Directory.Exists(pkgPhp)) return;
+            foreach (var t in Directory.GetDirectories(pkgPhp))  {
+                comboPhpVersion.Items.Add(Path.GetFileName(t));
             }
-            catch (FormatException)
-            {
-                // do something here
-            }
+            comboPhpVersion.SelectedIndex = !IsNullOrEmpty(Config.Get("Services", "PhpVersion")) ?
+                    comboPhpVersion.FindStringExact(Config.Get("Services", "PhpVersion")) : 0;
         }
 
         private void lblAbout_Click(object sender, EventArgs e)
@@ -224,7 +210,7 @@ namespace VarletUi
 
         private void comboPhpVersion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Config.Set("Services", "PhpVersion", comboPhpVersion.Text);
+            Config.Set("Services", "SelectedPhpVersion", comboPhpVersion.Text);
         }
     }
 }

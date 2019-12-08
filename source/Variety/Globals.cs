@@ -7,13 +7,11 @@ namespace Variety
 {
     public static class Globals
     {
-        public static string PhpVersion { get; set; }
         public static string HttpServiceName { get; }
         public static string SmtpServiceName { get; }
 
         static Globals()
         {
-            PhpVersion = "php-7.3-ts";
             HttpServiceName = "VarletHttpd";
             SmtpServiceName = "VarletMailhog";
         }
