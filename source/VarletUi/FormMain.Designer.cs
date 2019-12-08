@@ -35,9 +35,9 @@
             this.btnTerminal = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblLogfileSmtp = new System.Windows.Forms.Label();
-            this.lblReloadSmtp = new System.Windows.Forms.Label();
+            this.lblConfigSmtp = new System.Windows.Forms.Label();
             this.lblLogfileHttpd = new System.Windows.Forms.Label();
-            this.lblReloadHttpd = new System.Windows.Forms.Label();
+            this.lblConfigHttpd = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.pictStatusSmtp = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -73,9 +73,9 @@
             this.btnTerminal.UseVisualStyleBackColor = true;
             this.btnTerminal.Click += new System.EventHandler(this.btnTerminal_Click);
             this.groupBox1.Controls.Add(this.lblLogfileSmtp);
-            this.groupBox1.Controls.Add(this.lblReloadSmtp);
+            this.groupBox1.Controls.Add(this.lblConfigSmtp);
             this.groupBox1.Controls.Add(this.lblLogfileHttpd);
-            this.groupBox1.Controls.Add(this.lblReloadHttpd);
+            this.groupBox1.Controls.Add(this.lblConfigHttpd);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.pictStatusSmtp);
             this.groupBox1.Controls.Add(this.label1);
@@ -97,17 +97,18 @@
             this.lblLogfileSmtp.Text = "Log file";
             this.lblLogfileSmtp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblLogfileSmtp.Click += new System.EventHandler(this.lblLogfileSmtp_Click);
-            this.lblReloadSmtp.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblReloadSmtp.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
+            this.lblConfigSmtp.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblConfigSmtp.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.lblReloadSmtp.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblReloadSmtp.Location = new System.Drawing.Point(187, 97);
-            this.lblReloadSmtp.Name = "lblReloadSmtp";
-            this.lblReloadSmtp.Size = new System.Drawing.Size(58, 23);
-            this.lblReloadSmtp.TabIndex = 14;
-            this.lblReloadSmtp.Text = "Reload";
-            this.lblReloadSmtp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblReloadSmtp.Click += new System.EventHandler(this.lblReloadSmtp_Click);
+            this.lblConfigSmtp.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.lblConfigSmtp.Location = new System.Drawing.Point(187, 97);
+            this.lblConfigSmtp.Name = "lblConfigSmtp";
+            this.lblConfigSmtp.Size = new System.Drawing.Size(58, 23);
+            this.lblConfigSmtp.TabIndex = 14;
+            this.lblConfigSmtp.Text = "Config";
+            this.lblConfigSmtp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblConfigSmtp.Visible = false;
+            this.lblConfigSmtp.Click += new System.EventHandler(this.lblConfigSmtp_Click);
             this.lblLogfileHttpd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblLogfileHttpd.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -119,17 +120,17 @@
             this.lblLogfileHttpd.Text = "Log file";
             this.lblLogfileHttpd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblLogfileHttpd.Click += new System.EventHandler(this.lblLogfileHttpd_Click);
-            this.lblReloadHttpd.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblReloadHttpd.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
+            this.lblConfigHttpd.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblConfigHttpd.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.lblReloadHttpd.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblReloadHttpd.Location = new System.Drawing.Point(187, 51);
-            this.lblReloadHttpd.Name = "lblReloadHttpd";
-            this.lblReloadHttpd.Size = new System.Drawing.Size(58, 23);
-            this.lblReloadHttpd.TabIndex = 12;
-            this.lblReloadHttpd.Text = "Reload";
-            this.lblReloadHttpd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblReloadHttpd.Click += new System.EventHandler(this.lblReloadHttpd_Click);
+            this.lblConfigHttpd.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.lblConfigHttpd.Location = new System.Drawing.Point(187, 51);
+            this.lblConfigHttpd.Name = "lblConfigHttpd";
+            this.lblConfigHttpd.Size = new System.Drawing.Size(58, 23);
+            this.lblConfigHttpd.TabIndex = 12;
+            this.lblConfigHttpd.Text = "Config";
+            this.lblConfigHttpd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblConfigHttpd.Click += new System.EventHandler(this.lblConfigHttpd_Click);
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label2.Location = new System.Drawing.Point(12, 97);
@@ -262,9 +263,9 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox comboPhpVersion;
         private System.Windows.Forms.Label lblLogfileSmtp;
-        private System.Windows.Forms.Label lblReloadSmtp;
+        private System.Windows.Forms.Label lblConfigSmtp;
         private System.Windows.Forms.Label lblLogfileHttpd;
-        private System.Windows.Forms.Label lblReloadHttpd;
+        private System.Windows.Forms.Label lblConfigHttpd;
         private System.Windows.Forms.Label lblHostFile;
         private System.Windows.Forms.PictureBox pictStatusSmtp;
         private System.Windows.Forms.Label lblAbout;

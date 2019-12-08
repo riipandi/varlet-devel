@@ -40,10 +40,5 @@ namespace Variety
                 // do something here
             }
         }
-
-        public static void Restart(string serviceName)
-        {
-            // do something
-        }
     }
 }

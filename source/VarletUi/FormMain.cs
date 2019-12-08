@@ -60,8 +60,8 @@ namespace VarletUi
             Text = "Varlet v" + Globals.AppVersion + " build " + Globals.AppBuildNumber;
             btnServices.Text = "Start Services";
             comboPhpVersion.Enabled = true;
-            lblReloadHttpd.Enabled = false;
-            lblReloadSmtp.Enabled = false;
+            lblConfigHttpd.Enabled = false;
+            lblConfigSmtp.Enabled = false;
         }
 
         private void CheckServiceStatus() {
@@ -72,14 +72,14 @@ namespace VarletUi
                     pictStatusHttpd.BackColor = Color.Green;
                     btnServices.Text = "Stop Services";
                     comboPhpVersion.Enabled = false;
-                    lblReloadHttpd.Enabled = true;
+                    lblConfigHttpd.Enabled = true;
                 }
             }
             if (Services.IsInstalled(Globals.ServiceNameSmtp)) {
                 pictStatusSmtp.BackColor = Color.Red;
                 if (Services.IsRunning(Globals.ServiceNameSmtp)) {
                     pictStatusSmtp.BackColor = Color.Green;
-                    lblReloadSmtp.Enabled = true;
+                    lblConfigSmtp.Enabled = true;
                     btnServices.Text = "Stop Services";
                 }
             }
@@ -91,10 +91,14 @@ namespace VarletUi
             switch (btnServices.Text)
             {
                 case "Stop Services":
+                    btnServices.Enabled = false;
+                    btnServices.Text = "Stopping Services";
                     StoppingServices();
                     Refresh();
                     break;
                 case "Start Services":
+                    btnServices.Enabled = false;
+                    btnServices.Text = "Starting Services";
                     StartingServices();
                     Refresh();
                     break;
@@ -104,25 +108,21 @@ namespace VarletUi
         private void StartingServices()
         {
             while (!Services.IsRunning(Globals.ServiceNameHttp))  {
-                btnServices.Enabled = false;
-                btnServices.Text = "Starting Services";
                 Services.Start(Globals.ServiceNameHttp);
                 if (Services.IsRunning(Globals.ServiceNameHttp)) {
                     pictStatusHttpd.BackColor = Color.Green;
                     btnServices.Text = "Stop Services";
                     comboPhpVersion.Enabled = false;
-                    lblReloadHttpd.Enabled = true;
+                    lblConfigHttpd.Enabled = true;
                     CheckServiceStatus();
                     break;
                 }
             }
             while (!Services.IsRunning(Globals.ServiceNameSmtp))  {
-                btnServices.Enabled = false;
-                btnServices.Text = "Starting Services";
                 Services.Start(Globals.ServiceNameSmtp);
                 if (Services.IsRunning(Globals.ServiceNameSmtp)) {
                     pictStatusSmtp.BackColor = Color.Green;
-                    lblReloadSmtp.Enabled = true;
+                    lblConfigSmtp.Enabled = true;
                     btnServices.Text = "Stop Services";
                     CheckServiceStatus();
                     break;
@@ -133,25 +133,21 @@ namespace VarletUi
         private void StoppingServices()
         {
             while (Services.IsRunning(Globals.ServiceNameHttp))  {
-                btnServices.Enabled = false;
-                btnServices.Text = "Stopping Services";
                 Services.Stop(Globals.ServiceNameHttp);
                 if (!Services.IsRunning(Globals.ServiceNameHttp)) {
                     pictStatusHttpd.BackColor = Color.Red;
                     btnServices.Text = "Start Services";
                     comboPhpVersion.Enabled = true;
-                    lblReloadHttpd.Enabled = false;
+                    lblConfigHttpd.Enabled = false;
                     CheckServiceStatus();
                     break;
                 }
             }
             while (Services.IsRunning(Globals.ServiceNameSmtp))  {
-                btnServices.Enabled = false;
-                btnServices.Text = "Stopping Services";
                 Services.Stop(Globals.ServiceNameSmtp);
                 if (!Services.IsRunning(Globals.ServiceNameSmtp)) {
                     pictStatusSmtp.BackColor = Color.Red;
-                    lblReloadSmtp.Enabled = false;
+                    lblConfigSmtp.Enabled = false;
                     btnServices.Text = "Start Services";
                     CheckServiceStatus();
                     break;
@@ -235,14 +231,19 @@ namespace VarletUi
             }
         }
 
-        private void lblReloadHttpd_Click(object sender, EventArgs e)
+        private void lblConfigHttpd_Click(object sender, EventArgs e)
         {
-            Services.Restart(Globals.ServiceNameHttp);
+            var path = Common.GetAppPath() + @"\pkg\httpd\conf";
+            if (!Directory.Exists(path)) return;
+            var proc = new Process {StartInfo = {
+                FileName = "explorer.exe",  Arguments = path,  UseShellExecute = false
+            }};
+            proc.Start();
         }
 
-        private void lblReloadSmtp_Click(object sender, EventArgs e)
+        private void lblConfigSmtp_Click(object sender, EventArgs e)
         {
-            Services.Restart(Globals.ServiceNameSmtp);
+            // do something
         }
 
         // TODO: Make it work!
