@@ -20,7 +20,9 @@ namespace VarletUi
         public FormMain(string parameter = "normal")
         {
             InitializeComponent();
-            Config.Initialize();
+            if (!File.Exists(Globals.AppConfigFile))  {
+                Config.Initialize(Globals.AppConfigFile);
+            }
             if (parameter != "/minimized") return;
             RunMinimized = true;
         }
@@ -143,8 +145,8 @@ namespace VarletUi
             foreach (var t in Directory.GetDirectories(pkgPhp))  {
                 comboPhpVersion.Items.Add(Path.GetFileName(t));
             }
-            comboPhpVersion.SelectedIndex = !IsNullOrEmpty(Config.Get("Services", "PhpVersion")) ?
-                    comboPhpVersion.FindStringExact(Config.Get("Services", "PhpVersion")) : 0;
+            comboPhpVersion.SelectedIndex = !IsNullOrEmpty(Config.Get("SelectedPhpVersion")) ?
+                comboPhpVersion.FindStringExact(Config.Get("SelectedPhpVersion")) : 0;
         }
 
         private void lblAbout_Click(object sender, EventArgs e)
@@ -210,7 +212,7 @@ namespace VarletUi
 
         private void comboPhpVersion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Config.Set("Services", "SelectedPhpVersion", comboPhpVersion.Text);
+            Config.Set("SelectedPhpVersion", comboPhpVersion.Text);
         }
     }
 }

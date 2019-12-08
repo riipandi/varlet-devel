@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -20,25 +20,38 @@ namespace Variety
             CloseMinimizeToTray = true;
         }
 
-        public static void Initialize()
+        public static void Initialize(string configFile)
         {
-            // do something
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+
+            using (JsonWriter writer = new JsonTextWriter(sw)) {
+                writer.Formatting = Formatting.Indented;
+                writer.WriteStartObject();
+                writer.WritePropertyName("SelectedPhpVersion");
+                writer.WriteValue(SelectedPhpVersion);
+                writer.WritePropertyName("InstallHttpService");
+                writer.WriteValue(InstallHttpService);
+                writer.WritePropertyName("InstallSmtpService");
+                writer.WriteValue(InstallSmtpService);
+                writer.WritePropertyName("CloseMinimizeToTray");
+                writer.WriteValue(CloseMinimizeToTray);
+                writer.WriteEndObject();
+            }
+
+            File.WriteAllText(configFile, sb.ToString());
         }
 
-        public static string Get(string channel, string key)
+        public static string Get(string key)
         {
-            var f = File.ReadAllText(Globals.AppConfigFile);
-            var o = JObject.Parse(f);
-            var c = (JObject)o[channel];
-            return (string)c[key];
+            var o = JObject.Parse(File.ReadAllText(Globals.AppConfigFile));
+            return (string)o[key];
         }
 
-        public static void Set(string channel, string key, string value)
+        public static void Set(string key, string value)
         {
-            var f = File.ReadAllText(Globals.AppConfigFile);
-            var o = JObject.Parse(f);
-            var c = (JObject)o[channel];
-            c[key] = ((string)c[value]);
+            var o = JObject.Parse(File.ReadAllText(Globals.AppConfigFile));
+            return;
         }
     }
 }
