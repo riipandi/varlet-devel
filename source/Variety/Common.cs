@@ -94,9 +94,14 @@ namespace Variety
              }
          }
 
-         public static string GetAppPath()
+         public static string GetAppPath(string path = "")
          {
-            return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+             var basePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+             if (!IsNullOrEmpty(path)) {
+                 return basePath + path;
+             } else {
+                return basePath;
+             }
          }
 
          public static string DirProgramFiles(string path)
@@ -110,7 +115,6 @@ namespace Variety
              } else {
                  return Environment.GetEnvironmentVariable("ProgramFiles");
              }
-
          }
     }
 }

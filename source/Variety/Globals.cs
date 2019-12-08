@@ -44,7 +44,7 @@ namespace Variety
 
         public static string WwwDirectory
         {
-            get { return Common.GetAppPath() + @"\www"; }
+            get { return Common.GetAppPath(@"\www"); }
         }
     }
 }

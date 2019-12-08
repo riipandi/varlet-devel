@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using Variety;
 using static System.String;
@@ -44,7 +46,7 @@ namespace VarletUi
                 e.Cancel = true;
                 (new TrayContext()).ShowTrayIconNotification();
                 Hide();
-            } else  {
+            } else {
                 ExitThread();
             }
         }
@@ -171,26 +173,53 @@ namespace VarletUi
 
         private void btnTerminal_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(Common.DirProgramFiles(@"\PowerShell"))) {
-                var proc = new Process {StartInfo = {
-                    FileName = "pwsh.exe",
-                    Arguments = "-NoLogo -WorkingDirectory \"" + Globals.WwwDirectory + "\"",
-                    UseShellExecute = false
-                }};
-                proc.Start();
-            } else  {
-                var proc = new Process {StartInfo = {
-                    FileName = "cmd.exe",
-                    Arguments = "/k \"cd /d " + Globals.WwwDirectory + "\"",
-                    UseShellExecute = false
-                }};
-                proc.Start();
+            ChangePhpVersion();
+            // if (Directory.Exists(Common.DirProgramFiles(@"\PowerShell"))) {
+            //     var proc = new Process {StartInfo = {
+            //         FileName = "pwsh.exe",
+            //         Arguments = "-NoLogo -WorkingDirectory \"" + Globals.WwwDirectory + "\"",
+            //         UseShellExecute = false
+            //     }};
+            //     proc.Start();
+            // } else  {
+            //     var proc = new Process {StartInfo = {
+            //         FileName = "cmd.exe",
+            //         Arguments = "/k \"cd /d " + Globals.WwwDirectory + "\"",
+            //         UseShellExecute = false
+            //     }};
+            //     proc.Start();
+            // }
+        }
+
+        private void ChangePhpVersion()
+        {
+            var file = Common.GetAppPath(@"\pkg\httpd\conf\httpd.conf");
+            const string keyword = "PHPVERSION";
+            var newVersion = comboPhpVersion.Text;
+
+            var sr = new StreamReader(file);
+            string currentLine;
+            var foundText = false;
+
+            do  {
+                currentLine = sr.ReadLine();
+                if(currentLine != null)  {
+                    foundText = currentLine.Contains(keyword);
+                }
+            }  while(currentLine != null && !foundText);
+
+            if (foundText)  {
+                var stringResult = currentLine.Substring(currentLine.IndexOf(keyword) + keyword.Length);
+                var oldVersion = stringResult.Replace(@"""", "");
+                sr.Close();
+                MessageBox.Show(oldVersion);
+                File.WriteAllText(file, File.ReadAllText(file).Replace(oldVersion, newVersion));
             }
         }
 
         private void CheckAvailablePhp()
         {
-            var pkgPhp = Common.GetAppPath() + @"\pkg\php";
+            var pkgPhp = Common.GetAppPath(@"\pkg\php");
             if (!Directory.Exists(pkgPhp)) return;
             foreach (var t in Directory.GetDirectories(pkgPhp))  {
                 comboPhpVersion.Items.Add(Path.GetFileName(t));
@@ -217,7 +246,7 @@ namespace VarletUi
 
         private void lblLogfileHttpd_Click(object sender, EventArgs e)
         {
-            var file = Common.GetAppPath() + @"\tmp\httpd_error.log";
+            var file = Common.GetAppPath(@"\tmp\httpd_error.log");
             if (!File.Exists(file))  {
                 MessageBox.Show("File "+file+" not found!");
             } else  {
@@ -227,7 +256,7 @@ namespace VarletUi
 
         private void lblLogfileSmtp_Click(object sender, EventArgs e)
         {
-            var file = Common.GetAppPath() + @"\tmp\mailhogservice.err.log";
+            var file = Common.GetAppPath(@"\tmp\mailhogservice.err.log");
             if (!File.Exists(file))  {
                 MessageBox.Show("File " + file + " not found!");
             } else  {
@@ -237,7 +266,7 @@ namespace VarletUi
 
         private void lblPhpIni_Click(object sender, EventArgs e)
         {
-            var file = Common.GetAppPath() + @"\pkg\php\"+comboPhpVersion.Text+@"\php.ini";
+            var file = Common.GetAppPath(@"\pkg\php\"+comboPhpVersion.Text+@"\php.ini");
             if (!File.Exists(file))  {
                 MessageBox.Show("File "+file+" not found!");
             } else  {
@@ -247,7 +276,7 @@ namespace VarletUi
 
         private void lblConfigHttpd_Click(object sender, EventArgs e)
         {
-            var path = Common.GetAppPath() + @"\pkg\httpd\conf";
+            var path = Common.GetAppPath(@"\pkg\httpd\conf");
             if (!Directory.Exists(path)) return;
             var proc = new Process {StartInfo = {
                 FileName = "explorer.exe",  Arguments = path,  UseShellExecute = false
