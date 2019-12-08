@@ -93,6 +93,7 @@ namespace VarletUi
 
         private void btnServices_Click(object sender, EventArgs e)
         {
+            ChangePhpVersion();
             btnServices.Enabled = false;
             switch (btnServices.Text)
             {
@@ -105,7 +106,6 @@ namespace VarletUi
                 case "Start Services":
                     btnServices.Enabled = false;
                     btnServices.Text = "Starting Services";
-                    ChangePhpVersion();
                     StartingServices();
                     Refresh();
                     break;
