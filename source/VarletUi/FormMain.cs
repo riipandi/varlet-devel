@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 using Variety;
 using static System.String;
 using static System.Windows.Forms.Application;
@@ -67,6 +68,7 @@ namespace VarletUi
         }
 
         private void CheckServiceStatus() {
+            btnServices.Enabled = true;
             if (Services.IsInstalled((Globals.HttpServiceName))) {
                 pictStatusHttpd.BackColor = Color.Red;
                 if (Services.IsRunning(Globals.HttpServiceName)) {
@@ -88,35 +90,37 @@ namespace VarletUi
             }
         }
 
+        private void SwitchServiceStatus()
+        {
+            if ((Services.IsHttpServiceRun == true) || (Services.IsSmtpServiceRun == true))
+            {
+                btnServices.Text = "Stopping Services";
+                btnServices.Enabled = false;
+            } else  {
+                btnServices.Text = "Starting Services";
+                btnServices.Enabled = false;
+            }
+        }
+
         private void btnServices_Click(object sender, EventArgs e)
         {
-            if ((Services.IsHttpServiceRun == true) || (Services.IsSmtpServiceRun == true)) {
-                var thread = new Thread(() => {
-                    try {
-                        btnServices.Enabled = false;
-                        btnServices.Text = "Stopping Services";
-                        Services.Stop(Globals.HttpServiceName);
-                        Services.Stop(Globals.SmtpServiceName);
-                    } finally {
-                        Services.IsHttpServiceRun = false;
-                        Services.IsSmtpServiceRun = false;
-                    }
-                });
-                thread.Start();
-            } else {
-                var thread = new Thread(() => {
-                    try {
-                        btnServices.Enabled = false;
-                        btnServices.Text = "Starting Services";
-                        Services.Start(Globals.HttpServiceName);
-                        Services.Start(Globals.SmtpServiceName);
-                    } finally {
-                        Services.IsHttpServiceRun = true;
-                        Services.IsSmtpServiceRun = true;
-                    }
-                });
-                thread.Start();
+            SwitchServiceStatus();
+            switch (btnServices.Text)
+            {
+                case "Stop Services":
+                    Services.Stop(Globals.HttpServiceName);
+                    Services.Stop(Globals.SmtpServiceName);
+                    Services.IsHttpServiceRun = false;
+                    Services.IsSmtpServiceRun = false;
+                    break;
+                case "Start Services":
+                    Services.Start(Globals.HttpServiceName);
+                    Services.Start(Globals.SmtpServiceName);
+                    Services.IsHttpServiceRun = false;
+                    Services.IsSmtpServiceRun = false;
+                    break;
             }
+            Refresh();
         }
 
         private void btnTerminal_Click(object sender, EventArgs e)

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ServiceProcess;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 
 namespace Variety
 {
@@ -17,33 +15,37 @@ namespace Variety
             IsSmtpServiceRun = false;
         }
 
-        public static bool IsInstalled(string ServiceName)
+        public static bool IsInstalled(string serviceName)
         {
-            return ServiceController.GetServices().Any(serviceController => serviceController.ServiceName.Equals(ServiceName));
+            return ServiceController.GetServices().Any(serviceController => serviceController.ServiceName.Equals(serviceName));
         }
 
-        public static bool IsRunning(string ServiceName)
+        public static bool IsRunning(string serviceName)
         {
-            var sc = new ServiceController();
-            sc.ServiceName = ServiceName;
-            if (sc.Status == ServiceControllerStatus.Running) {
-                return true;
-            } else {
-                return false;
+            var sc = new ServiceController {ServiceName = serviceName};
+            return sc.Status == ServiceControllerStatus.Running;
+        }
+
+        public static bool Start(string serviceName)
+        {
+            while (IsRunning(serviceName) == false)
+            {
+                var service = new ServiceController(serviceName);
+                service.Start();
+                service.WaitForStatus(ServiceControllerStatus.Stopped, new TimeSpan(3000));
             }
+            return true;
         }
 
-        public static void Start(string ServiceName)
+        public static bool Stop(string serviceName)
         {
-            // do something
+            var service = new ServiceController(serviceName);
+            service.Stop();
+            service.WaitForStatus(ServiceControllerStatus.Stopped, new TimeSpan(3000));
+            return true;
         }
 
-        public static void Stop(string ServiceName)
-        {
-            // do something
-        }
-
-        public static void Restart(string ServiceName)
+        public static void Restart(string serviceName)
         {
             // do something
         }
