@@ -43,5 +43,10 @@ namespace Variety
                 return path + @"\varlet.json";
             }
         }
+
+        public static string WwwDirectory
+        {
+            get { return Common.GetAppPath() + @"\www"; }
+        }
     }
 }

@@ -15,6 +15,8 @@ namespace VarletUi
     {
         private static bool RunMinimized { get; set; }
 
+        public delegate void InvokeDelegate();
+
         public FormMain(string parameter = "normal")
         {
             InitializeComponent();
@@ -89,26 +91,26 @@ namespace VarletUi
             if ((Services.IsHttpServiceRun == true) || (Services.IsSmtpServiceRun == true)) {
                 var thread = new Thread(() => {
                     try {
+                        btnServices.Enabled = false;
                         btnServices.Text = "Stopping Services";
-                        btnServices.Enabled = false;
-                        Services.Start(Globals.HttpServiceName);
-                        Services.Start(Globals.SmtpServiceName);
-                    } finally {
-                        Services.IsSmtpServiceRun = false;
-                        CheckServiceStatus();
-                    }
-                });
-                thread.Start();
-            } else  {
-                var thread = new Thread(() => {
-                    try {
-                        btnServices.Text = "Starting Services";
-                        btnServices.Enabled = false;
                         Services.Stop(Globals.HttpServiceName);
                         Services.Stop(Globals.SmtpServiceName);
                     } finally {
+                        Services.IsHttpServiceRun = false;
+                        Services.IsSmtpServiceRun = false;
+                    }
+                });
+                thread.Start();
+            } else {
+                var thread = new Thread(() => {
+                    try {
+                        btnServices.Enabled = false;
+                        btnServices.Text = "Starting Services";
+                        Services.Start(Globals.HttpServiceName);
+                        Services.Start(Globals.SmtpServiceName);
+                    } finally {
+                        Services.IsHttpServiceRun = true;
                         Services.IsSmtpServiceRun = true;
-                        CheckServiceStatus();
                     }
                 });
                 thread.Start();
@@ -117,23 +119,22 @@ namespace VarletUi
 
         private void btnTerminal_Click(object sender, EventArgs e)
         {
-            var wwwDir = Common.GetAppPath() + @"\www";
             try
             {
                 if (Directory.Exists(Common.DirProgramFiles(@"\PowerShell"))) {
                     var proc = new Process {StartInfo =
                     {
                         FileName = "pwsh.exe",
-                        Arguments = "-NoLogo -WorkingDirectory " + wwwDir,
-                        UseShellExecute = true
+                        Arguments = "-NoLogo -WorkingDirectory " + Globals.WwwDirectory,
+                        UseShellExecute = false
                     }};
                     proc.Start();
                 } else  {
                     var proc = new Process {StartInfo =
                     {
                         FileName = "cmd.exe",
-                        Arguments = "/k \"cd /d " + wwwDir + "\"",
-                        UseShellExecute = true
+                        Arguments = "/k \"cd /d " + Globals.WwwDirectory + "\"",
+                        UseShellExecute = false
                     }};
                     proc.Start();
                 }
