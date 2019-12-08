@@ -8,6 +8,10 @@
         <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
         <!-- <requestedExecutionLevel level="highestAvailable" uiAccess="false" /> -->
       </requestedPrivileges>
+      <applicationRequestMinimum>
+          <defaultAssemblyRequest permissionSetReference="FullTrust" />
+          <PermissionSet version="1" ID="FullTrust" Unrestricted="true" />
+      </applicationRequestMinimum>
     </security>
   </trustInfo>
 
