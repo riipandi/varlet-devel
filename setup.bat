@@ -288,6 +288,7 @@ echo. && echo ^> Cleanup unused files ...
 for /R "%ODIR%" %%G in (*.pdb) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (*.exe.config) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (CommandLine*.xml) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (INIFileParser*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (Newtonsoft*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (Semver*.xml) do "cmd /c del /F %%G"
 
