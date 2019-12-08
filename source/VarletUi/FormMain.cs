@@ -3,9 +3,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 using Variety;
 using static System.String;
 using static System.Windows.Forms.Application;
+using Timer = System.Threading.Timer;
 
 namespace VarletUi
 {
@@ -42,8 +44,23 @@ namespace VarletUi
             lblReloadSmtp.Enabled = false;
         }
 
-        private static void CheckServiceStatus() {
-            // do something
+        private void CheckServiceStatus() {
+            if (Services.IsInstalled((Globals.HttpServiceName))) {
+                pictStatusHttpd.BackColor = Color.Red;
+                if (Services.IsRunning(Globals.HttpServiceName)) {
+                    pictStatusHttpd.BackColor = Color.Green;
+                    btnServices.Text = "Stop Services";
+                    Services.IsHttpServiceRun = true;
+                }
+            }
+            if (Services.IsInstalled((Globals.SmtpServiceName))) {
+                pictStatusSmtp.BackColor = Color.Red;
+                if (Services.IsRunning(Globals.SmtpServiceName)) {
+                    pictStatusSmtp.BackColor = Color.Green;
+                    btnServices.Text = "Stop Services";
+                    Services.IsSmtpServiceRun = true;
+                }
+            }
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -66,29 +83,39 @@ namespace VarletUi
 
         private void btnServices_Click(object sender, EventArgs e)
         {
-            if (Services.IsHttpServiceRun == false) {
-                Services.Start(Globals.HttpServiceName);
-                Services.IsHttpServiceRun = false;
-                Services.IsSmtpServiceRun = false;
+            switch (Services.IsHttpServiceRun)
+            {
+                case true:
+                {
+                    var threadStart = new ThreadStart(StoppingService);
+                    var newThread = new Thread(threadStart);
+                    newThread.Start();
+                    break;
+                }
+                case false:
+                {
+                    var threadStart = new ThreadStart(StartingService);
+                    var newThread = new Thread(threadStart);
+                    newThread.Start();
+                    break;
+                }
             }
         }
 
         private void StartingService()
         {
-            pictStatusHttpd.BackColor = Color.Green;
-            btnServices.Text = "Stop Services";
-            comboPhpVersion.Enabled = false;
-            lblReloadHttpd.Enabled = true;
-            lblReloadSmtp.Enabled = true;
+            btnServices.Enabled = false;
+            btnServices.Text = "Starting Services";
+            pictStatusHttpd.BackColor = Color.DarkSeaGreen;
+            pictStatusSmtp.BackColor = Color.DarkSeaGreen;
         }
 
         private void StoppingService()
         {
-            for (int I = 0; I <= 10; I++) {
-                btnServices.Text = "Stopping Services";
-                pictStatusHttpd.BackColor = Color.Red;
-                pictStatusSmtp.BackColor = Color.Red;
-            }
+            btnServices.Enabled = false;
+            btnServices.Text = "Stopping Services";
+            pictStatusHttpd.BackColor = Color.Firebrick;
+            pictStatusSmtp.BackColor = Color.Firebrick;
         }
 
         private void btnTerminal_Click(object sender, EventArgs e)
