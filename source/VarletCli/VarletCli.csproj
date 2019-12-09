@@ -4,44 +4,52 @@
         https://weblog.west-wind.com/posts/2019/Apr/30/NET-Core-30-SDK-Projects-Controlling-Output-Folders-and-Content
     -->
     <PropertyGroup>
+        <Title>Varlet</Title>
         <FileVersion>1.0.0.0</FileVersion>
         <AssemblyVersion>1.0.0</AssemblyVersion>
-        <ApplicationIcon>..\Resources\appIcon.ico</ApplicationIcon>
-        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <AssemblyName>varlet</AssemblyName>
-        <Authors>Aris Ripandi</Authors>
         <Copyright>Copyright (c) 2019</Copyright>
-        <Configurations>Debug;Release</Configurations>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <Description>Varlet Commandline Interface</Description>
-        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-        <OutDir>..\..\_dst64\utils\</OutDir>
-        <OutputType>Exe</OutputType>
         <PackageDescription>Minimalism web development stack</PackageDescription>
         <PackageLicenseUrl>https://choosealicense.com/licenses/apache-2.0/</PackageLicenseUrl>
         <PackageProjectUrl>https://github.com/riipandi/varlet</PackageProjectUrl>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <AssemblyName>varlet</AssemblyName>
+        <Authors>Aris Ripandi</Authors>
         <Platforms>AnyCPU</Platforms>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <OutDir>..\..\_dst64\utils\</OutDir>
+        <Configurations>Debug;Release</Configurations>
+        <ApplicationIcon>..\Resources\appIcon.ico</ApplicationIcon>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+        <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+        <TrimUnusedDependencies>true</TrimUnusedDependencies>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <PublishTrimmed>true</PublishTrimmed>
         <PublishReadyToRun>true</PublishReadyToRun>
         <PublishSingleFile>false</PublishSingleFile>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-        <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
-        <TrimUnusedDependencies>true</TrimUnusedDependencies>
-        <Title>Varlet</Title>
     </PropertyGroup>
+
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <OutputPath>..\..\_dst64\</OutputPath>
       <Prefer32bit>true</Prefer32bit>
       <DebugType>pdbonly</DebugType>
+      <WarningLevel>3</WarningLevel>
     </PropertyGroup>
+
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <OutputPath>..\..\_dst64\</OutputPath>
       <PlatformTarget>x64</PlatformTarget>
       <DebugSymbols>false</DebugSymbols>
       <WarningLevel>1</WarningLevel>
       <DebugType>none</DebugType>
     </PropertyGroup>
+
     <!-- <ItemGroup>
         <Resource Include="..\Resources\icon16.png" />
         <Resource Include="..\Resources\icon32.png" />
@@ -51,4 +59,5 @@
         <Resource Include="..\Resources\icon256.png" />
         <Resource Include="..\Resources\icon512.png" />
     </ItemGroup> -->
+
 </Project>
