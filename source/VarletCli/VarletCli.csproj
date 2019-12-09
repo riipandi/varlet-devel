@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <!--
         https://docs.microsoft.com/en-us/dotnet/core/tools/csproj
         https://weblog.west-wind.com/posts/2019/Apr/30/NET-Core-30-SDK-Projects-Controlling-Output-Folders-and-Content
@@ -49,6 +49,10 @@
       <WarningLevel>1</WarningLevel>
       <DebugType>none</DebugType>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    </ItemGroup>
 
     <!-- <ItemGroup>
         <Resource Include="..\Resources\icon16.png" />
