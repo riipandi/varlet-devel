@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Variety
 {
-  public class References
+  public static class References
   {
       private static string AppConfigFileName { get; }
 
@@ -18,6 +18,14 @@ namespace Variety
           get {
               var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
               return path + @"\" + AppConfigFileName;
+          }
+      }
+
+      public static string AppLogFile
+      {
+          get {
+              var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+              return path + @"\varlet.log";
           }
       }
 
