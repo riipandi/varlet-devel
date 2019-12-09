@@ -22,11 +22,26 @@
         <PackageLicenseUrl>https://choosealicense.com/licenses/apache-2.0/</PackageLicenseUrl>
         <PackageProjectUrl>https://github.com/riipandi/varlet</PackageProjectUrl>
         <Platforms>AnyCPU</Platforms>
+        <PublishTrimmed>true</PublishTrimmed>
+        <PublishReadyToRun>true</PublishReadyToRun>
+        <PublishSingleFile>false</PublishSingleFile>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
         <TrimUnusedDependencies>true</TrimUnusedDependencies>
         <Title>VarletUi</Title>
         <UseWPF>true</UseWPF>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <OutputPath>..\..\_dst64\</OutputPath>
+      <Prefer32bit>true</Prefer32bit>
+      <DebugType>pdbonly</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <OutputPath>..\..\_dst64\</OutputPath>
+      <PlatformTarget>x64</PlatformTarget>
+      <DebugSymbols>false</DebugSymbols>
+      <WarningLevel>1</WarningLevel>
+      <DebugType>none</DebugType>
     </PropertyGroup>
     <!-- <ItemGroup>
         <Resource Include="..\Resources\icon16.png" />
