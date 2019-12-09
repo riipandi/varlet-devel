@@ -21,7 +21,8 @@ namespace VarletUi
         {
             var res = new ComponentResourceManager(typeof(FormMain));
 
-            //Instantiate the component Module to hold everything
+            // Instantiate the component Module to hold everything
+            // myNotifyIcon.Icon = new Icon(Properties.Resources.MyIcon, SystemInformation.SmallIconSize);
             TrayIcon = new NotifyIcon(new System.ComponentModel.Container())
             {
                 Visible = true,
