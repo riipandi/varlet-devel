@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <!--
+        https://docs.microsoft.com/en-us/dotnet/core/tools/csproj
+        https://weblog.west-wind.com/posts/2019/Apr/30/NET-Core-30-SDK-Projects-Controlling-Output-Folders-and-Content
+    -->
+    <PropertyGroup>
+        <FileVersion>1.0.0.0</FileVersion>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <ApplicationIcon>..\Resources\appIcon.ico</ApplicationIcon>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AssemblyName>varlet</AssemblyName>
+        <Authors>Aris Ripandi</Authors>
+        <Copyright>Copyright (c) 2019</Copyright>
+        <Configurations>Debug;Release</Configurations>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <Description>Varlet Commandline Interface</Description>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <OutDir>..\..\_dst64\utils\</OutDir>
+        <OutputType>Exe</OutputType>
+        <PackageDescription>Minimalism web development stack</PackageDescription>
+        <PackageLicenseUrl>https://choosealicense.com/licenses/apache-2.0/</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/riipandi/varlet</PackageProjectUrl>
+        <Platforms>AnyCPU</Platforms>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+        <TrimUnusedDependencies>true</TrimUnusedDependencies>
+        <Title>Varlet</Title>
+    </PropertyGroup>
+    <!-- <ItemGroup>
+        <Resource Include="..\Resources\icon16.png" />
+        <Resource Include="..\Resources\icon32.png" />
+        <Resource Include="..\Resources\icon64.png" />
+        <Resource Include="..\Resources\icon96.png" />
+        <Resource Include="..\Resources\icon128.png" />
+        <Resource Include="..\Resources\icon256.png" />
+        <Resource Include="..\Resources\icon512.png" />
+    </ItemGroup> -->
+</Project>

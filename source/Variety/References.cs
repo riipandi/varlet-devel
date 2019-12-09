@@ -1,0 +1,6 @@
+﻿namespace Variety
+{
+  class References
+  {
+  }
+}
