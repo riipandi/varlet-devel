@@ -43,6 +43,12 @@ In summary, to compile without the need to have Visual Studio or Rider installed
 3. Download and install [Inno Setup](http://www.jrsoftware.org/isdl.php) (for creating the installer file)
 4. Finally, run `setup.bat` and enjoy a cup of coffee.
 
+Or, using Microsoft Visual Studio Build Tools:
+
+1. Download this file: <https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2019>
+2. Run: `vs_buildtools.exe --add Microsoft.VisualStudio.Workload.MSBuildTools --quiet`
+3. For more detail, read more at [StackOverflow](https://stackoverflow.com/questions/42696948/how-can-i-install-the-vs2017-version-of-msbuild-on-a-build-server-without-instal).
+
 <!-- ## Varlet Commands
 
 | Command                      | Description
