@@ -8,6 +8,9 @@ set ODIR=%~dp0_dstdir
 set STUB=%~dp0stubs
 
 :: ---------------------------------------------------------------------------------------------------------------------
+for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dstdir\VarletUi.exe') do set "ver_varlet=%%i"
+
+:: ---------------------------------------------------------------------------------------------------------------------
 set "ver_composer=1.9.1"
 set "ver_httpd=2.4.41"
 set "ver_nginx=1.17.6"
@@ -64,11 +67,11 @@ goto :eof
 
 :choice
 echo. && set /P c="What do you want to do?: "
+if /I "%c%" EQU "r" ("%~dp0_output\varlet-%ver_varlet%-x64.exe")
+if /I "%c%" EQU "c" goto :clean_packages
 if /I "%c%" EQU "1" goto :build_setup
 if /I "%c%" EQU "2" goto :compile_app
 if /I "%c%" EQU "3" goto :compile_inno
-if /I "%c%" EQU "c" goto :clean_packages
-if /I "%c%" EQU "r" ("%~dp0_output\varlet-%ver_varlet%-x64.exe")
 if /I "%c%" EQU "x" goto :quit
 goto :choice
 
@@ -296,7 +299,6 @@ echo. && echo ^> Compiling installer files ... && echo.
 "%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
 
 echo. && echo ^> Compressing varlet portable ...
-for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dstdir\VarletUi.exe') do set "ver_varlet=%%i"
 if exist "%~dp0_output\varlet-%ver_varlet%-x64.7z" ( del /F "%~dp0_output\varlet-%ver_varlet%-x64.7z" )
 %UNZIP% a -r -bsp1 -t7z "%~dp0_output\varlet-%ver_varlet%-x64.7z" "%~dp0_dstdir"
 %UNZIP% rn "%~dp0_output\varlet-%ver_varlet%-x64.7z" _dstdir varlet
