@@ -23,7 +23,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <OutDir>..\..\_dst64\utils\</OutDir>
+        <OutDir>..\..\_dst64\</OutDir>
         <Configurations>Debug;Release</Configurations>
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>

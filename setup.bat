@@ -8,9 +8,6 @@ set ODIR=%~dp0_dst64
 set STUB=%~dp0stubs
 
 :: ---------------------------------------------------------------------------------------------------------------------
-for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dst64\VarletUi.exe') do set "ver_varlet=%%i"
-
-:: ---------------------------------------------------------------------------------------------------------------------
 set "ver_composer=1.9.1"
 set "ver_httpd=2.4.41"
 set "ver_nginx=1.17.6"
@@ -67,6 +64,7 @@ goto :eof
 
 :choice
 echo. && set /P c="What do you want to do?: "
+for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dst64\VarletUi.exe') do set ver_varlet=%%i
 if /I "%c%" EQU "r" ("%~dp0_output\varlet-%ver_varlet%-x64.exe")
 if /I "%c%" EQU "c" goto :clean_packages
 if /I "%c%" EQU "1" goto :build_setup
@@ -148,13 +146,13 @@ for /R "%ODIR%" %%G in (*.exe.config) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (CommandLine*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (INIFileParser*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (Newtonsoft*.xml) do "cmd /c del /F %%G"
-for /R "%ODIR%" %%G in (*runtimeconfig.dev) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (Semver*.xml) do "cmd /c del /F %%G"
 
 echo. && echo ^> Compiling installer files ... && echo.
 "%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
 
 echo. && echo ^> Compressing varlet portable ...
+for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dst64\VarletUi.exe') do set ver_varlet=%%i
 if exist "%~dp0_output\varlet-%ver_varlet%-x64.7z" ( del /F "%~dp0_output\varlet-%ver_varlet%-x64.7z" )
 %UNZIP% a -r -bsp1 -t7z "%~dp0_output\varlet-%ver_varlet%-x64.7z" "%~dp0_dst64"
 %UNZIP% rn "%~dp0_output\varlet-%ver_varlet%-x64.7z" _dst64 varlet

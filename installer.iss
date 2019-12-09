@@ -35,19 +35,18 @@ SetupIconFile         = "{#BasePath}include\setup-icon.ico"
 LicenseFile           = "{#BasePath}include\varlet-license.txt"
 WizardImageFile       = "{#BasePath}include\setup-img-side.bmp"
 WizardSmallImageFile  = "{#BasePath}include\setup-img-top.bmp"
-;DefaultDirName        = {sd}\Varlet
 DefaultDirName        = {code:GetDefaultDir}
-UninstallFilesDir     = {app}
+UninstallFilesDir     = {app}\uninst
 Uninstallable         = yes
 CreateUninstallRegKey = yes
 DirExistsWarning      = yes
 AlwaysRestart         = no
 
 [Registry]
-Root: HKLM; Subkey: "Software\{#AppPublisher}"; Flags: uninsdeletekeyifempty;
-Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; Flags: uninsdeletekey;
-Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}";
-Root: HKLM; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "AppVersion"; ValueData: "{#GetAppVersion}";
+Root: HKCU; Subkey: "Software\{#AppPublisher}"; Flags: uninsdeletekeyifempty;
+Root: HKCU; Subkey: "Software\{#AppPublisher}\{#AppName}"; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}";
+Root: HKCU; Subkey: "Software\{#AppPublisher}\{#AppName}"; ValueType: string; ValueName: "AppVersion"; ValueData: "{#GetAppVersion}";
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "{#AppName}"; ValueData: "{app}\VarletUi.exe /minimized"
 
 [Tasks]
@@ -92,21 +91,21 @@ const AppFolder = 'Varlet';
 function GetDefaultDir(Param: string): string;
 begin
   Result := GetAppRegistry('InstallPath');
-  if not RegKeyExists(HKLM, 'Software\{#AppPublisher}\{#AppName}') then
+  if not RegKeyExists(HKCU, 'Software\{#AppPublisher}\{#AppName}') then
     Result := ExpandConstant('{sd}\') + AppFolder;
 end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
   Result := (PageID = wpSelectDir) and DirExists(GetAppRegistry('InstallPath'));
-  if not RegKeyExists(HKLM, 'Software\{#AppPublisher}\{#AppName}') then
+  if not RegKeyExists(HKCU, 'Software\{#AppPublisher}\{#AppName}') then
     Result := (PageID = wpSelectDir) and DirExists(ExpandConstant('{sd}\') + AppFolder);
 end;
 
 function InitializeSetup: Boolean;
 begin
   Result := True;
-  if RegKeyExists(HKLM, 'Software\{#AppPublisher}\{#AppName}') then begin
+  if RegKeyExists(HKCU, 'Software\{#AppPublisher}\{#AppName}') then begin
     InstallPath := GetAppRegistry('InstallPath');
     Str := 'Previous installation detected at: '+InstallPath+''#13#13'This process will update current installation.'#13'Do you want to start the process?';
     Result := MsgBox(Str, mbConfirmation, MB_YESNO) = idYes;

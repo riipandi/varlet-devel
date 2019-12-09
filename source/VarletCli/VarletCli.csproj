@@ -42,6 +42,8 @@
       <Prefer32bit>true</Prefer32bit>
       <DebugType>pdbonly</DebugType>
       <WarningLevel>3</WarningLevel>
+      <BumpLabel>dev</BumpLabel>
+      <BumpLabelDigits>4</BumpLabelDigits>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
