@@ -29,7 +29,6 @@ DisableFinishedPage        = no
 AppendDefaultDirName       = yes
 AlwaysShowComponentsList   = no
 FlatComponentsList         = yes
-
 OutputDir             = {#BasePath}_output
 OutputBaseFilename    = {#AppSlug}-{#GetAppVersion}-x64
 SetupIconFile         = "{#BasePath}include\setup-icon.ico"
@@ -68,7 +67,8 @@ Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
 [Run]
 Filename: "{tmp}\vcredis2012x64.exe"; Parameters: "/install /quiet /norestart"; Description: "Installing VCRedist 2012"; Flags: waituntilterminated; Check: VCRedist2012NotInstalled
 Filename: "{tmp}\vcredis1519x64.exe"; Parameters: "/install /quiet /norestart"; Description: "Installing VCRedist 2015"; Flags: waituntilterminated; Check: VCRedist2015NotInstalled
-;Filename: "{app}\VarletUi.exe"; Description: "Run Varlet Controller"; Flags: postinstall shellexec skipifsilent ; BeforeInstall: StartAppServices
+; Filename: "{app}\VarletUi.exe"; Description: "Run Varlet Controller"; Flags: postinstall shellexec skipifsilent ; BeforeInstall: StartAppServices
+Filename: "http://localhost/phpinfo"; Description: "Display PHP info page"; Flags: postinstall shellexec runasoriginaluser; Check: IsHttpServicesRunning
 
 [Dirs]
 Name: {app}\tmp; Flags: uninsalwaysuninstall
@@ -139,6 +139,11 @@ begin
   Result := not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0');
 end;
 
+function IsHttpServicesRunning: Boolean;
+begin
+  Result := IsServiceRunning('VarletHttpd');
+end;
+
 procedure ConfigureApplication;
 var CertDir : String;
 begin
@@ -188,7 +193,7 @@ procedure StartAppServices;
 begin
   Exec(ExpandConstant('net.exe'), 'start VarletMailhog', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   Exec(ExpandConstant('net.exe'), 'start VarletHttpd', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-  ShellExec('open', 'http://localhost/', '', '', SW_SHOW, ewNoWait, ResultCode);
+  // ShellExec('open', 'http://localhost/', '', '', SW_SHOW, ewNoWait, ResultCode);
 end;
 
 procedure CurPageChanged(CurPageID: Integer);

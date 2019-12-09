@@ -1,5 +1,4 @@
 @echo off
-setlocal enabledelayedexpansion
 color 08
 
 set CURL=%~dp0utils\curl.exe
@@ -31,7 +30,7 @@ set "url_php72=https://windows.php.net/downloads/releases/php-%ver_php72%-Win32-
 set "url_php73=https://windows.php.net/downloads/releases/php-%ver_php73%-Win32-VC15-x64.zip"
 set "url_php74=https://windows.php.net/downloads/releases/php-%ver_php74%-Win32-vc15-x64.zip"
 
-set "url_phalcon_php72=https://github.com/phalcon/cphalcon/releases/download/v%ver_php_phalcon%/phalcon_x64_vc15_php7.3_%ver_php_phalcon%-4250.zip"
+set "url_phalcon_php72=https://github.com/phalcon/cphalcon/releases/download/v%ver_php_phalcon%/phalcon_x64_vc15_php7.2_%ver_php_phalcon%-4250.zip"
 set "url_phalcon_php73=https://github.com/phalcon/cphalcon/releases/download/v%ver_php_phalcon%/phalcon_x64_vc15_php7.3_%ver_php_phalcon%-4250.zip"
 
 set "url_imagick_php72=https://windows.php.net/downloads/pecl/snaps/imagick/%ver_php_imagick%/php_imagick-%ver_php_imagick%-7.2-ts-vc15-x64.zip"
@@ -52,8 +51,8 @@ for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1)
 <nul set /p=""
 call :PainText 02 "=====================================================" && echo. &
 call :PainText 02 "=  1 - Build setup files       c - Clean packages    " && echo. &
-call :PainText 02 "=  2 - Compile varlet app      x - Exit              " && echo. &
-call :PainText 02 "=  3 - Compile installer                             " && echo. &
+call :PainText 02 "=  2 - Compile varlet app      r - Run installer     " && echo. &
+call :PainText 02 "=  3 - Compile installer       x - Exit              " && echo. &
 call :PainText 02 "====================================================="
 goto :choice
 
@@ -69,6 +68,7 @@ if /I "%c%" EQU "1" goto :build_setup
 if /I "%c%" EQU "2" goto :compile_app
 if /I "%c%" EQU "3" goto :compile_inno
 if /I "%c%" EQU "c" goto :clean_packages
+if /I "%c%" EQU "r" ("%~dp0_output\varlet-%ver_varlet%-x64.exe")
 if /I "%c%" EQU "x" goto :quit
 goto :choice
 
@@ -296,11 +296,10 @@ echo. && echo ^> Compiling installer files ... && echo.
 "%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
 
 echo. && echo ^> Compressing varlet portable ...
-for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dstdir\VarletUi.exe') do set ver_varlet=%%i
+for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dstdir\VarletUi.exe') do set "ver_varlet=%%i"
 if exist "%~dp0_output\varlet-%ver_varlet%-x64.7z" ( del /F "%~dp0_output\varlet-%ver_varlet%-x64.7z" )
 %UNZIP% a -r -bsp1 -t7z "%~dp0_output\varlet-%ver_varlet%-x64.7z" "%~dp0_dstdir"
 %UNZIP% rn "%~dp0_output\varlet-%ver_varlet%-x64.7z" _dstdir varlet
-
 echo. && echo. && echo Setup file has been created!
 echo. && goto :menu
 
