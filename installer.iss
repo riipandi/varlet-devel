@@ -5,7 +5,7 @@
 #define AppSlug       "varlet"
 #define AppWebsite    "varlet.dev"
 #define AppPublisher  "Aris Ripandi"
-#define GetAppVersion GetFileVersion('_dstdir\VarletUi.exe')
+#define GetAppVersion GetFileVersion('_dst64\VarletUi.exe')
 
 [Setup]
 AppName                    = {#AppName}
@@ -56,8 +56,8 @@ Name: task_autorun_service; Description: "Run services when Windows starts"; Fla
 Name: task_install_mailhog; Description: "Install Mailhog SMTP Testing"; Flags: unchecked
 
 [Files]
-Source: "{#BasePath}_dstdir\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
-Source: "{#BasePath}_temp\vcredis\*"; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
+Source: "{#BasePath}_dst64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
+Source: "{#BasePath}_tmpdir\vcredis\*"; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall
 
 [Icons]
 Name: "{group}\VarletUi"; Filename: "{app}\VarletUi.exe"

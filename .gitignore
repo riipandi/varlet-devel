@@ -7,7 +7,9 @@
 [Oo]utput/
 _output/
 _dstdir/
-_temp/
+_dst32/
+_dst64/
+_tmpdir/
 varlet/
 
 # windows files
@@ -33,3 +35,4 @@ source/_debug/
 source/_release/
 source/_publish/
 source/packages/
+source_*/

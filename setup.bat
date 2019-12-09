@@ -3,12 +3,12 @@ color 08
 
 set CURL=%~dp0utils\curl.exe
 set UNZIP=%~dp0utils\7za.exe
-set TMPDIR=%~dp0_temp
-set ODIR=%~dp0_dstdir
+set TMPDIR=%~dp0_tmpdir
+set ODIR=%~dp0_dst64
 set STUB=%~dp0stubs
 
 :: ---------------------------------------------------------------------------------------------------------------------
-for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dstdir\VarletUi.exe') do set "ver_varlet=%%i"
+for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dst64\VarletUi.exe') do set "ver_varlet=%%i"
 
 :: ---------------------------------------------------------------------------------------------------------------------
 set "ver_composer=1.9.1"
@@ -300,8 +300,8 @@ echo. && echo ^> Compiling installer files ... && echo.
 
 echo. && echo ^> Compressing varlet portable ...
 if exist "%~dp0_output\varlet-%ver_varlet%-x64.7z" ( del /F "%~dp0_output\varlet-%ver_varlet%-x64.7z" )
-%UNZIP% a -r -bsp1 -t7z "%~dp0_output\varlet-%ver_varlet%-x64.7z" "%~dp0_dstdir"
-%UNZIP% rn "%~dp0_output\varlet-%ver_varlet%-x64.7z" _dstdir varlet
+%UNZIP% a -r -bsp1 -t7z "%~dp0_output\varlet-%ver_varlet%-x64.7z" "%~dp0_dst64"
+%UNZIP% rn "%~dp0_output\varlet-%ver_varlet%-x64.7z" _dst64 varlet
 echo. && echo. && echo Setup file has been created!
 echo. && goto :menu
 
