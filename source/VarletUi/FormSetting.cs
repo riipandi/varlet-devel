@@ -43,7 +43,6 @@ namespace VarletUi
             Config.Set("App", "DefaultPortHttp", txtPortHttp.Text);
             Config.Set("App", "DefaultPortHttps", txtPortHttps.Text);
             Config.Set("App", "VhostExtension", txtVhostExtension.Text);
-            VirtualHost.SetDefaultVhost();
 
             MessageBox.Show("You need to restart services to apply changes!");
             (new FormMain()).Refresh();

@@ -26,7 +26,7 @@ namespace Variety
             try {
                 if (IsRunning(serviceName)) return;
                 service.Start();
-                service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMilliseconds(20000));
+                service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMilliseconds(30000));
             } catch (FormatException) {}
         }
 
@@ -36,7 +36,7 @@ namespace Variety
             try {
                 if (!IsRunning(serviceName)) return;
                 service.Stop();
-                service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMilliseconds(20000));
+                service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMilliseconds(30000));
             } catch (FormatException) {}
         }
 

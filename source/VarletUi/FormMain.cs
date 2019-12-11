@@ -206,10 +206,28 @@ namespace VarletUi
                     break;
                 case "Start Services":
                     btnServices.Enabled = false;
+                    AutoGenerateVhost();
                     StartingServices();
                     Refresh();
                     break;
             }
+        }
+
+        private static void AutoGenerateVhost()
+        {
+            var wwwDir = Config.Get("App", "DocumentRoot");
+            if (!Directory.Exists(wwwDir)) return;
+            foreach (var dir in Directory.GetDirectories(wwwDir))
+            {
+                var dirName = Path.GetFileName(dir);
+                var dirPath = wwwDir + @"\" + dirName;
+                var domain = dirName + Config.Get("App", "VhostExtension");
+                VirtualHost.CreateCert(domain);
+                VirtualHost.CreateVhost(domain, dirPath, true);
+                if (Hostfile.IsNotExists(domain)) Hostfile.AddRecord(domain);
+            }
+            VirtualHost.SetDefaultVhost();
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
         }
 
         private void StartingServices()
