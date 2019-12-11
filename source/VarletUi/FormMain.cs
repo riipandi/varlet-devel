@@ -340,6 +340,7 @@ namespace VarletUi
             var composerPhar = References.AppRootPath(@"\utils\composer.phar");
             var content = "@echo off\n\""+phpExe+"\" \""+composerPhar+"\" %*";
             File.WriteAllText(References.AppRootPath(@"\utils\composer.bat"), content);
+            Config.Set("App", "SelectedPhpVersion", cmbPhpVersion.Text);
         }
     }
 }
