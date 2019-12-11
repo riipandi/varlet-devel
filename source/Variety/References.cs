@@ -8,10 +8,11 @@ namespace Variety
     public static class References
     {
         private static string AppRegistryPath { get; }
-        private const string AppConfigFileName = "varlet.json";
+        private const string AppConfigFileName = "varlet.ini";
         public const string ServiceNameHttp = "VarletHttpd";
         public const string ServiceNameSmtp = "VarletMailhog";
-        public static string WwwDirectory => !string.IsNullOrEmpty(Config.Get("DocumentRoot")) ? Config.Get("DocumentRoot") : Config.DocumentRoot;
+        public static string WwwDirectory => !string.IsNullOrEmpty(Config.Get("App", "DocumentRoot")) ? 
+            Config.Get("App", "DocumentRoot") : Config.DocumentRoot;
 
         static References()
         {

@@ -37,6 +37,9 @@ namespace VarletUi
 
             // TODO: revert if already fixed
             lblSitesManager.Text = "Host File";
+
+            // TODO: make it work
+            Config.Set("App", "LastUpdateCheck", DateTime.Now.ToString(CultureInfo.CurrentCulture));
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -157,15 +160,12 @@ namespace VarletUi
             foreach (var t in Directory.GetDirectories(pkgPhp))  {
                 cmbPhpVersion.Items.Add(Path.GetFileName(t));
             }
-            cmbPhpVersion.SelectedIndex = !string.IsNullOrEmpty(Config.Get("SelectedPhpVersion")) ?
-                cmbPhpVersion.FindStringExact(Config.Get("SelectedPhpVersion")) : 0;
+            cmbPhpVersion.SelectedIndex = !string.IsNullOrEmpty(Config.Get("App", "SelectedPhpVersion")) ?
+                cmbPhpVersion.FindStringExact(Config.Get("App", "SelectedPhpVersion")) : 0;
         }
 
         public void btnTerminal_Click(object sender, EventArgs e)
         {
-            Config.Set("LastUpdateCheck", DateTime.Now.ToString(CultureInfo.CurrentCulture));
-
-            /*
             if (!Directory.Exists(References.WwwDirectory)) {
                 MessageBox.Show("Directory " + References.WwwDirectory + " doesn't exist!");
                 return;
@@ -186,7 +186,6 @@ namespace VarletUi
                 }};
                 proc.Start();
             }
-            */
         }
 
         public void btnServices_Click(object sender, EventArgs e)
@@ -285,7 +284,7 @@ namespace VarletUi
             var cfgApache = References.AppRootPath(@"\pkg\httpd\conf\httpd.conf");
 
             const string keyword = "PHPVERSION";
-            var oldVersion = Config.Get("SelectedPhpVersion");
+            var oldVersion = Config.Get("App", "SelectedPhpVersion");
             var newVersion = cmbPhpVersion.Text;
 
             var sr = new StreamReader(cfgApache);

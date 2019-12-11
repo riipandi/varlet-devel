@@ -77,7 +77,7 @@ Type: filesandordirs; Name: "{app}\opt"
 Type: filesandordirs; Name: "{app}\pkg"
 Type: filesandordirs; Name: "{app}\tmp"
 Type: filesandordirs; Name: "{app}\utils"
-Type: filesandordirs; Name: "{app}\varlet.json"
+Type: filesandordirs; Name: "{app}\varlet.ini"
 
 ; ----------------------------------------------------------------------------------------------------
 ; Programmatic section -------------------------------------------------------------------------------

@@ -17,6 +17,9 @@ namespace VarletUi
 
         private void FormSetting_Load(object sender, EventArgs e)
         {
+            txtDocumentRoot.Text = Config.Get("App", "DocumentRoot");
+            txtVhostExtension.Text = Config.Get("App", "VhostExtension");
+
             // Run services automatically?
             var startModeHttp = Services.GetStartupType(References.ServiceNameHttp);
             var startModeSmtp = Services.GetStartupType(References.ServiceNameSmtp);
@@ -33,6 +36,10 @@ namespace VarletUi
         {
             base.OnClosed(e);
             VirtualHost.SetDefaultVhost();
+
+            // Save configuration to file
+            Config.Set("App", "DocumentRoot", txtDocumentRoot.Text);
+            Config.Set("App", "VhostExtension", txtVhostExtension.Text);
 
             MessageBox.Show("You have to restart services before continue!");
             (new FormMain()).Refresh();

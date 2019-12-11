@@ -140,7 +140,6 @@ if exist "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBuild" (
 for /R "%ODIR%" %%G in (*.pdb) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (*.exe.config) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (INIFileParser*.xml) do "cmd /c del /F %%G"
-for /R "%ODIR%" %%G in (Newtonsoft*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (Semver*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (Serilog*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (McMaster*.xml) do "cmd /c del /F %%G"

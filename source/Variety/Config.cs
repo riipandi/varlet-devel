@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using IniParser;
+using IniParser.Model;
 
 namespace Variety
 {
-    public class Config
+    public static class Config
     {
         private static string SelectedPhpVersion { get; }
         public static string DocumentRoot { get; }
+        public static string VhostExtension { get; }
         private static DateTime LastUpdateCheck { get; set; }
         private static bool CloseMinimizeToTray { get; }
         private static string[] Services { get; }
@@ -19,40 +21,38 @@ namespace Variety
             SelectedPhpVersion = "php-7.3-ts";
             LastUpdateCheck = DateTime.Now;
             CloseMinimizeToTray = true;
-            DocumentRoot = References.AppRootPath(@"\www\");
+            VhostExtension = ".test";
+            DocumentRoot = References.AppRootPath(@"\www");
             Services = new[] {"http"};
         }
 
         public static void Initialize()
         {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            using (JsonWriter writer = new JsonTextWriter(sw)) {
-                writer.Formatting = Formatting.Indented;
-                writer.WriteStartObject();
-                writer.WritePropertyName("SelectedPhpVersion");
-                writer.WriteValue(SelectedPhpVersion);
-                writer.WritePropertyName("DocumentRoot");
-                writer.WriteValue(DocumentRoot);
-                writer.WritePropertyName("LastUpdateCheck");
-                writer.WriteValue(LastUpdateCheck);
-                writer.WritePropertyName("CloseMinimizeToTray");
-                writer.WriteValue(CloseMinimizeToTray);
-                writer.WriteEndObject();
-            }
-            File.WriteAllText(References.AppConfigFile, sb.ToString());
+            var data = new IniData();
+
+            data["App"]["LastUpdateCheck"] = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+            data["App"]["CloseMinimizeToTray"] = true.ToString();
+            data["App"]["DocumentRoot"] = DocumentRoot;
+            data["App"]["SelectedPhpVersion"] = SelectedPhpVersion;
+            data["App"]["VhostExtension"] = VhostExtension;
+
+            File.WriteAllText(References.AppConfigFile, data.ToString());
         }
 
-        public static string Get(string key)
+        public static string Get(string section, string key)
         {
-            var o = JObject.Parse(File.ReadAllText(References.AppConfigFile));
-            return (string)o[key];
+            var parser = new FileIniDataParser();
+            var cfg = parser.ReadFile(References.AppConfigFile);
+
+            return cfg[section][key];
         }
 
-        public static void Set(string key, string value)
+        public static void Set(string section, string key, string value)
         {
-            var cfg = JObject.Parse(File.ReadAllText(References.AppConfigFile));
-            cfg[key] = (string)cfg[value];
+            var parser = new FileIniDataParser();
+            var data = parser.ReadFile(References.AppConfigFile);
+            data[section][key] = value;
+            parser.WriteFile(References.AppConfigFile, data);
         }
     }
 }
