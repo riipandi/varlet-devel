@@ -147,7 +147,7 @@ namespace VarletUi
 
         private void lblHostFile_Click(object sender, EventArgs e)
         {
-            Utilities.OpenWithNotepad(Environment.SystemDirectory + @"\drivers\etc\hosts", true);
+            Hostfile.OpenWithEditor();
         }
 
         private void ListAvailablePhp()

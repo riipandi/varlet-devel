@@ -50,10 +50,14 @@ namespace VarletUi
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.lblPhpIni = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
+            //
+            // tabControl1
+            //
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -63,6 +67,10 @@ namespace VarletUi
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(406, 325);
             this.tabControl1.TabIndex = 9;
+            //
+            // tabPage1
+            //
+            this.tabPage1.Controls.Add(this.lblPhpIni);
             this.tabPage1.Controls.Add(this.checkBox3);
             this.tabPage1.Controls.Add(this.btnChooseDir);
             this.tabPage1.Controls.Add(this.label2);
@@ -81,15 +89,21 @@ namespace VarletUi
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
+            //
+            // checkBox3
+            //
             this.checkBox3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.checkBox3.Location = new System.Drawing.Point(26, 95);
             this.checkBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(334, 24);
+            this.checkBox3.Size = new System.Drawing.Size(266, 24);
             this.checkBox3.TabIndex = 16;
             this.checkBox3.Text = "Check for updates automatically";
             this.checkBox3.UseVisualStyleBackColor = true;
+            //
+            // btnChooseDir
+            //
             this.btnChooseDir.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.btnChooseDir.Location = new System.Drawing.Point(326, 180);
@@ -100,6 +114,9 @@ namespace VarletUi
             this.btnChooseDir.Text = "...";
             this.btnChooseDir.UseVisualStyleBackColor = true;
             this.btnChooseDir.Click += new System.EventHandler(this.btnChooseDir_Click);
+            //
+            // label2
+            //
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label2.Location = new System.Drawing.Point(26, 234);
@@ -109,6 +126,9 @@ namespace VarletUi
             this.label2.TabIndex = 14;
             this.label2.Text = "Virtual Host Extension";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            //
+            // txtVhostExtension
+            //
             this.txtVhostExtension.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtVhostExtension.Location = new System.Drawing.Point(266, 234);
@@ -118,6 +138,9 @@ namespace VarletUi
             this.txtVhostExtension.TabIndex = 13;
             this.txtVhostExtension.Text = ".test";
             this.txtVhostExtension.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            //
+            // label1
+            //
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label1.Location = new System.Drawing.Point(24, 145);
@@ -127,6 +150,9 @@ namespace VarletUi
             this.label1.TabIndex = 12;
             this.label1.Text = "Document Root";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            //
+            // txtDocumentRoot
+            //
             this.txtDocumentRoot.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtDocumentRoot.Location = new System.Drawing.Point(26, 178);
@@ -136,24 +162,33 @@ namespace VarletUi
             this.txtDocumentRoot.Size = new System.Drawing.Size(334, 25);
             this.txtDocumentRoot.TabIndex = 11;
             this.txtDocumentRoot.Text = "C:\\Varlet\\www";
+            //
+            // checkBox2
+            //
             this.checkBox2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.checkBox2.Location = new System.Drawing.Point(26, 60);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(334, 24);
+            this.checkBox2.Size = new System.Drawing.Size(266, 24);
             this.checkBox2.TabIndex = 10;
             this.checkBox2.Text = "Run VarletUi when Windows start";
             this.checkBox2.UseVisualStyleBackColor = true;
+            //
+            // checkBox1
+            //
             this.checkBox1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.checkBox1.Location = new System.Drawing.Point(26, 25);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(334, 24);
+            this.checkBox1.Size = new System.Drawing.Size(266, 24);
             this.checkBox1.TabIndex = 9;
             this.checkBox1.Text = "Run services automatically";
             this.checkBox1.UseVisualStyleBackColor = true;
+            //
+            // tabPage2
+            //
             this.tabPage2.Controls.Add(this.checkBox5);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Controls.Add(this.textBox5);
@@ -172,6 +207,9 @@ namespace VarletUi
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Services Port";
             this.tabPage2.UseVisualStyleBackColor = true;
+            //
+            // checkBox5
+            //
             this.checkBox5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.checkBox5.Location = new System.Drawing.Point(262, 114);
@@ -181,6 +219,9 @@ namespace VarletUi
             this.checkBox5.TabIndex = 22;
             this.checkBox5.Text = "Enable";
             this.checkBox5.UseVisualStyleBackColor = true;
+            //
+            // label5
+            //
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label5.Location = new System.Drawing.Point(29, 115);
@@ -190,6 +231,9 @@ namespace VarletUi
             this.label5.TabIndex = 21;
             this.label5.Text = "Mailhog SMTP";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            //
+            // textBox5
+            //
             this.textBox5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.textBox5.Location = new System.Drawing.Point(163, 113);
@@ -199,6 +243,9 @@ namespace VarletUi
             this.textBox5.TabIndex = 20;
             this.textBox5.Text = "8025";
             this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            //
+            // checkBox4
+            //
             this.checkBox4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.checkBox4.Location = new System.Drawing.Point(262, 72);
@@ -208,6 +255,9 @@ namespace VarletUi
             this.checkBox4.TabIndex = 19;
             this.checkBox4.Text = "Enable";
             this.checkBox4.UseVisualStyleBackColor = true;
+            //
+            // label4
+            //
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label4.Location = new System.Drawing.Point(29, 72);
@@ -217,6 +267,9 @@ namespace VarletUi
             this.label4.TabIndex = 18;
             this.label4.Text = "HTTPS Port";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            //
+            // textBox4
+            //
             this.textBox4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.textBox4.Location = new System.Drawing.Point(163, 70);
@@ -226,6 +279,9 @@ namespace VarletUi
             this.textBox4.TabIndex = 17;
             this.textBox4.Text = "443";
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            //
+            // label3
+            //
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label3.Location = new System.Drawing.Point(29, 30);
@@ -235,6 +291,9 @@ namespace VarletUi
             this.label3.TabIndex = 16;
             this.label3.Text = "HTTP Port";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            //
+            // textBox3
+            //
             this.textBox3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.textBox3.Location = new System.Drawing.Point(163, 28);
@@ -244,6 +303,23 @@ namespace VarletUi
             this.textBox3.TabIndex = 15;
             this.textBox3.Text = "80";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            //
+            // lblPhpIni
+            //
+            this.lblPhpIni.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblPhpIni.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic,
+                System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPhpIni.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.lblPhpIni.Location = new System.Drawing.Point(300, 95);
+            this.lblPhpIni.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPhpIni.Name = "lblPhpIni";
+            this.lblPhpIni.Size = new System.Drawing.Size(61, 23);
+            this.lblPhpIni.TabIndex = 17;
+            this.lblPhpIni.Text = "Check";
+            this.lblPhpIni.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            //
+            // FormSetting
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(406, 325);
@@ -287,5 +363,6 @@ namespace VarletUi
         private System.Windows.Forms.Button btnChooseDir;
         private System.Windows.Forms.TextBox txtVhostExtension;
         private System.Windows.Forms.TextBox txtDocumentRoot;
+        private System.Windows.Forms.Label lblPhpIni;
     }
 }
