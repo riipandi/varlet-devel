@@ -52,6 +52,8 @@ namespace Variety
                 docroot = sitepath + @"\www";
             } else if (Directory.Exists(sitepath + @"\htdocs"))  {
                 docroot = sitepath + @"\htdocs";
+            } else if (Directory.Exists(sitepath + @"\public_html"))  {
+                docroot = sitepath + @"\public_html";
             }
 
             if (File.Exists(vhostFile)) return;
