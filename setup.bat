@@ -146,6 +146,12 @@ for /R "%ODIR%" %%G in (McMaster*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (System.ValueTuple*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (varlet*.json) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (varlet*.ini) do "cmd /c del /F %%G"
+
+:: for quick debugging
+REM if exist "%HOMEDRIVE%\Varlet" (
+REM   copy /Y "%ODIR%\VarletUi.exe" "%HOMEDRIVE%\Varlet.exe" > nul
+REM   copy /Y "%ODIR%\utils\varlet.exe" "%HOMEDRIVE%\utils\varlet.exe" > nul
+REM )
 echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------

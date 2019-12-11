@@ -215,6 +215,13 @@ namespace VarletUi
 
         private static void AutoGenerateVhost()
         {
+            // Remove old vhost
+            FileInfo[] Files = (new DirectoryInfo(VirtualHost.ApacheVhostDir)).GetFiles("auto.*");
+            foreach(FileInfo file in Files ) {
+                File.Delete(file.Name);
+            }
+
+            // Generate auto virtualhost
             var wwwDir = Config.Get("App", "DocumentRoot");
             if (!Directory.Exists(wwwDir)) return;
             foreach (var dir in Directory.GetDirectories(wwwDir))

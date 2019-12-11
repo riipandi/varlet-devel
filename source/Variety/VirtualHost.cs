@@ -7,7 +7,7 @@ namespace Variety
     public static class VirtualHost
     {
         private static readonly string ApacheConfDir = References.AppRootPath(@"\pkg\httpd\conf");
-        private static readonly string ApacheVhostDir = References.AppRootPath(@"\pkg\httpd\conf\vhost");
+        public static readonly string ApacheVhostDir = References.AppRootPath(@"\pkg\httpd\conf\vhost");
         private static readonly string VhostTemplate = References.GetEmbeddedResourceContent("VarletUi.vhost.tpl.conf");
         private static readonly string SslCertDir = References.AppRootPath(@"\pkg\httpd\conf\certs");
 
