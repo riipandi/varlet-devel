@@ -1,6 +1,6 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 
-namespace VarletCli.Handler
+namespace VarletCli
 {
     [Command("link", Description = "Create virtualhost from any directory")]
     public class CmdLinkHandler

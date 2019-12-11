@@ -1,7 +1,7 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Variety;
 
-namespace VarletCli.Handler
+namespace VarletCli
 {
     [Command("unlink", Description = "Remove a virtualhost")]
     public class CmdUnlinkHandler

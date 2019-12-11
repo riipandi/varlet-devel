@@ -1,7 +1,7 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Variety;
 
-namespace VarletCli.Handler
+namespace VarletCli
 {
     [Command("version", Description = "Print Varlet version information")]
     public class CmdVersionHandler

@@ -1,7 +1,7 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Variety;
 
-namespace VarletCli.Handler
+namespace VarletCli
 {
     [Command("start", Description = "Start Varlet services")]
     public class CmdStartHandler
