@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Reflection;
+using System.ServiceProcess;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using Variety;
 
 namespace VarletUi
 {
@@ -16,11 +17,16 @@ namespace VarletUi
 
         private void FormSetting_Load(object sender, EventArgs e)
         {
+            // Run services automatically?
+            var startModeHttp = Services.GetStartupType(References.ServiceNameHttp);
+            var startModeSmtp = Services.GetStartupType(References.ServiceNameSmtp);
+            if ((startModeHttp == 2) || (startModeSmtp == 2)) chkServicesAuto.Checked = true;
+
+            // Run Varlet at startup?
             var key = Registry.CurrentUser.OpenSubKey(RegistryStartupPath);
-            if (key?.GetValue("Varlet") != null) {
-                chkRunVarletStartup.Checked = true;
-                key.Close();
-            }
+            if (key?.GetValue("Varlet") == null) return;
+            chkRunVarletStartup.Checked = true;
+            key.Close();
         }
 
         protected override void OnClosed(EventArgs e)
@@ -48,6 +54,27 @@ namespace VarletUi
                 key.DeleteValue("Varlet");
             }
             key.Close();
+        }
+
+        private void chkServicesAuto_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkServicesAuto.Checked)
+            {
+                if (Services.IsInstalled(References.ServiceNameHttp))
+                    Services.ChangeStartMode(References.ServiceNameHttp, "auto");
+
+                if (Services.IsInstalled(References.ServiceNameSmtp))
+                    Services.ChangeStartMode(References.ServiceNameSmtp, "auto");
+            } else  {
+                if (Services.IsInstalled(References.ServiceNameHttp))
+                {
+                    if (Services.IsInstalled(References.ServiceNameHttp))
+                        Services.ChangeStartMode(References.ServiceNameHttp, "demand");
+
+                    if (Services.IsInstalled(References.ServiceNameSmtp))
+                        Services.ChangeStartMode(References.ServiceNameSmtp, "demand");
+                }
+            }
         }
     }
 }

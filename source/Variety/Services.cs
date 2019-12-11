@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.ServiceProcess;
 using System.Linq;
+using System.Management;
+using Microsoft.Win32;
 
 namespace Variety
 {
@@ -36,6 +38,33 @@ namespace Variety
                 service.Stop();
                 service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMilliseconds(20000));
             } catch (FormatException) {}
+        }
+
+        public static void ChangeStartMode(string serviceName, string mode)
+        {
+            try {
+                var proc = new Process {StartInfo =
+                {
+                    FileName = "sc.exe",
+                    Arguments = "config "+serviceName+" start=" + mode,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = false,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    Verb = "runas"
+                }};
+                proc.Start();
+            } catch (FormatException) {}
+        }
+
+        public static int GetStartupType(string serviceName)
+        {
+            var key = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\" + serviceName);
+            if (key == null) return 0;
+            var startMode = Convert.ToInt32(key.GetValue("Start"));
+            key.Close();
+            return startMode;
         }
     }
 }
