@@ -56,7 +56,7 @@ if not exist "%TMPDIR%\mkcert.exe" (
 )
 if exist "%TMPDIR%\mkcert.exe" ( copy /Y "%TMPDIR%\mkcert.exe" "%ODIR%\utils\mkcert.exe" > nul )
 
-:: mkcert
+:: ngrok
 if not exist "%TMPDIR%\ngrok-amd64.zip" (
   echo. && echo ^> Downloading Ngrok ...
   %CURL% -L# "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip" -o "%TMPDIR%\ngrok-amd64.zip"
@@ -65,4 +65,16 @@ if exist "%TMPDIR%\ngrok-amd64.zip" (
   echo. && echo ^> Extracting Ngrok ...
   %UNZIP% x "%TMPDIR%\ngrok-amd64.zip" -o"%TMPDIR%" -y > nul
   copy /Y "%TMPDIR%\ngrok.exe" "%ODIR%\utils\ngrok.exe" > nul
+)
+
+:: phpMyAdmin
+if not exist "%TMPDIR%\phpmyadmin.zip" (
+  echo. && echo ^> Downloading phpMyAdmin ...
+  %CURL% -L# "https://phpmyadmin.net/downloads/phpMyAdmin-latest-english.zip" -o "%TMPDIR%\phpmyadmin.zip"
+)
+if exist "%TMPDIR%\ngrok-amd64.zip" (
+  echo. && echo ^> Extracting phpMyAdmin ...
+  %UNZIP% x "%TMPDIR%\phpmyadmin.zip" -o"%TMPDIR%" -y > nul
+  copy /Y "%STUB%\opt\phpmyadmin\config.inc.php" "%ODIR%\opt\phpmyadmin\config.inc.php" > nul
+  xcopy "%TMPDIR%\phpMyAdmin-4.9.2-english" %ODIR%\opt\phpmyadmin /E /I /Y > nul
 )

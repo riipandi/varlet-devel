@@ -12,7 +12,6 @@ namespace VarletCli
             return 1;
         }
 
-
         [Command("ls", Description = "List images", ThrowOnUnexpectedArgument = false)]
         private class List
         {
