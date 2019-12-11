@@ -87,25 +87,26 @@ Type: filesandordirs; Name: "{app}\varlet.json"
 
 [Code]
 const AppFolder = 'Varlet';
+const AppRegKey = 'Software\{#AppPublisher}\{#AppName}';
 
 function GetDefaultDir(Param: string): string;
 begin
   Result := GetAppRegistry('InstallPath');
-  if not RegKeyExists(HKCU, 'Software\{#AppPublisher}\{#AppName}') then
+  if not RegKeyExists(HKCU, AppRegKey) then
     Result := ExpandConstant('{sd}\') + AppFolder;
 end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
   Result := (PageID = wpSelectDir) and DirExists(GetAppRegistry('InstallPath'));
-  if not RegKeyExists(HKCU, 'Software\{#AppPublisher}\{#AppName}') then
+  if not RegKeyExists(HKCU, AppRegKey) then
     Result := (PageID = wpSelectDir) and DirExists(ExpandConstant('{sd}\') + AppFolder);
 end;
 
 function InitializeSetup: Boolean;
 begin
   Result := True;
-  if RegKeyExists(HKCU, 'Software\{#AppPublisher}\{#AppName}') then begin
+  if RegKeyExists(HKCU, AppRegKey) then begin
     InstallPath := GetAppRegistry('InstallPath');
     Str := 'Previous installation detected at: '+InstallPath+''#13#13'This process will update current installation.'#13'Do you want to start the process?';
     Result := MsgBox(Str, mbConfirmation, MB_YESNO) = idYes;
