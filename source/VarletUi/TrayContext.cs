@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace VarletUi
@@ -33,6 +32,9 @@ namespace VarletUi
             var trayMenuItemDisplayForm = new ToolStripMenuItem() { Text = "Open " + Application.ProductName };
             trayMenuItemDisplayForm.Click += new EventHandler(TrayMenuItemDisplayForm_Click);
 
+            var trayMenuSitesManager = new ToolStripMenuItem() { Text = "Sites Manager" };
+            trayMenuSitesManager.Click += new EventHandler(TrayMenuSitesManaged_Click);
+
             var trayMenuItemOptions = new ToolStripMenuItem() { Text = "&Preferences" };
             trayMenuItemOptions.Click += new EventHandler(TrayMenuItemOptions_Click);
 
@@ -40,6 +42,7 @@ namespace VarletUi
             trayMenuItemExit.Click += new EventHandler(TrayMenuItemExit_Click);
 
             // Attach context menu item
+            trayContextMenu.Items.Add(trayMenuSitesManager);
             trayContextMenu.Items.Add(trayMenuTerminal);
             trayContextMenu.Items.Add(new ToolStripSeparator());
             trayContextMenu.Items.Add(trayMenuItemDisplayForm);
@@ -51,6 +54,11 @@ namespace VarletUi
         private static void TrayMenuTerminal_Click(object sender, EventArgs e)
         {
             (new FormMain()).btnTerminal_Click(sender, e);
+        }
+
+        private static void TrayMenuSitesManaged_Click(object sender, EventArgs e)
+        {
+            (new FormMain()).lblSitesManager_Click(sender, e);
         }
 
         private static void TrayMenuItemOptions_Click(object sender, EventArgs e)

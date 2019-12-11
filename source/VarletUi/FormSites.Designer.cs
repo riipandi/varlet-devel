@@ -39,10 +39,11 @@ namespace VarletUi
             this.txtDocumentRoot = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.lblSetting = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
+            //
             // listBox1
-            // 
+            //
             this.listBox1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.listBox1.FormattingEnabled = true;
@@ -52,9 +53,9 @@ namespace VarletUi
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(352, 191);
             this.listBox1.TabIndex = 0;
-            // 
+            //
             // label1
-            // 
+            //
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label1.Location = new System.Drawing.Point(13, 218);
@@ -63,9 +64,9 @@ namespace VarletUi
             this.label1.Size = new System.Drawing.Size(118, 23);
             this.label1.TabIndex = 1;
             this.label1.Text = "Domain";
-            // 
+            //
             // textBox1
-            // 
+            //
             this.textBox1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.textBox1.Location = new System.Drawing.Point(149, 215);
@@ -74,9 +75,9 @@ namespace VarletUi
             this.textBox1.Size = new System.Drawing.Size(216, 25);
             this.textBox1.TabIndex = 2;
             this.textBox1.Text = "domain.test";
-            // 
+            //
             // btnChooseDir
-            // 
+            //
             this.btnChooseDir.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.btnChooseDir.Location = new System.Drawing.Point(331, 257);
@@ -86,9 +87,9 @@ namespace VarletUi
             this.btnChooseDir.TabIndex = 18;
             this.btnChooseDir.Text = "...";
             this.btnChooseDir.UseVisualStyleBackColor = true;
-            // 
+            //
             // label2
-            // 
+            //
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label2.Location = new System.Drawing.Point(13, 257);
@@ -98,9 +99,9 @@ namespace VarletUi
             this.label2.TabIndex = 17;
             this.label2.Text = "Document Root";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // txtDocumentRoot
-            // 
+            //
             this.txtDocumentRoot.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtDocumentRoot.Location = new System.Drawing.Point(149, 255);
@@ -110,9 +111,9 @@ namespace VarletUi
             this.txtDocumentRoot.Size = new System.Drawing.Size(216, 25);
             this.txtDocumentRoot.TabIndex = 16;
             this.txtDocumentRoot.Text = "C:\\Varlet\\www";
-            // 
+            //
             // button1
-            // 
+            //
             this.button1.Enabled = false;
             this.button1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
@@ -123,9 +124,9 @@ namespace VarletUi
             this.button1.TabIndex = 19;
             this.button1.Text = "Edit";
             this.button1.UseVisualStyleBackColor = true;
-            // 
+            //
             // button2
-            // 
+            //
             this.button2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.button2.Location = new System.Drawing.Point(264, 306);
@@ -135,12 +136,28 @@ namespace VarletUi
             this.button2.TabIndex = 20;
             this.button2.Text = "Save";
             this.button2.UseVisualStyleBackColor = true;
-            // 
+            //
+            // lblSetting
+            //
+            this.lblSetting.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblSetting.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic,
+                System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSetting.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.lblSetting.Location = new System.Drawing.Point(20, 312);
+            this.lblSetting.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSetting.Name = "lblSetting";
+            this.lblSetting.Size = new System.Drawing.Size(111, 23);
+            this.lblSetting.TabIndex = 21;
+            this.lblSetting.Text = "&Host FIle";
+            this.lblSetting.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSetting.Click += new System.EventHandler(this.lblSetting_Click);
+            //
             // FormSites
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(379, 366);
+            this.Controls.Add(this.lblSetting);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnChooseDir);
@@ -157,7 +174,7 @@ namespace VarletUi
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Virtual Host List";
+            this.Text = "Sites Manager";
             this.ResumeLayout(false);
             this.PerformLayout();
         }
@@ -172,6 +189,7 @@ namespace VarletUi
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnChooseDir;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label lblSetting;
     }
 }
 

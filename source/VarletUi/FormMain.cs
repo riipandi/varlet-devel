@@ -145,9 +145,9 @@ namespace VarletUi
             }
         }
 
-        private void lblHostFile_Click(object sender, EventArgs e)
+        public void lblSitesManager_Click(object sender, EventArgs e)
         {
-            Hostfile.OpenWithEditor();
+            new FormSites().ShowDialog();
         }
 
         private void ListAvailablePhp()

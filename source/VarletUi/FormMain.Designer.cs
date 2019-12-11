@@ -46,7 +46,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblPhpIni = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lblHostFile = new System.Windows.Forms.Label();
+            this.lblSitesManager = new System.Windows.Forms.Label();
             this.lblSetting = new System.Windows.Forms.Label();
             this.lblAbout = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
@@ -262,20 +262,20 @@
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
-            // lblHostFile
+            // lblSitesManager
             // 
-            this.lblHostFile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblHostFile.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic,
+            this.lblSitesManager.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblSitesManager.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.lblHostFile.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.lblHostFile.Location = new System.Drawing.Point(382, 27);
-            this.lblHostFile.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblHostFile.Name = "lblHostFile";
-            this.lblHostFile.Size = new System.Drawing.Size(91, 23);
-            this.lblHostFile.TabIndex = 7;
-            this.lblHostFile.Text = "&Host File";
-            this.lblHostFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblHostFile.Click += new System.EventHandler(this.lblHostFile_Click);
+            this.lblSitesManager.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.lblSitesManager.Location = new System.Drawing.Point(362, 27);
+            this.lblSitesManager.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSitesManager.Name = "lblSitesManager";
+            this.lblSitesManager.Size = new System.Drawing.Size(111, 23);
+            this.lblSitesManager.TabIndex = 7;
+            this.lblSitesManager.Text = "Site &Manager";
+            this.lblSitesManager.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblSitesManager.Click += new System.EventHandler(this.lblSitesManager_Click);
             // 
             // lblSetting
             // 
@@ -283,10 +283,10 @@
             this.lblSetting.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.lblSetting.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.lblSetting.Location = new System.Drawing.Point(382, 62);
+            this.lblSetting.Location = new System.Drawing.Point(362, 62);
             this.lblSetting.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSetting.Name = "lblSetting";
-            this.lblSetting.Size = new System.Drawing.Size(91, 23);
+            this.lblSetting.Size = new System.Drawing.Size(111, 23);
             this.lblSetting.TabIndex = 8;
             this.lblSetting.Text = "&Preferences";
             this.lblSetting.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -315,7 +315,7 @@
             this.ClientSize = new System.Drawing.Size(503, 455);
             this.Controls.Add(this.lblAbout);
             this.Controls.Add(this.lblSetting);
-            this.Controls.Add(this.lblHostFile);
+            this.Controls.Add(this.lblSitesManager);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblPhpIni);
             this.Controls.Add(this.label1);
@@ -351,7 +351,7 @@
         private System.Windows.Forms.Label lblMailhogLog;
         private System.Windows.Forms.Label lblAbout;
         private System.Windows.Forms.Label lblSetting;
-        private System.Windows.Forms.Label lblHostFile;
+        private System.Windows.Forms.Label lblSitesManager;
         private System.Windows.Forms.Label lblMailhogOpen;
         private System.Windows.Forms.Label lblApacaheLog;
         private System.Windows.Forms.Label lblApacheConfig;
