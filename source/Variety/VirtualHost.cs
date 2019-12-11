@@ -18,7 +18,7 @@ namespace Variety
 
             File.WriteAllText(defaultVhostFile, tplVhostFile);
             Utilities.ReplaceStringInFile(defaultVhostFile, "<<SITENAME>>", "localhost");
-            Utilities.ReplaceStringInFile(defaultVhostFile, "<<SITEROOT>>", References.WwwDirectory.Replace("\\", "/"));
+            Utilities.ReplaceStringInFile(defaultVhostFile, "<<SITEROOT>>", Config.Get("App", "DocumentRoot").Replace("\\", "/"));
         }
     }
 }

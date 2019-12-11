@@ -35,11 +35,11 @@ namespace VarletUi
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            VirtualHost.SetDefaultVhost();
 
             // Save configuration to file
             Config.Set("App", "DocumentRoot", txtDocumentRoot.Text);
             Config.Set("App", "VhostExtension", txtVhostExtension.Text);
+            VirtualHost.SetDefaultVhost();
 
             MessageBox.Show("You need to restart services to apply changes!");
             (new FormMain()).Refresh();
