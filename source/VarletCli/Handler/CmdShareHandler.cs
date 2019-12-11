@@ -1,7 +1,7 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Variety;
 
-namespace VarletCli
+namespace VarletCli.Handler
 {
     [Command("share", Description = "Share your site publicly")]
     public class CmdShareHandler

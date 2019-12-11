@@ -1,7 +1,7 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Variety;
 
-namespace VarletCli
+namespace VarletCli.Handler
 {
     [Command("install", Description = "Install Varlet services")]
     public class CmdInstallHandler

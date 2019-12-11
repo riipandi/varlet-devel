@@ -1,7 +1,7 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Variety;
 
-namespace VarletCli
+namespace VarletCli.Handler
 {
     [Command("new", Description = "Create a new application")]
     public class CmdNewHandler
