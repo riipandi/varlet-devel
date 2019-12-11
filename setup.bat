@@ -144,6 +144,8 @@ for /R "%ODIR%" %%G in (Semver*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (Serilog*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (McMaster*.xml) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (System.ValueTuple*.xml) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (varlet*.json) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (varlet*.ini) do "cmd /c del /F %%G"
 echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
