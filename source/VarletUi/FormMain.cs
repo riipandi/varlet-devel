@@ -196,13 +196,11 @@ namespace VarletUi
             {
                 case "Stop Services":
                     btnServices.Enabled = false;
-                    btnServices.Text = "Stopping Services";
                     StoppingServices();
                     Refresh();
                     break;
                 case "Start Services":
                     btnServices.Enabled = false;
-                    btnServices.Text = "Starting Services";
                     StartingServices();
                     Refresh();
                     break;
@@ -212,8 +210,9 @@ namespace VarletUi
         private void StartingServices()
         {
             if (Services.IsInstalled(References.ServiceNameHttp)) {
-                Services.Start(References.ServiceNameHttp);
                 while (!Services.IsRunning(References.ServiceNameHttp))  {
+                    btnServices.Text = "Starting Services";
+                    Services.Start(References.ServiceNameHttp);
                     if (Services.IsRunning(References.ServiceNameHttp)) {
                         pictApacheStatus.BackColor = Color.Green;
                         btnServices.Text = "Stop Services";
@@ -227,8 +226,9 @@ namespace VarletUi
             }
 
             if (Services.IsInstalled(References.ServiceNameSmtp)) {
-                Services.Start(References.ServiceNameSmtp);
                 while (!Services.IsRunning(References.ServiceNameSmtp))  {
+                    btnServices.Text = "Starting Services";
+                    Services.Start(References.ServiceNameSmtp);
                     if (Services.IsRunning(References.ServiceNameSmtp)) {
                         pictMailhogStatus.BackColor = Color.Green;
                         lblMailhogOpen.Enabled = true;
@@ -244,8 +244,9 @@ namespace VarletUi
         private void StoppingServices()
         {
             if (Services.IsInstalled(References.ServiceNameHttp)) {
-                Services.Stop(References.ServiceNameHttp);
                 while (Services.IsRunning(References.ServiceNameHttp))  {
+                    btnServices.Text = "Stopping Services";
+                    Services.Stop(References.ServiceNameHttp);
                     if (!Services.IsRunning(References.ServiceNameHttp)) {
                         pictApacheStatus.BackColor = Color.Red;
                         btnServices.Text = "Start Services";
@@ -258,8 +259,9 @@ namespace VarletUi
                 }
             }
             if (Services.IsInstalled(References.ServiceNameSmtp)) {
-                Services.Stop(References.ServiceNameSmtp);
                 while (Services.IsRunning(References.ServiceNameSmtp))  {
+                    btnServices.Text = "Stopping Services";
+                    Services.Stop(References.ServiceNameSmtp);
                     if (!Services.IsRunning(References.ServiceNameSmtp)) {
                         pictMailhogStatus.BackColor = Color.Red;
                         lblMailhogOpen.Enabled = false;

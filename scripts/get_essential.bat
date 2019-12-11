@@ -23,7 +23,7 @@ if exist "%TMPDIR%\mailhog.exe" (
   copy /Y "%TMPDIR%\mailhog.exe" "%ODIR%\pkg\mailhog\mailhog.exe" > nul
   copy /Y "%TMPDIR%\mhsendmail.exe" "%ODIR%\pkg\mailhog\mhsendmail.exe" > nul
   copy /Y "%STUB%\config\mailhogservice.xml" "%ODIR%\pkg\mailhog\mailhogservice.xml" > nul
-  copy /Y "%~dp0utils\winsw.exe" "%ODIR%\pkg\mailhog\mailhogservice.exe" > nul
+  copy /Y "%ROOT%\utils\winsw.exe" "%ODIR%\pkg\mailhog\mailhogservice.exe" > nul
 )
 
 :: Composer

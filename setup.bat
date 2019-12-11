@@ -1,11 +1,12 @@
 @echo off
 color 08
 
-set CURL=%~dp0utils\curl.exe
-set UNZIP=%~dp0utils\7za.exe
-set TMPDIR=%~dp0_tmpdir
-set ODIR=%~dp0_dst64
-set STUB=%~dp0stubs
+set ROOT=%~dp0
+set CURL=%ROOT%\utils\curl.exe
+set UNZIP=%ROOT%\utils\7za.exe
+set TMPDIR=%ROOT%\_tmpdir
+set ODIR=%ROOT%\_dst64
+set STUB=%ROOT%\stubs
 
 :: ---------------------------------------------------------------------------------------------------------------------
 set "ver_composer=1.9.1"
@@ -64,8 +65,8 @@ goto :eof
 
 :choice
 echo. && set /P c="What do you want to do?: "
-for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dst64\VarletUi.exe') do set ver_varlet=%%i
-if /I "%c%" EQU "r" ("%~dp0_output\varlet-%ver_varlet%-x64.exe")
+for /F "tokens=*" %%i in ('%ROOT%\utils\sigcheck.exe -nobanner -q -n %ROOT%\_dst64\VarletUi.exe') do set ver_varlet=%%i
+if /I "%c%" EQU "r" ("%ROOT%\_output\varlet-%ver_varlet%-x64.exe")
 if /I "%c%" EQU "c" goto :clean_packages
 if /I "%c%" EQU "1" goto :build_setup
 if /I "%c%" EQU "2" goto :compile_app
@@ -79,27 +80,27 @@ if not exist "%ODIR%" mkdir "%ODIR%" 2> NUL
 if not exist "%TMPDIR%" mkdir "%TMPDIR%" 2> NUL
 if not exist "%ODIR%\utils" mkdir "%ODIR%\utils" 2> NUL
 
-call %~dp0scripts\get_apache.bat
-call %~dp0scripts\get_php72.bat
-call %~dp0scripts\get_php73.bat
-call %~dp0scripts\get_php73.bat
-call %~dp0scripts\get_ioncube.bat
-call %~dp0scripts\get_imagick.bat
-call %~dp0scripts\get_essential.bat
+call %ROOT%\scripts\get_apache.bat
+call %ROOT%\scripts\get_php72.bat
+call %ROOT%\scripts\get_php73.bat
+call %ROOT%\scripts\get_php73.bat
+call %ROOT%\scripts\get_ioncube.bat
+call %ROOT%\scripts\get_imagick.bat
+call %ROOT%\scripts\get_essential.bat
 
 echo. && echo ^> Include extra utilities ...
-copy /Y "%~dp0utils\7za.dll" "%ODIR%\utils\7za.dll" > nul
-copy /Y "%~dp0utils\7za.exe" "%ODIR%\utils\7za.exe" > nul
-copy /Y "%~dp0utils\7zxa.dll" "%ODIR%\utils\7zxa.dll" > nul
-copy /Y "%~dp0utils\curl.exe" "%ODIR%\utils\curl.exe" > nul
-copy /Y "%~dp0utils\curl-ca-bundle.crt" "%ODIR%\utils\curl-ca-bundle.crt" > nul
-copy /Y "%~dp0utils\libcurl-x64.dll" "%ODIR%\utils\libcurl-x64.dll" > nul
+copy /Y "%ROOT%\utils\7za.dll" "%ODIR%\utils\7za.dll" > nul
+copy /Y "%ROOT%\utils\7za.exe" "%ODIR%\utils\7za.exe" > nul
+copy /Y "%ROOT%\utils\7zxa.dll" "%ODIR%\utils\7zxa.dll" > nul
+copy /Y "%ROOT%\utils\curl.exe" "%ODIR%\utils\curl.exe" > nul
+copy /Y "%ROOT%\utils\curl-ca-bundle.crt" "%ODIR%\utils\curl-ca-bundle.crt" > nul
+copy /Y "%ROOT%\utils\libcurl-x64.dll" "%ODIR%\utils\libcurl-x64.dll" > nul
 
 echo. && echo ^> Include the stubs ...
 copy /Y "%STUB%\config\php.ini" "%ODIR%\pkg\php\php-7.2-ts\php.ini" > nul
 copy /Y "%STUB%\config\php.ini" "%ODIR%\pkg\php\php-7.3-ts\php.ini" > nul
-copy /Y "%~dp0include\varlet-license.txt" "%ODIR%\license.txt" > nul
-copy /Y "%~dp0credits.txt" "%ODIR%\credits.txt" > nul
+copy /Y "%ROOT%\include\varlet-license.txt" "%ODIR%\license.txt" > nul
+copy /Y "%ROOT%\credits.txt" "%ODIR%\credits.txt" > nul
 xcopy "%STUB%\htdocs" "%ODIR%\www" /E /I /Y > nul
 xcopy "%STUB%\opt" "%ODIR%\opt" /E /I /Y > nul
 
@@ -121,20 +122,20 @@ if not exist "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBuil
   if exist "%TMPDIR%\vs_BuildTools.exe" ( "%TMPDIR%\vs_BuildTools.exe" --add Microsoft.VisualStudio.Workload.MSBuildTools )
 )
 
-if not exist "%~dp0source\packages" (
-  if exist "%~dp0source\VarletCli\packages.config" (
+if not exist "%ROOT%\source\packages" (
+  if exist "%ROOT%\source\VarletCli\packages.config" (
     echo. && echo ^> Installing Nuget packages ...
-    "%~dp0utils\nuget.exe" install "%~dp0source\VarletCli\packages.config" -OutputDirectory "%~dp0source\packages" > nul
-    "%~dp0utils\nuget.exe" install "%~dp0source\VarletUi\packages.config" -OutputDirectory "%~dp0source\packages" > nul
+    "%ROOT%\utils\nuget.exe" install "%ROOT%\source\VarletCli\packages.config" -OutputDirectory "%ROOT%\source\packages" > nul
+    "%ROOT%\utils\nuget.exe" install "%ROOT%\source\VarletUi\packages.config" -OutputDirectory "%ROOT%\source\packages" > nul
   )
 )
 
 echo. && echo ^> Compiling Varlet App ... && echo.
 for %%i in ("VarletUi.exe", "varlet.exe") do ( taskkill /f /im %%i>NUL 2>&1 )
 if exist "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBuild" (
-  "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
+  "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe" "%ROOT%\source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
 ) else (
-  "%TMPDIR%\JetMSBuild\MSBuild\15.0\Bin\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
+  "%TMPDIR%\JetMSBuild\MSBuild\15.0\Bin\MSBuild.exe" "%ROOT%\source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
 )
 for /R "%ODIR%" %%G in (*.pdb) do "cmd /c del /F %%G"
 for /R "%ODIR%" %%G in (*.exe.config) do "cmd /c del /F %%G"
@@ -150,13 +151,13 @@ echo. && goto :menu
 :compile_inno
 echo. && echo ^> Compiling installer files ... && echo.
 for /R "%ODIR%" %%G in (*.pdb) do "cmd /c del /F %%G"
-"%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
+"%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%ROOT%\installer.iss"
 
 echo. && echo ^> Compressing varlet portable ...
-for /F "tokens=*" %%i in ('%~dp0utils\sigcheck.exe -nobanner -q -n %~dp0_dst64\VarletUi.exe') do set ver_varlet=%%i
-if exist "%~dp0_output\varlet-%ver_varlet%-x64.7z" ( del /F "%~dp0_output\varlet-%ver_varlet%-x64.7z" )
-%UNZIP% a -r -bsp1 -t7z "%~dp0_output\varlet-%ver_varlet%-x64.7z" "%~dp0_dst64"
-%UNZIP% rn "%~dp0_output\varlet-%ver_varlet%-x64.7z" _dst64 varlet
+for /F "tokens=*" %%i in ('%ROOT%\utils\sigcheck.exe -nobanner -q -n %ROOT%\_dst64\VarletUi.exe') do set ver_varlet=%%i
+if exist "%ROOT%\_output\varlet-%ver_varlet%-x64.7z" ( del /F "%ROOT%\_output\varlet-%ver_varlet%-x64.7z" )
+%UNZIP% a -r -bsp1 -t7z "%ROOT%\_output\varlet-%ver_varlet%-x64.7z" "%ROOT%\_dst64"
+%UNZIP% rn "%ROOT%\_output\varlet-%ver_varlet%-x64.7z" _dst64 varlet
 echo. && echo. && echo Setup file has been created!
 echo. && goto :menu
 
