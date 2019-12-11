@@ -14,5 +14,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Config.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)References.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirtualHost.cs" />
   </ItemGroup>
 </Project>

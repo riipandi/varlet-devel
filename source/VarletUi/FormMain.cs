@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using Variety;
 using static System.Drawing.Color;
@@ -162,6 +163,9 @@ namespace VarletUi
 
         public void btnTerminal_Click(object sender, EventArgs e)
         {
+            Config.Set("LastUpdateCheck", DateTime.Now.ToString(CultureInfo.CurrentCulture));
+
+            /*
             if (!Directory.Exists(References.WwwDirectory)) {
                 MessageBox.Show("Directory " + References.WwwDirectory + " doesn't exist!");
                 return;
@@ -182,9 +186,10 @@ namespace VarletUi
                 }};
                 proc.Start();
             }
+            */
         }
 
-        private void btnServices_Click(object sender, EventArgs e)
+        public void btnServices_Click(object sender, EventArgs e)
         {
             if (!File.Exists(References.AppRootPath(@"\pkg\httpd\conf\httpd.conf"))) {
                 MessageBox.Show("Apache configuration file not found!");

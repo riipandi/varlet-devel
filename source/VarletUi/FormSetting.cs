@@ -32,6 +32,9 @@ namespace VarletUi
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
+            VirtualHost.SetDefaultVhost();
+
+            MessageBox.Show("You have to restart services before continue!");
             (new FormMain()).Refresh();
         }
 

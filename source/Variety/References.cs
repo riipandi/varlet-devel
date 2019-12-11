@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using static System.String;
 
 namespace Variety
 {
@@ -12,6 +11,7 @@ namespace Variety
         private const string AppConfigFileName = "varlet.json";
         public const string ServiceNameHttp = "VarletHttpd";
         public const string ServiceNameSmtp = "VarletMailhog";
+        public static string WwwDirectory => !string.IsNullOrEmpty(Config.Get("DocumentRoot")) ? Config.Get("DocumentRoot") : Config.DocumentRoot;
 
         static References()
         {
@@ -55,23 +55,15 @@ namespace Variety
         public static string AppRootPath(string path)
         {
             var appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            if (!IsNullOrEmpty(path))  {
+            if (!string.IsNullOrEmpty(path))  {
                 return appPath + path;
             }
             return appPath;
         }
 
-        public static string WwwDirectory
-        {
-            get {
-                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                return AppRootPath(@"\www");
-            }
-        }
-
         public static string ProgramFilesDir(string path)
         {
-            if( 8 == IntPtr.Size  || (!IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432"))))  {
+            if( 8 == IntPtr.Size  || (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432"))))  {
                 return Environment.GetEnvironmentVariable("ProgramFiles(x86)");
             }
 
@@ -80,6 +72,17 @@ namespace Variety
             } else {
                 return Environment.GetEnvironmentVariable("ProgramFiles");
             }
+        }
+
+        public static string GetEmbeddedResourceContent(string resourceName)
+        {
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+            if (stream == null) return null;
+            var source = new StreamReader(stream);
+            var fileContent = source.ReadToEnd();
+            source.Dispose();
+            stream.Dispose();
+            return fileContent;
         }
     }
 }
