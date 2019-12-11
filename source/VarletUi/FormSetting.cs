@@ -19,6 +19,8 @@ namespace VarletUi
         {
             txtDocumentRoot.Text = Config.Get("App", "DocumentRoot");
             txtVhostExtension.Text = Config.Get("App", "VhostExtension");
+            txtPortHttp.Text  = Config.Get("App", "DefaultPortHttp");
+            txtPortHttps.Text  = Config.Get("App", "DefaultPortHttps");
 
             // Run services automatically?
             var startModeHttp = Services.GetStartupType(References.ServiceNameHttp);
@@ -38,6 +40,8 @@ namespace VarletUi
 
             // Save configuration to file
             Config.Set("App", "DocumentRoot", txtDocumentRoot.Text);
+            Config.Set("App", "DefaultPortHttp", txtPortHttp.Text);
+            Config.Set("App", "DefaultPortHttps", txtPortHttps.Text);
             Config.Set("App", "VhostExtension", txtVhostExtension.Text);
             VirtualHost.SetDefaultVhost();
 

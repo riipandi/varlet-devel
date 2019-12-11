@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using IniParser;
 using IniParser.Model;
 
@@ -9,22 +8,7 @@ namespace Variety
 {
     public static class Config
     {
-        private static string SelectedPhpVersion { get; }
-        public static string DocumentRoot { get; }
-        public static string VhostExtension { get; }
-        private static DateTime LastUpdateCheck { get; set; }
-        private static bool CloseMinimizeToTray { get; }
-        private static string[] Services { get; }
-
-        static Config()
-        {
-            SelectedPhpVersion = "php-7.3-ts";
-            LastUpdateCheck = DateTime.Now;
-            CloseMinimizeToTray = true;
-            VhostExtension = ".test";
-            DocumentRoot = References.AppRootPath(@"\www");
-            Services = new[] {"http"};
-        }
+        public static readonly string DefaultDocumentRoot = References.AppRootPath(@"\www");
 
         public static void Initialize()
         {
@@ -32,9 +16,11 @@ namespace Variety
 
             data["App"]["LastUpdateCheck"] = DateTime.Now.ToString(CultureInfo.CurrentCulture);
             data["App"]["CloseMinimizeToTray"] = true.ToString();
-            data["App"]["DocumentRoot"] = DocumentRoot;
-            data["App"]["SelectedPhpVersion"] = SelectedPhpVersion;
-            data["App"]["VhostExtension"] = VhostExtension;
+            data["App"]["SelectedPhpVersion"] = "php-7.3-ts";
+            data["App"]["DocumentRoot"] = DefaultDocumentRoot;
+            data["App"]["DefaultPortHttp"] = "80";
+            data["App"]["DefaultPortHttps"] = "443";
+            data["App"]["VhostExtension"] = ".test";
 
             File.WriteAllText(References.AppConfigFile, data.ToString());
         }

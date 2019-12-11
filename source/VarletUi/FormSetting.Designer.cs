@@ -43,14 +43,14 @@ namespace VarletUi
             this.chkRunVarletStartup = new System.Windows.Forms.CheckBox();
             this.chkServicesAuto = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.checkEnableMailhog = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.txtPortMailhog = new System.Windows.Forms.TextBox();
+            this.checkEnableHttps = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txtPortHttps = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtPortHttp = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -207,36 +207,37 @@ namespace VarletUi
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.checkBox5);
+            this.tabPage2.Controls.Add(this.checkEnableMailhog);
             this.tabPage2.Controls.Add(this.label5);
-            this.tabPage2.Controls.Add(this.textBox5);
-            this.tabPage2.Controls.Add(this.checkBox4);
+            this.tabPage2.Controls.Add(this.txtPortMailhog);
+            this.tabPage2.Controls.Add(this.checkEnableHttps);
             this.tabPage2.Controls.Add(this.label4);
-            this.tabPage2.Controls.Add(this.textBox4);
+            this.tabPage2.Controls.Add(this.txtPortHttps);
             this.tabPage2.Controls.Add(this.label3);
-            this.tabPage2.Controls.Add(this.textBox3);
+            this.tabPage2.Controls.Add(this.txtPortHttp);
             this.tabPage2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.tabPage2.Size = new System.Drawing.Size(398, 299);
+            this.tabPage2.Size = new System.Drawing.Size(398, 297);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Services Port";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // checkBox5
+            // checkEnableMailhog
             // 
-            this.checkBox5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
+            this.checkEnableMailhog.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.checkBox5.Location = new System.Drawing.Point(262, 114);
-            this.checkBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(94, 24);
-            this.checkBox5.TabIndex = 22;
-            this.checkBox5.Text = "Enable";
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkEnableMailhog.Location = new System.Drawing.Point(262, 114);
+            this.checkEnableMailhog.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.checkEnableMailhog.Name = "checkEnableMailhog";
+            this.checkEnableMailhog.Size = new System.Drawing.Size(94, 24);
+            this.checkEnableMailhog.TabIndex = 22;
+            this.checkEnableMailhog.Text = "Enable";
+            this.checkEnableMailhog.UseVisualStyleBackColor = true;
+            this.checkEnableMailhog.Visible = false;
             // 
             // label5
             // 
@@ -249,31 +250,33 @@ namespace VarletUi
             this.label5.TabIndex = 21;
             this.label5.Text = "Mailhog SMTP";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label5.Visible = false;
             // 
-            // textBox5
+            // txtPortMailhog
             // 
-            this.textBox5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
+            this.txtPortMailhog.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.textBox5.Location = new System.Drawing.Point(163, 113);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(82, 25);
-            this.textBox5.TabIndex = 20;
-            this.textBox5.Text = "8025";
-            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPortMailhog.Location = new System.Drawing.Point(163, 113);
+            this.txtPortMailhog.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtPortMailhog.Name = "txtPortMailhog";
+            this.txtPortMailhog.Size = new System.Drawing.Size(82, 25);
+            this.txtPortMailhog.TabIndex = 20;
+            this.txtPortMailhog.Text = "8025";
+            this.txtPortMailhog.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPortMailhog.Visible = false;
             // 
-            // checkBox4
+            // checkEnableHttps
             // 
-            this.checkBox4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
+            this.checkEnableHttps.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.checkBox4.Location = new System.Drawing.Point(262, 72);
-            this.checkBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(94, 24);
-            this.checkBox4.TabIndex = 19;
-            this.checkBox4.Text = "Enable";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.Visible = false;
+            this.checkEnableHttps.Location = new System.Drawing.Point(262, 72);
+            this.checkEnableHttps.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.checkEnableHttps.Name = "checkEnableHttps";
+            this.checkEnableHttps.Size = new System.Drawing.Size(94, 24);
+            this.checkEnableHttps.TabIndex = 19;
+            this.checkEnableHttps.Text = "Enable";
+            this.checkEnableHttps.UseVisualStyleBackColor = true;
+            this.checkEnableHttps.Visible = false;
             // 
             // label4
             // 
@@ -287,17 +290,17 @@ namespace VarletUi
             this.label4.Text = "HTTPS Port";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // textBox4
+            // txtPortHttps
             // 
-            this.textBox4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
+            this.txtPortHttps.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.textBox4.Location = new System.Drawing.Point(163, 70);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(82, 25);
-            this.textBox4.TabIndex = 17;
-            this.textBox4.Text = "443";
-            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPortHttps.Location = new System.Drawing.Point(163, 70);
+            this.txtPortHttps.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtPortHttps.Name = "txtPortHttps";
+            this.txtPortHttps.Size = new System.Drawing.Size(82, 25);
+            this.txtPortHttps.TabIndex = 17;
+            this.txtPortHttps.Text = "443";
+            this.txtPortHttps.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label3
             // 
@@ -311,17 +314,17 @@ namespace VarletUi
             this.label3.Text = "HTTP Port";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // textBox3
+            // txtPortHttp
             // 
-            this.textBox3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
+            this.txtPortHttp.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.textBox3.Location = new System.Drawing.Point(163, 28);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(82, 25);
-            this.textBox3.TabIndex = 15;
-            this.textBox3.Text = "80";
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPortHttp.Location = new System.Drawing.Point(163, 28);
+            this.txtPortHttp.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtPortHttp.Name = "txtPortHttp";
+            this.txtPortHttp.Size = new System.Drawing.Size(82, 25);
+            this.txtPortHttp.TabIndex = 15;
+            this.txtPortHttp.Text = "80";
+            this.txtPortHttp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FormSetting
             // 
@@ -354,14 +357,9 @@ namespace VarletUi
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.Button btnChooseDir;
         private System.Windows.Forms.TextBox txtVhostExtension;
         private System.Windows.Forms.TextBox txtDocumentRoot;
@@ -369,5 +367,10 @@ namespace VarletUi
         private System.Windows.Forms.CheckBox chkUpdateCheck;
         private System.Windows.Forms.CheckBox chkRunVarletStartup;
         private System.Windows.Forms.CheckBox chkServicesAuto;
+        private System.Windows.Forms.CheckBox checkEnableMailhog;
+        private System.Windows.Forms.TextBox txtPortMailhog;
+        private System.Windows.Forms.CheckBox checkEnableHttps;
+        private System.Windows.Forms.TextBox txtPortHttps;
+        private System.Windows.Forms.TextBox txtPortHttp;
     }
 }
