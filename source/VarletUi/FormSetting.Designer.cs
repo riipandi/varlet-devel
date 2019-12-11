@@ -33,14 +33,15 @@ namespace VarletUi
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.lblUpdateCheck = new System.Windows.Forms.Label();
+            this.chkUpdateCheck = new System.Windows.Forms.CheckBox();
             this.btnChooseDir = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.txtVhostExtension = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtDocumentRoot = new System.Windows.Forms.TextBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chkRunVarletStartup = new System.Windows.Forms.CheckBox();
+            this.chkServicesAuto = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -50,7 +51,6 @@ namespace VarletUi
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.lblPhpIni = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -70,15 +70,15 @@ namespace VarletUi
             //
             // tabPage1
             //
-            this.tabPage1.Controls.Add(this.lblPhpIni);
-            this.tabPage1.Controls.Add(this.checkBox3);
+            this.tabPage1.Controls.Add(this.lblUpdateCheck);
+            this.tabPage1.Controls.Add(this.chkUpdateCheck);
             this.tabPage1.Controls.Add(this.btnChooseDir);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.txtVhostExtension);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.txtDocumentRoot);
-            this.tabPage1.Controls.Add(this.checkBox2);
-            this.tabPage1.Controls.Add(this.checkBox1);
+            this.tabPage1.Controls.Add(this.chkRunVarletStartup);
+            this.tabPage1.Controls.Add(this.chkServicesAuto);
             this.tabPage1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
@@ -90,17 +90,33 @@ namespace VarletUi
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
             //
-            // checkBox3
+            // lblUpdateCheck
             //
-            this.checkBox3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
+            this.lblUpdateCheck.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblUpdateCheck.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.checkBox3.Location = new System.Drawing.Point(26, 95);
-            this.checkBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(266, 24);
-            this.checkBox3.TabIndex = 16;
-            this.checkBox3.Text = "Check for updates automatically";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.lblUpdateCheck.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.lblUpdateCheck.Location = new System.Drawing.Point(300, 95);
+            this.lblUpdateCheck.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblUpdateCheck.Name = "lblUpdateCheck";
+            this.lblUpdateCheck.Size = new System.Drawing.Size(61, 23);
+            this.lblUpdateCheck.TabIndex = 17;
+            this.lblUpdateCheck.Text = "check";
+            this.lblUpdateCheck.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblUpdateCheck.Visible = false;
+            //
+            // chkUpdateCheck
+            //
+            this.chkUpdateCheck.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
+                System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.chkUpdateCheck.Location = new System.Drawing.Point(26, 95);
+            this.chkUpdateCheck.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.chkUpdateCheck.Name = "chkUpdateCheck";
+            this.chkUpdateCheck.Size = new System.Drawing.Size(266, 24);
+            this.chkUpdateCheck.TabIndex = 16;
+            this.chkUpdateCheck.Text = "Check for updates automatically";
+            this.chkUpdateCheck.UseVisualStyleBackColor = true;
+            this.chkUpdateCheck.Visible = false;
             //
             // btnChooseDir
             //
@@ -122,9 +138,9 @@ namespace VarletUi
             this.label2.Location = new System.Drawing.Point(26, 234);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(175, 23);
+            this.label2.Size = new System.Drawing.Size(232, 23);
             this.label2.TabIndex = 14;
-            this.label2.Text = "Virtual Host Extension";
+            this.label2.Text = "Default Virtual Host Extension";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             //
             // txtVhostExtension
@@ -146,7 +162,7 @@ namespace VarletUi
             this.label1.Location = new System.Drawing.Point(24, 145);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(175, 23);
+            this.label1.Size = new System.Drawing.Size(234, 23);
             this.label1.TabIndex = 12;
             this.label1.Text = "Document Root";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -163,29 +179,30 @@ namespace VarletUi
             this.txtDocumentRoot.TabIndex = 11;
             this.txtDocumentRoot.Text = "C:\\Varlet\\www";
             //
-            // checkBox2
+            // chkRunVarletStartup
             //
-            this.checkBox2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
+            this.chkRunVarletStartup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.checkBox2.Location = new System.Drawing.Point(26, 60);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(266, 24);
-            this.checkBox2.TabIndex = 10;
-            this.checkBox2.Text = "Run VarletUi when Windows start";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.chkRunVarletStartup.Location = new System.Drawing.Point(26, 60);
+            this.chkRunVarletStartup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.chkRunVarletStartup.Name = "chkRunVarletStartup";
+            this.chkRunVarletStartup.Size = new System.Drawing.Size(266, 24);
+            this.chkRunVarletStartup.TabIndex = 10;
+            this.chkRunVarletStartup.Text = "Run VarletUi when Windows start";
+            this.chkRunVarletStartup.UseVisualStyleBackColor = true;
+            this.chkRunVarletStartup.CheckedChanged += new System.EventHandler(this.chkRunVarletStartup_CheckedChanged);
             //
-            // checkBox1
+            // chkServicesAuto
             //
-            this.checkBox1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
+            this.chkServicesAuto.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular,
                 System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.checkBox1.Location = new System.Drawing.Point(26, 25);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(266, 24);
-            this.checkBox1.TabIndex = 9;
-            this.checkBox1.Text = "Run services automatically";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chkServicesAuto.Location = new System.Drawing.Point(26, 25);
+            this.chkServicesAuto.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.chkServicesAuto.Name = "chkServicesAuto";
+            this.chkServicesAuto.Size = new System.Drawing.Size(266, 24);
+            this.chkServicesAuto.TabIndex = 9;
+            this.chkServicesAuto.Text = "Run services automatically";
+            this.chkServicesAuto.UseVisualStyleBackColor = true;
             //
             // tabPage2
             //
@@ -255,6 +272,7 @@ namespace VarletUi
             this.checkBox4.TabIndex = 19;
             this.checkBox4.Text = "Enable";
             this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.Visible = false;
             //
             // label4
             //
@@ -304,20 +322,6 @@ namespace VarletUi
             this.textBox3.Text = "80";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             //
-            // lblPhpIni
-            //
-            this.lblPhpIni.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblPhpIni.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic,
-                System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.lblPhpIni.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.lblPhpIni.Location = new System.Drawing.Point(300, 95);
-            this.lblPhpIni.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblPhpIni.Name = "lblPhpIni";
-            this.lblPhpIni.Size = new System.Drawing.Size(61, 23);
-            this.lblPhpIni.TabIndex = 17;
-            this.lblPhpIni.Text = "Check";
-            this.lblPhpIni.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            //
             // FormSetting
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -344,14 +348,11 @@ namespace VarletUi
 
         #endregion
 
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox4;
@@ -363,6 +364,9 @@ namespace VarletUi
         private System.Windows.Forms.Button btnChooseDir;
         private System.Windows.Forms.TextBox txtVhostExtension;
         private System.Windows.Forms.TextBox txtDocumentRoot;
-        private System.Windows.Forms.Label lblPhpIni;
+        private System.Windows.Forms.Label lblUpdateCheck;
+        private System.Windows.Forms.CheckBox chkUpdateCheck;
+        private System.Windows.Forms.CheckBox chkRunVarletStartup;
+        private System.Windows.Forms.CheckBox chkServicesAuto;
     }
 }

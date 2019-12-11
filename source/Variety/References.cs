@@ -8,15 +8,14 @@ namespace Variety
 {
     public static class References
     {
-        private static string AppConfigFileName { get; }
-        public static string ServiceNameHttp { get; }
-        public static string ServiceNameSmtp { get; }
+        private static string AppRegistryPath { get; }
+        private const string AppConfigFileName = "varlet.json";
+        public const string ServiceNameHttp = "VarletHttpd";
+        public const string ServiceNameSmtp = "VarletMailhog";
 
         static References()
         {
-            AppConfigFileName = "varlet.json";
-            ServiceNameHttp = "VarletHttpd";
-            ServiceNameSmtp = "VarletMailhog";
+            AppRegistryPath = @"HKLM\Software\Aris Ripandi\Varlet";
         }
 
         public static string AppConfigFile

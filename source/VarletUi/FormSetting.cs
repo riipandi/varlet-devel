@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace VarletUi
 {
     public partial class FormSetting : Form
     {
+        private const string RegistryStartupPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
+
         public FormSetting()
         {
             InitializeComponent();
@@ -12,7 +16,11 @@ namespace VarletUi
 
         private void FormSetting_Load(object sender, EventArgs e)
         {
-            // do something
+            var key = Registry.CurrentUser.OpenSubKey(RegistryStartupPath);
+            if (key?.GetValue("Varlet") != null) {
+                chkRunVarletStartup.Checked = true;
+                key.Close();
+            }
         }
 
         protected override void OnClosed(EventArgs e)
@@ -28,6 +36,18 @@ namespace VarletUi
                     txtDocumentRoot.Text = fd.SelectedPath;
                 }
             }
+        }
+
+        private void chkRunVarletStartup_CheckedChanged(object sender, EventArgs e)
+        {
+            var key = Registry.CurrentUser.OpenSubKey(RegistryStartupPath, true);
+            if (key == null) return;
+            if (chkRunVarletStartup.Checked)  {
+                key.SetValue("Varlet", Application.ExecutablePath + " /minimized");
+            } else  {
+                key.DeleteValue("Varlet");
+            }
+            key.Close();
         }
     }
 }
