@@ -149,7 +149,7 @@ echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
 :compile_inno
-echo. && echo ^> Compiling installer files ... && echo.
+echo. && echo ^> Compiling installer files ...
 for /R "%ODIR%" %%G in (*.pdb) do "cmd /c del /F %%G"
 "%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%ROOT%\installer.iss"
 

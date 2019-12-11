@@ -27,6 +27,9 @@ namespace VarletUi
             _trayIcon.ContextMenuStrip = trayContextMenu;
 
             // Context menu item
+            var trayMenuTerminal = new ToolStripMenuItem() { Text = "Open &Terminal" };
+            trayMenuTerminal.Click += new EventHandler(TrayMenuTerminal_Click);
+
             var trayMenuItemDisplayForm = new ToolStripMenuItem() { Text = "Open " + Application.ProductName };
             trayMenuItemDisplayForm.Click += new EventHandler(TrayMenuItemDisplayForm_Click);
 
@@ -37,10 +40,17 @@ namespace VarletUi
             trayMenuItemExit.Click += new EventHandler(TrayMenuItemExit_Click);
 
             // Attach context menu item
+            trayContextMenu.Items.Add(trayMenuTerminal);
+            trayContextMenu.Items.Add(new ToolStripSeparator());
             trayContextMenu.Items.Add(trayMenuItemDisplayForm);
             trayContextMenu.Items.Add(trayMenuItemOptions);
             trayContextMenu.Items.Add(new ToolStripSeparator());
             trayContextMenu.Items.Add(trayMenuItemExit);
+        }
+
+        private static void TrayMenuTerminal_Click(object sender, EventArgs e)
+        {
+            (new FormMain()).btnTerminal_Click(sender, e);
         }
 
         private static void TrayMenuItemOptions_Click(object sender, EventArgs e)

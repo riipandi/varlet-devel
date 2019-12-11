@@ -31,6 +31,8 @@ namespace VarletUi
                 BeginInvoke(new MethodInvoker(Close));
                 RunMinimized = false;
             }
+            Activate();
+            Focus();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -159,7 +161,7 @@ namespace VarletUi
                 cmbPhpVersion.FindStringExact(Config.Get("SelectedPhpVersion")) : 0;
         }
 
-        private void btnTerminal_Click(object sender, EventArgs e)
+        public void btnTerminal_Click(object sender, EventArgs e)
         {
             if (!Directory.Exists(References.WwwDirectory)) {
                 MessageBox.Show("Directory " + References.WwwDirectory + " doesn't exist!");
@@ -276,11 +278,13 @@ namespace VarletUi
 
         private void ChangePhpVersion()
         {
-            var file = References.AppRootPath(@"\pkg\httpd\conf\httpd.conf");
+            var cfgApache = References.AppRootPath(@"\pkg\httpd\conf\httpd.conf");
+
             const string keyword = "PHPVERSION";
             var oldVersion = Config.Get("SelectedPhpVersion");
+            var newVersion = cmbPhpVersion.Text;
 
-            var sr = new StreamReader(file);
+            var sr = new StreamReader(cfgApache);
             string currentLine;
             var foundText = false;
 
@@ -298,8 +302,14 @@ namespace VarletUi
                 sr.Close();
             }
 
-            var newVersion = " \"" + cmbPhpVersion.Text + "\"";
-            Utilities.ReplaceStringInFile(file, oldVersion, newVersion);
+            // Update PHP Version on Apache Configuration
+            Utilities.ReplaceStringInFile(cfgApache, oldVersion, " \"" + newVersion + "\"");
+
+            // Update PHP Version on Composer
+            var phpExe = References.AppRootPath(@"\pkg\php\"+cmbPhpVersion.Text+@"\php.exe");
+            var composerPhar = References.AppRootPath(@"\utils\composer.phar");
+            var content = "@echo off\n\""+phpExe+"\" \""+composerPhar+"\" %*";
+            File.WriteAllText(References.AppRootPath(@"\utils\composer.bat"), content);
         }
     }
 }
