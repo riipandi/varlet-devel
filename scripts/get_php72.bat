@@ -23,7 +23,6 @@ if exist "%TMPDIR%\php-%ver_php72%.zip" (
   copy /Y "%TMPDIR%\php_redis.dll" "%ODIR%\pkg\php\php-7.2-ts\ext\php_redis.dll" > nul
   del /F "%TMPDIR%\php_redis.dll"
 
-  %UNZIP% x "%TMPDIR%\imagick-%ver_php_imagick%-php72.zip" -o"%ODIR%\pkg\php\php-7.2-ts" -y > nul
-  copy /Y "%ODIR%\pkg\php\php-7.2-ts\php_imagick.dll" "%ODIR%\pkg\php\php-7.2-ts\ext\php_imagick.dll" > nul
-  del /F "%ODIR%\pkg\php\php-7.2-ts\php_imagick.dll"
+  %UNZIP% x "%TMPDIR%\imagick-%ver_php_imagick%-php72.zip" -o"%TMPDIR%\imagick_php72" -y > nul
+  copy /Y "%TMPDIR%\imagick_php72\php_imagick.dll" "%ODIR%\pkg\php\php-7.2-ts\ext\php_imagick.dll" > nul
 )
