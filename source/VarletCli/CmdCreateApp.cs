@@ -13,8 +13,7 @@ namespace VarletCli
         }
 
 
-        [Command("ls", Description = "List images",
-            ThrowOnUnexpectedArgument = false)]
+        [Command("ls", Description = "List images", ThrowOnUnexpectedArgument = false)]
         private class List
         {
             [Option(Description = "Show all containers (default shows just running)")]

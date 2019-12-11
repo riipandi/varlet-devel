@@ -89,6 +89,16 @@
     <Compile Include="CmdCreateApp.cs" />
     <Compile Include="CmdSiteManager.cs" />
     <Compile Include="ConsoleTable.cs" />
+    <Compile Include="Handler\CmdInstallHandler.cs" />
+    <Compile Include="Handler\CmdLinkHandler.cs" />
+    <Compile Include="Handler\CmdListHandler.cs" />
+    <Compile Include="Handler\CmdNewHandler.cs" />
+    <Compile Include="Handler\CmdRestartHandler.cs" />
+    <Compile Include="Handler\CmdShareHandler.cs" />
+    <Compile Include="Handler\CmdStartHandler.cs" />
+    <Compile Include="Handler\CmdStopHandler.cs" />
+    <Compile Include="Handler\CmdUnlinkHandler.cs" />
+    <Compile Include="Handler\CmdVersionHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\Properties\AssemblyVersion.cs" />
