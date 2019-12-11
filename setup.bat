@@ -136,19 +136,20 @@ if exist "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBuild" (
 ) else (
   "%TMPDIR%\JetMSBuild\MSBuild\15.0\Bin\MSBuild.exe" "%~dp0source\Varlet.sln" /p:Configuration=Release /verbosity:minimal -nologo
 )
+for /R "%ODIR%" %%G in (*.pdb) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (*.exe.config) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (INIFileParser*.xml) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (Newtonsoft*.xml) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (Semver*.xml) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (Serilog*.xml) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (McMaster*.xml) do "cmd /c del /F %%G"
+for /R "%ODIR%" %%G in (System.ValueTuple*.xml) do "cmd /c del /F %%G"
 echo. && goto :menu
 
 :: ---------------------------------------------------------------------------------------------------------------------
 :compile_inno
-echo. && echo ^> Cleanup unused files ...
-for /R "%ODIR%" %%G in (*.pdb) do "cmd /c del /F %%G"
-for /R "%ODIR%" %%G in (*.exe.config) do "cmd /c del /F %%G"
-for /R "%ODIR%" %%G in (CommandLine*.xml) do "cmd /c del /F %%G"
-for /R "%ODIR%" %%G in (INIFileParser*.xml) do "cmd /c del /F %%G"
-for /R "%ODIR%" %%G in (Newtonsoft*.xml) do "cmd /c del /F %%G"
-for /R "%ODIR%" %%G in (Semver*.xml) do "cmd /c del /F %%G"
-
 echo. && echo ^> Compiling installer files ... && echo.
+for /R "%ODIR%" %%G in (*.pdb) do "cmd /c del /F %%G"
 "%programfiles(x86)%\Inno Setup 6\ISCC.exe" /Qp "%~dp0installer.iss"
 
 echo. && echo ^> Compressing varlet portable ...

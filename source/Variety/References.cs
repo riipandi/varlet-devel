@@ -9,10 +9,14 @@ namespace Variety
     public static class References
     {
         private static string AppConfigFileName { get; }
+        public static string ServiceNameHttp { get; }
+        public static string ServiceNameSmtp { get; }
 
         static References()
         {
             AppConfigFileName = "varlet.json";
+            ServiceNameHttp = "VarletHttpd";
+            ServiceNameSmtp = "VarletMailhog";
         }
 
         public static string AppConfigFile
@@ -49,7 +53,7 @@ namespace Variety
             }
         }
 
-        private static string AppRootPath(string path)
+        public static string AppRootPath(string path)
         {
             var appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             if (!IsNullOrEmpty(path))  {
@@ -57,7 +61,7 @@ namespace Variety
             }
             return appPath;
         }
-        
+
         public static string WwwDirectory
         {
             get {
@@ -65,7 +69,7 @@ namespace Variety
                 return AppRootPath(@"\www");
             }
         }
-        
+
         public static string ProgramFilesDir(string path)
         {
             if( 8 == IntPtr.Size  || (!IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432"))))  {

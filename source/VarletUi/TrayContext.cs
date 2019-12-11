@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
-using static System.Windows.Forms.Application;
 
 namespace VarletUi
 {
@@ -8,19 +8,17 @@ namespace VarletUi
     {
         #region Private Members
         private readonly NotifyIcon _trayIcon;
-        //private readonly ToolStripMenuItem TrayMenuItemOptions;
+
         #endregion
 
         public TrayContext()
         {
-            // Instantiate the component Module to hold everything
-            // myNotifyIcon.Icon = new Icon(Properties.Resources.MyIcon, SystemInformation.SmallIconSize);
             _trayIcon = new NotifyIcon(new System.ComponentModel.Container())
             {
                 Visible = true,
                 Icon = ((System.Drawing.Icon)(new System.ComponentModel.ComponentResourceManager(typeof(FormMain)).GetObject("$this.Icon"))),
-                BalloonTipText = ProductName + " minimized to tray.",
-                Text = ProductName + "v" + ProductVersion,
+                BalloonTipText = Application.ProductName + " minimized to tray.",
+                Text = Application.ProductName + "v" + Application.ProductVersion,
             };
             _trayIcon.DoubleClick += new System.EventHandler(TrayIcon_DoubleClick);
 
@@ -29,38 +27,36 @@ namespace VarletUi
             _trayIcon.ContextMenuStrip = trayContextMenu;
 
             // Context menu item
-            var trayMenuItemDisplayForm = new ToolStripMenuItem() { Text = "Open " + ProductName };
+            var trayMenuItemDisplayForm = new ToolStripMenuItem() { Text = "Open " + Application.ProductName };
             trayMenuItemDisplayForm.Click += new EventHandler(TrayMenuItemDisplayForm_Click);
 
-            //TrayMenuItemOptions = new ToolStripMenuItem() { Text = "&Options" };
-            //TrayMenuItemOptions.Click += new EventHandler(TrayMenuItemOptions_Click);
+            var trayMenuItemOptions = new ToolStripMenuItem() { Text = "&Preferences" };
+            trayMenuItemOptions.Click += new EventHandler(TrayMenuItemOptions_Click);
 
             var trayMenuItemExit = new ToolStripMenuItem() { Text = "E&xit" };
             trayMenuItemExit.Click += new EventHandler(TrayMenuItemExit_Click);
 
             // Attach context menu item
             trayContextMenu.Items.Add(trayMenuItemDisplayForm);
-            // trayContextMenu.Items.Add(TrayMenuItemOptions);
+            trayContextMenu.Items.Add(trayMenuItemOptions);
             trayContextMenu.Items.Add(new ToolStripSeparator());
             trayContextMenu.Items.Add(trayMenuItemExit);
         }
 
-        /*
         private static void TrayMenuItemOptions_Click(object sender, EventArgs e)
         {
             try
             {
                 ShowMainForm();
-                var fs = new FormSettings();
-                foreach (Form fc in OpenForms) {
+                var fs = new FormSetting();
+                foreach (Form fc in Application.OpenForms) {
                     if (fc.Name == fs.Name) fc.Dispose();
                 }
 
-                (new FormMain()).lblSettings_Click(sender, e);
+                (new FormMain()).lblSetting_Click(sender, e);
             }
             catch (FormatException)  {}
         }
-        */
 
         public void ShowTrayIconNotification()
         {
@@ -91,7 +87,7 @@ namespace VarletUi
         protected override void ExitThreadCore()
         {
             base.ExitThreadCore();
-            if (MessageBox.Show("Exit Varlet Controller?", ProductName, MessageBoxButtons.YesNo) !=  DialogResult.Yes) return;
+            if (MessageBox.Show("Exit Varlet Controller?", Application.ProductName, MessageBoxButtons.YesNo) !=  DialogResult.Yes) return;
             _trayIcon.Dispose();
             Application.ExitThread();
         }
@@ -100,7 +96,7 @@ namespace VarletUi
         {
             try {
                 var fm = new FormMain();
-                foreach (Form fc in OpenForms) {
+                foreach (Form fc in Application.OpenForms) {
                     if (fc.Name == fm.Name) fc.Hide();
                 }
                 fm.Show();
