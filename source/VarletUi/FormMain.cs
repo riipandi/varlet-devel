@@ -309,7 +309,7 @@ namespace VarletUi
             Utilities.ReplaceStringInFile(cfgApache, oldVersion, " \"" + newVersion + "\"");
 
             // Update PHP Version on Composer
-            var phpExe = References.AppRootPath(@"\pkg\php\"+cmbPhpVersion.Text+@"\php.exe");
+            var phpExe = References.AppRootPath(@"\pkg\php\"+newVersion+@"\php.exe");
             var composerPhar = References.AppRootPath(@"\utils\composer.phar");
             var content = "@echo off\n\""+phpExe+"\" \""+composerPhar+"\" %*";
             File.WriteAllText(References.AppRootPath(@"\utils\composer.bat"), content);

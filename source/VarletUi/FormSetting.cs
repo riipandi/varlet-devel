@@ -41,7 +41,7 @@ namespace VarletUi
             Config.Set("App", "DocumentRoot", txtDocumentRoot.Text);
             Config.Set("App", "VhostExtension", txtVhostExtension.Text);
 
-            MessageBox.Show("You have to restart services before continue!");
+            MessageBox.Show("You need to restart services to apply changes!");
             (new FormMain()).Refresh();
         }
 
