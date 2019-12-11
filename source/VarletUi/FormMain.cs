@@ -15,7 +15,7 @@ namespace VarletUi
         public FormMain(string parameter = "normal")
         {
             InitializeComponent();
-            LoadConfigFile();
+            if (!File.Exists(References.AppConfigFile)) Config.Initialize();
             if (parameter != "/minimized") return;
             RunMinimized = true;
         }
@@ -33,6 +33,9 @@ namespace VarletUi
             }
             Activate();
             Focus();
+
+            // TODO: revert if already fixed
+            lblSitesManager.Text = "Host File";
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -51,11 +54,6 @@ namespace VarletUi
         {
             base.OnClosed(e);
             (new TrayContext()).ExitApplication();
-        }
-
-        private static void LoadConfigFile()
-        {
-            if (!File.Exists(References.AppConfigFile)) Config.Initialize();
         }
 
         private void CheckServiceStatus() {
@@ -147,7 +145,8 @@ namespace VarletUi
 
         public void lblSitesManager_Click(object sender, EventArgs e)
         {
-            new FormSites().ShowDialog();
+            // new FormSites().ShowDialog();
+            Hostfile.OpenWithEditor();
         }
 
         private void ListAvailablePhp()
