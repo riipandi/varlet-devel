@@ -30,9 +30,7 @@ namespace VarletCli
                 }
             }
 
-            [Command("run", Description = "Run a command in a new container",
-                AllowArgumentSeparator = true,
-                ThrowOnUnexpectedArgument = false)]
+            [Command("run", Description = "Run a command in a new container", AllowArgumentSeparator = true, ThrowOnUnexpectedArgument = false)]
             private class Run
             {
                 [Required(ErrorMessage = "You must specify the image name")]
