@@ -216,9 +216,11 @@ namespace VarletUi
         private static void AutoGenerateVhost()
         {
             // Remove old vhost
-            FileInfo[] Files = (new DirectoryInfo(VirtualHost.ApacheVhostDir)).GetFiles("auto.*");
-            foreach(FileInfo file in Files ) {
-                File.Delete(file.Name);
+            var files = (new DirectoryInfo(VirtualHost.ApacheVhostDir)).GetFiles("auto.*.conf");
+            foreach(var file in files ) {
+                var domain = file.Name.Replace("auto.", "").Replace(".conf", "");
+                if (!Hostfile.IsNotExists(domain)) Hostfile.DeleteRecord(domain);
+                File.Delete(file.FullName);
             }
 
             // Generate auto virtualhost
